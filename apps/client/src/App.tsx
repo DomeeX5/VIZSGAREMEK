@@ -5,16 +5,15 @@ import Register from "./Register/Register.tsx";
 import About from "./Register/About.tsx";
 
 function App() {
-  const [greeting, setGreeting] = useState('');
+  const [_, setGreeting] = useState('');
 
     useEffect(() => {
-        fetch('/api/home')
+        fetch('/api')
             .then((res) => res.text())
             .then(setGreeting)
     })
   return (
     <>
-        <h1>{greeting}</h1>
         <BrowserRouter>
             <Routes>
                 <Route path={"/"} element={<About />}/>
