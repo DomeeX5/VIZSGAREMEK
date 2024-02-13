@@ -19,6 +19,7 @@
     "apps/*"
   ],
   "dependencies": {
+    "@prisma/client": "^5.9.1",
     "bootstrap": "^5.3.2"
   }
 }
