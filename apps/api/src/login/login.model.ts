@@ -1,7 +1,7 @@
 import {Prisma, User, Zip} from "@prisma/client";
 
 
-export class RegisterModel implements Prisma.UserCreateInput {
+export class LoginModel implements Prisma.UserCreateInput {
     username: string;
     email: string;
     password: string;

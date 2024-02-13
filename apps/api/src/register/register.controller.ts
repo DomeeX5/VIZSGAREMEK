@@ -2,7 +2,7 @@ import {Body, Controller, Get, Post} from '@nestjs/common';
 import { RegisterService } from './register.service';
 import {Prisma} from "@prisma/client";
 
-@Controller('/register')
+@Controller('/api/register')
 export class RegisterController {
     constructor(private readonly registerService: RegisterService) {}
 
@@ -12,7 +12,7 @@ export class RegisterController {
         return this.registerService.registerPage()
     }
 
-    @Post('-success')
+    @Post()
     createUser(@Body() userData: Prisma.UserCreateInput){
         return this.registerService.createUser(userData)
     }
