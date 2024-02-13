@@ -13,6 +13,15 @@ function Register() {
     return (
         <>
             <h1>{register}</h1>
+                <p>Felhasználó név</p>
+                <input type={"text"}/>
+                <p>Email cím</p>
+                <input type={"text"}/>
+                <p>Jelszó</p>
+                <input type={"text"}/>
+                <p>Jelszó megerősítése</p>
+                <input type={"text"}/>
+                <button type={"submit"}>Regisztrálás</button>
         </>
     )
 }
