@@ -41,7 +41,9 @@ function Register() {
                     name={"name"}
                     id={"Username"}
                     value={username}
+                    min={6}
                     onChange={(e) => setUsername(e.target.value)}
+                    pattern={"^[a-zA-Z0-9]+$\n"}
                 />
                 <p>Email cím</p>
                 <input
@@ -50,6 +52,7 @@ function Register() {
                     id={"Email"}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
+                    pattern={"/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$/"}
                 />
                 <p>Jelszó</p>
                 <input
@@ -57,7 +60,9 @@ function Register() {
                     name={"password"}
                     id={"Password"}
                     value={password}
+                    min={8}
                     onChange={(e) => setPassword(e.target.value)}
+                    pattern={"^(?=.*[A-Z])(?=.*\\d).+"}
                 />
                 <br/>
                 <input type={"submit"} value={"Regisztrálás"}/>
