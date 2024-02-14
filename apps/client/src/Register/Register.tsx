@@ -1,28 +1,54 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
+import {Link} from "react-router-dom";
 
 function Register() {
-    const [register, setRegister] = useState('');
+    const [,] = useState('');
 
-    useEffect(() => {
-        fetch('/api/register')
-            .then((res) => res.text())
-            .then(setRegister)
-    }, []);
+    function sendData() {
+        const nameInput = document.getElementById("Username") as HTMLInputElement;
+        const emailInput = document.getElementById("Email") as HTMLInputElement;
+        const passwordInput = document.getElementById("Password") as HTMLInputElement;
+        const cPasswordInput = document.getElementById("CorrectPassword") as HTMLInputElement;
+
+        const name = nameInput.value
+        const email = emailInput.value
+        const password = passwordInput.value
+        const correctPassword = cPasswordInput.value
+
+        fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application.json'
+            },
+            body: JSON.stringify({name, email, password, correctPassword})
+        })
+            .then((res) => {
+                if (!res.ok) {
+                    throw new Error("Rosszul adtad meg az adatokat")
+                } else {
+                    return res.json()
+                }
+            })
+            .then(data => {
+                console.log(data)
+            })
+    }
 
     return (
         <>
-            <h1>{register}</h1>
             <form method={"post"} action={"/register-success"}>
                 <p>Felhasználó név</p>
-                <input type={"text"}/>
+                <input type={"text"}  id={"Username"}/>
                 <p>Email cím</p>
-                <input type={"text"}/>
+                <input type={"email"} id={"Email"}/>
                 <p>Jelszó</p>
-                <input type={"text"}/>
+                <input type={"password"} id={"Password"}/>
                 <p>Jelszó megerősítése</p>
-                <input type={"text"}/>
-                <input type="submit" />
-                <button type={"submit"}>Regisztrálás</button>
+                <input type={"password"} id={"CorrectPassword"}/>
+                <br/>
+                <Link to={"/"}>
+                    <input type={"submit"} onClick={sendData}>Regisztrálás</input>
+                </Link>
             </form>
         </>
     )
