@@ -1,4 +1,4 @@
-import {Injectable} from "@nestjs/common";
+import {BadRequestException, Injectable} from "@nestjs/common";
 import {Prisma, User} from "@prisma/client";
 import {PrismaService} from "../prisma.service";
 
@@ -8,10 +8,10 @@ export class RegisterService {
 
     constructor(private prisma: PrismaService) {
     }
-    async createUser(data: Prisma.UserCreateInput): Promise<User> {
+    async createUser(data: Prisma.UserCreateInput): Promise<User | null> {
         return this.prisma.user.create({
             data,
-        });
+        })
     }
 
 }

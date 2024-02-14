@@ -7,108 +7,76 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Country {
-  country_id   Int    @id @default(autoincrement())
-  country_name String
-  cities       City[]
-}
+// Prisma sémája a vizsgaremek adatbázisnak
 
-model State {
-  state_id   Int    @id @default(autoincrement())
-  state_name String
-  cities     City[]
-}
-
-model City {
-  city_id            Int     @id @default(autoincrement())
-  city_name          String?
-  Country_country_id Int
-  State_state_id     Int?
-  zip                Zip[]
-  Country            Country @relation(fields: [Country_country_id], references: [country_id])
-  State              State?  @relation(fields: [State_state_id], references: [state_id])
-
-  @@unique([city_id, Country_country_id])
-}
-
-model Zip {
-  zip_id                  Int        @id @default(autoincrement())
-  zip_code                Int?
-  City_city_id            Int
-  City_Country_country_id Int
-  City                    City       @relation(fields: [City_city_id, City_Country_country_id], references: [city_id, Country_country_id])
-  Customer                Customer[]
-  User                    User[]
-}
-
-model Customer {
-  cust_id      Int     @id @default(autoincrement())
-  name         String
-  address      String
-  phone_number Int
-  email        String?
-  Zip_zip_id   Int
-  Zip          Zip     @relation(fields: [Zip_zip_id], references: [zip_id])
-  User         User?   @relation(fields: [userUser_id], references: [user_id])
-  userUser_id  Int?
-  Order        Order[]
-}
-
+// Payment_type tábla
 model Payment_type {
   pay_id    Int     @id @default(autoincrement())
-  type_name String
-  Order     Order[]
+  type_name String  @db.VarChar(30)
+  orders    Order[]
 }
 
+// Privilages tábla
 model Privilages {
-  priv_id   Int    @id @default(autoincrement())
-  priv_name String
-  User      User[]
+  priv_id   Int    @id
+  priv_name String @db.VarChar(45)
+  users     User[]
 }
 
+// User tábla
 model User {
-  user_id            Int        @id @default(autoincrement())
-  username           String     @unique
-  email              String
-  password           String
-  address            String?
-  Zip_zip_id         Int
-  Privilages_priv_id Int
-  Zip                Zip        @relation(fields: [Zip_zip_id], references: [zip_id])
-  Privilages         Privilages @relation(fields: [Privilages_priv_id], references: [priv_id])
-  Customer           Customer[]
-  Order              Order[]
+  user_id            Int         @id @default(autoincrement())
+  username           String      @unique @db.VarChar(20)
+  email              String      @db.VarChar(45)
+  password           String      @db.VarChar(45)
+  Privilages_priv_id Int?        @db.Int
+  Privilages         Privilages? @relation(fields: [Privilages_priv_id], references: [priv_id])
+  orders             Order[]
+  address            Address[]
 }
 
+// Order tábla
 model Order {
   order_id            Int          @id @default(autoincrement())
   order_date          DateTime
   ship_date           DateTime?
-  Customer_cust_id    Int
-  Payment_type_pay_id Int
-  User_user_id        Int?
-  Customer            Customer     @relation(fields: [Customer_cust_id], references: [cust_id])
+  Payment_type_pay_id Int          @db.Int
+  User_user_id        Int?         @db.Int
   Payment_type        Payment_type @relation(fields: [Payment_type_pay_id], references: [pay_id])
   User                User?        @relation(fields: [User_user_id], references: [user_id])
-  OrderItem           OrderItem[]
+  order_items         OrderItem[]
 }
 
+// Product tábla
 model Product {
   product_id   Int         @id @default(autoincrement())
-  product_name String
+  product_name String      @db.VarChar(45)
   price        Int
-  descreption  String?
-  OrderItem    OrderItem[]
-  product_pic  Bytes
+  descreption  String?     @db.VarChar(500)
+  product_pic  Bytes       @db.LongBlob
+  order_items  OrderItem[]
 }
 
+// OrderItem tábla
 model OrderItem {
   Product_product_id Int
   Order_order_id     Int
   quantity           Int
   actual_price       Int
   Product            Product @relation(fields: [Product_product_id], references: [product_id])
-  Order              Order   @relation(fields: [Order_order_id], references: [order_id])
+  Order              Order?  @relation(fields: [Order_order_id], references: [order_id])
 
   @@id([Product_product_id, Order_order_id])
+}
+
+// Address tábla
+model Address {
+  address_id   Int    @id
+  country      String @db.VarChar(45)
+  state        String @db.VarChar(45)
+  city         String @db.VarChar(45)
+  street       String @db.VarChar(45)
+  house_number Int
+  User_user_id Int    @db.Int
+  User         User   @relation(fields: [User_user_id], references: [user_id])
 }

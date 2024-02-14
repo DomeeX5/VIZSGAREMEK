@@ -11,7 +11,7 @@ import {HomeModule} from "../home/home.module";
       RegisterModule,
       HomeModule,
       ServeStaticModule.forRoot({
-        rootPath: join(__dirname, '../..', 'client', 'dist'),
+        rootPath: join(__dirname, '../../../', 'client', 'dist'),
       })
   ],
   controllers: [AppController],
