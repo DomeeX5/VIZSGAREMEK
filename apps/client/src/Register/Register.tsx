@@ -6,30 +6,24 @@ function Register() {
         const [username, setUsername] = useState('');
         const [email, setEmail] = useState('');
         const [password, setPassword] = useState('');
+        const [error, setError] = useState('');
 
         function sendData(event: FormEvent<HTMLFormElement>) {
             event.preventDefault();
-
-            fetch('/api/register', {
-                method: 'POST',
-                body: JSON.stringify({ username, email, password }),
-                headers:{
-                    'Content-type':'application/json'
-                }
-            })
-                .then((res) => {
-                    if (!res.ok) {
-                        throw new Error("Rosszul adtad meg az adatokat");
-                    } else {
-                        return res.json();
+                fetch('/api/register', {
+                    method: 'POST',
+                    body: JSON.stringify({ username, email, password }),
+                    headers:{
+                        'Content-type':'application/json'
                     }
                 })
-                .then(data => {
-                    console.log(data);
-                })
-                .catch(error => {
-                    console.error('Hiba történt a fetch kérés során:', error);
-                });
+                    .then(async (res) => {
+                        if (!res.ok) {
+                            setError(await res.json().then(err=>err.message))
+                        } else {
+                            return res.json();
+                        }
+                    })
         }
 
     return (
@@ -42,7 +36,7 @@ function Register() {
                     id={"Username"}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                />
+                />{error && <div>{error}</div>}
                 <p>Email cím</p>
                 <input
                     type={"email"}
@@ -50,7 +44,7 @@ function Register() {
                     id={"Email"}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                />
+                />{error && <div>{error}</div>}
                 <p>Jelszó</p>
                 <input
                     type={"password"}
@@ -59,7 +53,7 @@ function Register() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <br/>
+                <br/>{error && <div>{error}</div>}
                 <input type={"submit"} value={"Regisztrálás"}/>
             </form>
             <Link to={"/"}>Vissza a főoldalra</Link>

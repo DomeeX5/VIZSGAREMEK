@@ -1,8 +1,9 @@
-import {BadRequestException, Injectable} from "@nestjs/common";
+import {BadRequestException, HttpException, HttpStatus, Injectable} from "@nestjs/common";
 import {Prisma, User} from "@prisma/client";
 import {PrismaService} from "../prisma.service";
 import * as bcrypt from 'bcrypt'
 import {hash} from "bcrypt";
+import RegisterDto from "./register.dto";
 
 
 @Injectable()
@@ -10,14 +11,13 @@ export class RegisterService {
 
     constructor(private prisma: PrismaService) {
     }
-    async createUser(data: Prisma.UserCreateInput): Promise<User | null> {
+    async createUser(registerDto: RegisterDto): Promise<User | null> {
 
 
         return this.prisma.user.create({
             data: {
-                username: data.username,
-                email: data.email,
-                password: await bcrypt.hash(data.password, 10)
+                ...registerDto,
+                password: await bcrypt.hash(registerDto.password, 10)
             },
         })
     }
