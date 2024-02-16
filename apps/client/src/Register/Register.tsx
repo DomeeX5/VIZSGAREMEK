@@ -1,5 +1,6 @@
 import {FormEvent, useState} from "react";
 import {Link} from "react-router-dom";
+import '/src/App.css'
 
 function Register() {
 
@@ -36,15 +37,15 @@ function Register() {
                     id={"Username"}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                />{error && <div>{error}</div>}
+                />{error && <div className={"error"}>{error[1]}</div>}
                 <p>Email cím</p>
                 <input
-                    type={"email"}
+                    type={"text"}
                     name={"email"}
                     id={"Email"}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                />{error && <div>{error}</div>}
+                />{error && <div className={"error"}>{error[0]}</div>}
                 <p>Jelszó</p>
                 <input
                     type={"password"}
@@ -53,7 +54,7 @@ function Register() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <br/>{error && <div>{error}</div>}
+                <br/>{error && <div className={"error"}>{error[2]}</div>}
                 <input type={"submit"} value={"Regisztrálás"}/>
             </form>
             <Link to={"/"}>Vissza a főoldalra</Link>

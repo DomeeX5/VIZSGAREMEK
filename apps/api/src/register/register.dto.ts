@@ -1,7 +1,7 @@
 import {IsEmail, IsHash, IsString, isString, IsStrongPassword, Matches} from "class-validator";
 
 export default class RegisterDto {
-    @IsEmail({})
+    @IsEmail({}, {message: "Invalid email"})
     @IsString()
     email!: string;
 
