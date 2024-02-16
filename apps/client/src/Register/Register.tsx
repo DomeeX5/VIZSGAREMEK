@@ -7,7 +7,7 @@ function Register() {
         const [username, setUsername] = useState('');
         const [email, setEmail] = useState('');
         const [password, setPassword] = useState('');
-        const [error, setError] = useState('');
+        const [error, setError] = useState <string[]>([]);
 
         function sendData(event: FormEvent<HTMLFormElement>) {
             event.preventDefault();
@@ -37,7 +37,7 @@ function Register() {
                     id={"Username"}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                />{error && <div className={"error"}>{error[1]}</div>}
+                />
                 <p>Email cím</p>
                 <input
                     type={"text"}
@@ -45,7 +45,7 @@ function Register() {
                     id={"Email"}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                />{error && <div className={"error"}>{error[0]}</div>}
+                />
                 <p>Jelszó</p>
                 <input
                     type={"password"}
@@ -54,8 +54,8 @@ function Register() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <br/>{error && <div className={"error"}>{error[2]}</div>}
                 <input type={"submit"} value={"Regisztrálás"}/>
+                <br/>{error.length > 0 && error.map((err, index) => <div className={"error"} key={index}>{err}</div>)}
             </form>
             <Link to={"/"}>Vissza a főoldalra</Link>
         </>
