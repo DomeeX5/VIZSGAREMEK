@@ -3,12 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import {ServeStaticModule} from "@nestjs/serve-static";
 import { join } from 'path';
-import {RegisterModule} from "../register/register.module";
 import {HomeModule} from "../home/home.module";
+import {UsersModule} from "../users/users.module";
 
 @Module({
   imports: [
-      RegisterModule,
+      UsersModule,
       HomeModule,
       ServeStaticModule.forRoot({
         rootPath: join(__dirname, '../../../', 'client', 'dist'),
