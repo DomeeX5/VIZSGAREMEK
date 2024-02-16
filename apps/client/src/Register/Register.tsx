@@ -57,7 +57,8 @@ function Register() {
                 <input type={"submit"} value={"Regisztrálás"}/>
                 <br/>{error.length > 0 && error.map((err, index) => <div className={"error"} key={index}>{err}</div>)}
             </form>
-            <Link to={"/"}>Vissza a főoldalra</Link>
+            <Link to={"/"}>Vissza a főoldalra</Link><br/>
+            <Link to={"/login"}>Van már fiókod</Link>
         </>
     )
     }
