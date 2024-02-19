@@ -1,6 +1,7 @@
 import {FormEvent, useState} from "react";
 import {Link} from "react-router-dom";
 import '/src/App.css'
+import Navbar from "../Navbar.tsx";
 
 function Register() {
 
@@ -29,6 +30,7 @@ function Register() {
 
     return (
         <>
+            {Navbar()}
             <form onSubmit={sendData}>
                 <p>Felhasználó név</p>
                 <input
