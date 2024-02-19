@@ -1,36 +1,37 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {PrismaService} from "../prisma.service";
-import {LoginDto, RegisterDto, UpdatePasswordDto} from "./users.dto";
-import {compare, hash} from "bcrypt";
-import {User} from "@prisma/client";
+import {UserDto, UpdatePasswordDto} from "./users.dto";
+import {compare, hash} from "bcrypt"
 
 @Injectable()
 export class UsersService {
     constructor(private prisma: PrismaService) {
     }
 
-    async loginUser({email, password}: LoginDto) {
-        const user = await this.prisma.user.findFirst({
-            where: {email}
-        });
+    private async hashPassword(password: string, salt: number){
+        return await hash(password, salt);
+    }
 
+    async loginUser(loginDto: UserDto): Promise<any> {
+        const user = await this.prisma.user.findFirst({
+            where: {
+                email: loginDto.email,
+            }
+        });
         if (!user) {
-            throw new HttpException("invalid_credentials",
+            throw new HttpException("invalid_email",
                 HttpStatus.UNAUTHORIZED);
         }
-
-        // compare passwords
-        const areEqual = await compare(password, user.password);
-
+        const areEqual = await compare(loginDto.password, user.password);
         if (!areEqual) {
-            throw new HttpException("invalid_credentials",
+            throw new HttpException("invalid_password",
                 HttpStatus.UNAUTHORIZED);
         }
 
         const {password: p, ...rest} = user;
         return rest;
     }
-    async createUser(registerDto: RegisterDto): Promise<any> {
+    async createUser(registerDto: UserDto): Promise<any> {
         const userInDb = await this.prisma.user.findFirst({
             where: {email: registerDto.email}
         });
