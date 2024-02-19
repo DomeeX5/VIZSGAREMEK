@@ -1,9 +1,13 @@
 .error {
     color: red;
-    margin-bottom: 20px;
     background-color: lightcoral;
-    width: 300px;
+    width: 100px;
     border: 2px solid red;
-    padding: 50px;
+    padding: 20px;
     margin: 20px;
+}
+
+.navbarKep{
+    width: 30px;
+    height: 30px;
 }

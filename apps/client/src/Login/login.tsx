@@ -1,5 +1,6 @@
 import {Link} from "react-router-dom";
 import {FormEvent, useState} from "react";
+import Navbar from "../Navbar.tsx";
 
 function Login(){
 
@@ -14,6 +15,14 @@ function Login(){
         const value = event.currentTarget.value;
         setUserData((prevState) => ({ ...prevState, [name]: value }));
     };
+
+    function errors(){
+       if(error.length > 0){
+            error.map((err, index) => <div className={"error"} key={index}>{err}</div>)
+       } else{
+           return null
+       }
+    }
 
     function getData(event:FormEvent<HTMLFormElement>){
         event.preventDefault()
@@ -36,6 +45,7 @@ function Login(){
 
     return(
         <>
+            {Navbar()}
             <form onSubmit={getData}>
                 <label>Email cím</label>
                 <input
@@ -55,8 +65,8 @@ function Login(){
                 />
                 <br/>
                 <input type={"submit"} value={"Bejelentkezés"}/>
-                {error.length > 0 && error.map((err, index) => <div className={"error"} key={index}>{err}</div>)}
             </form>
+            {errors()}
             <Link to={"/register"}>Nincs fiókod akkor regisztrálj</Link>
         </>
     )

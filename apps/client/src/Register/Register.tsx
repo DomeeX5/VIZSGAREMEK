@@ -1,6 +1,7 @@
 import {FormEvent, useState} from "react";
 import {Link} from "react-router-dom";
 import '/src/App.css'
+import Navbar from "../Navbar.tsx";
 
 function Register() {
         const [email, setEmail] = useState('');
@@ -27,6 +28,7 @@ function Register() {
 
     return (
         <>
+            {Navbar()}
             <form onSubmit={sendData}>
                 <p>Email cím</p>
                 <input
