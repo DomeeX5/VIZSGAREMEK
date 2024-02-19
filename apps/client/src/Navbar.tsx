@@ -29,7 +29,7 @@ function Navbar(){
                                             <Link to={"/login"} className="nav-link active">Bejelentkezés</Link>
                                         </li>
                                         <li className="nav-item">
-                                            <Link to={"/registration"} className="nav-link active">Regisztráció</Link>
+                                            <Link to={"/register"} className="nav-link active">Regisztráció</Link>
                                         </li>
                                     </ul>
                                 </div>
