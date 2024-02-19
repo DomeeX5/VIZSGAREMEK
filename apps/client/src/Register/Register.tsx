@@ -3,8 +3,6 @@ import {Link} from "react-router-dom";
 import '/src/App.css'
 
 function Register() {
-
-        const [username, setUsername] = useState('');
         const [email, setEmail] = useState('');
         const [password, setPassword] = useState('');
         const [error, setError] = useState <string[]>([]);
@@ -13,7 +11,7 @@ function Register() {
             event.preventDefault();
                 fetch('/api/register', {
                     method: 'POST',
-                    body: JSON.stringify({ username, email, password }),
+                    body: JSON.stringify({ email, password }),
                     headers:{
                         'Content-type':'application/json'
                     }
@@ -30,14 +28,6 @@ function Register() {
     return (
         <>
             <form onSubmit={sendData}>
-                <p>Felhasználó név</p>
-                <input
-                    type={"text"}
-                    name={"name"}
-                    id={"Username"}
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                />
                 <p>Email cím</p>
                 <input
                     type={"text"}
