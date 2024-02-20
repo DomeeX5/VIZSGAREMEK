@@ -9,15 +9,11 @@ export class UsersService {
     constructor(private prisma: PrismaService) {
     }
     async loginUser( email: string ): Promise<User | undefined> {
-        const user = await this.prisma.user.findFirst({
+        return this.prisma.user.findFirst({
             where: {
                 email: email,
             },
         });
-        if (typeof user === undefined) {
-            return null;
-        }
-        return user as User;
     }
     async createUser(registerDto: UserDto): Promise<any> {
         const userInDb = await this.prisma.user.findFirst({
