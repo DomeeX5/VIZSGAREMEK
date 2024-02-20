@@ -8,24 +8,24 @@ function Login(){
     const [password,setPassword]=useState('')
     const [error,setError]=useState<string[]>([]);
 
-    function getData(event:FormEvent<HTMLFormElement>){
+    function getData(event:FormEvent<HTMLFormElement>) {
         event.preventDefault()
-        fetch('/api/auth/login',{
-            method:'POST',
-            body: JSON.stringify({email,password}),
-            headers:{
-                'Content-type':'application/json'
+        fetch('/api/auth/login', {
+            method: 'POST',
+            body: JSON.stringify({email, password}),
+            headers: {
+                'Content-type': 'application/json'
             }
         })
-            .then(async (res)=>{
-                if(!res.ok){
-                    setError(await res.json().then(err=>err.message))
-                }else {
+            .then(async (res) => {
+                if (!res.ok) {
+                    setError(await res.json().then(err => err.message))
+                } else {
                     return res.json();
                 }
             })
-        return;
     }
+
 
     function errors(){
         if(error.length > 0){
@@ -56,7 +56,7 @@ function Login(){
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <br/>
-                <input type={"submit"} value={"Bejelentkezés"}/>
+                <input type={"submit"} id={"tovabb"} value={"Bejelentkezés"}/>
             </form>
             {errors()}
             <Link to={"/register"}>Nincs fiókod akkor regisztrálj</Link>

@@ -12,22 +12,21 @@ function Register() {
 
         function sendData(event: FormEvent<HTMLFormElement>) {
             event.preventDefault();
-                fetch('/api/register', {
-                    method: 'POST',
-                    body: JSON.stringify({ username ,email, password }),
-                    headers:{
-                        'Content-type':'application/json'
+            fetch('/api/auth/register', {
+                method: 'POST',
+                body: JSON.stringify({username, email, password}),
+                headers: {
+                    'Content-type': 'application/json'
+                }
+            })
+                .then(async (res) => {
+                    if (!res.ok) {
+                        setError(await res.json().then(err => err.message))
+                    } else {
+                        return res.json();
                     }
                 })
-                    .then(async (res) => {
-                        if (!res.ok) {
-                            setError(await res.json().then(err=>err.message))
-                        } else {
-                            return res.json();
-                        }
-                    })
-        }
-
+            }
     return (
         <>
             {Navbar()}
