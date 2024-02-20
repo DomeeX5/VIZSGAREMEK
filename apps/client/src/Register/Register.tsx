@@ -4,6 +4,8 @@ import '/src/App.css'
 import Navbar from "../Navbar.tsx";
 
 function Register() {
+
+        const [username,setUsername]=useState('')
         const [email, setEmail] = useState('');
         const [password, setPassword] = useState('');
         const [error, setError] = useState <string[]>([]);
@@ -12,7 +14,7 @@ function Register() {
             event.preventDefault();
                 fetch('/api/register', {
                     method: 'POST',
-                    body: JSON.stringify({ email, password }),
+                    body: JSON.stringify({ username ,email, password }),
                     headers:{
                         'Content-type':'application/json'
                     }
@@ -30,6 +32,14 @@ function Register() {
         <>
             {Navbar()}
             <form onSubmit={sendData}>
+                <p>Username</p>
+                <input
+                    type={"text"}
+                    name={"username"}
+                    id={"Username"}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
                 <p>Email cím</p>
                 <input
                     type={"text"}
@@ -53,6 +63,6 @@ function Register() {
             <Link to={"/login"}>Van már fiókod</Link>
         </>
     )
-    }
+}
 
-    export default Register;
+export default Register;
