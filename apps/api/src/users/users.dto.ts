@@ -5,6 +5,9 @@ export class UserDto {
     @IsString()
     email!: string;
 
+    @IsString()
+    username!: string;
+
     @IsStrongPassword({minLength: 8, minLowercase: 1, minNumbers: 1, minUppercase: 1}, {message: "Invalid password"})
     @IsString()
     password!: string;

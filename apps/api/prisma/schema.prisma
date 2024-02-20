@@ -26,8 +26,9 @@ model Privilages {
 // User tábla
 model User {
   user_id            Int         @id @default(autoincrement())
+  username           String      @db.VarChar(20)
   email              String      @unique @db.VarChar(45)
-  password           String      @db.VarChar(45)
+  password           String      @db.VarChar(400)
   Privilages_priv_id Int?        @default(20) @db.Int
   Privilages         Privilages? @relation(fields: [Privilages_priv_id], references: [priv_id])
   orders             Order[]

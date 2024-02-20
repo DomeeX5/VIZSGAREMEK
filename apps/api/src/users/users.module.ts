@@ -17,7 +17,11 @@ import {JwtService} from "@nestjs/jwt";
       AuthService,
       {
         provide: APP_PIPE,
-        useValue: new ValidationPipe({ transform: true })
+        useValue: new ValidationPipe({
+            transform: true,
+            whitelist: true,
+            forbidNonWhitelisted: true,
+        })
       }],
     exports: [UsersService]
 })
