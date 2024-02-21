@@ -16,3 +16,12 @@ Content-Type: application/json
   "username": "testUser@test.com",
   "password": "Password123_"
 }
+
+###
+
+POST http://localhost:3000/api/auth/refresh
+Content-Type: application/json
+
+{
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RVc2VyQHRlc3QuY29tIiwic3ViIjp7ImlkIjo0LCJuYW1lIjoidGVzdFVzZXIifSwiaWF0IjoxNzA4NTAwMTY2LCJleHAiOjE3MDkxMDQ5NjZ9.7GeNgEWWTG23xJk_nrRadXevc7lRurZN-ofIfXTK_DU"
+}
