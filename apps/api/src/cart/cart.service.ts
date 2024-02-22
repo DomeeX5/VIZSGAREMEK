@@ -1,5 +1,6 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {PrismaService} from "../prisma.service";
+import {Product} from "@prisma/client";
 
 @Injectable()
 export class CartService {
@@ -14,7 +15,7 @@ export class CartService {
         })
 
         if (!user) {
-            throw new HttpException("A kosárhoz adáshoz be kell jelentkezned!", HttpStatus.BAD_REQUEST)
+            throw new HttpException("A kosárba helyezéshez be kell jelentkezned!", HttpStatus.BAD_REQUEST)
         }
 
         const product = await this.prisma.product.findUnique({
@@ -63,7 +64,7 @@ export class CartService {
         })
     }
 
-    async getCartItems(userid: number) {
+    async getCartItems(userid: number): Promise<any> {
         const cartItems = await this.prisma.cartItem.findMany({
             where: {
                 User_user_id: userid,
@@ -74,7 +75,7 @@ export class CartService {
         });
         return cartItems.map((item) => ({
             product: item.Product,
-            quantity: item.quantity,
+            quantity: item.quantity
         }))
     }
 

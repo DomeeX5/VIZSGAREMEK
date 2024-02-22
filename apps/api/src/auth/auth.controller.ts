@@ -4,13 +4,14 @@ import {LocalAuthGuard} from "./guards/local-auth.guard";
 import {UsersService} from "../users/users.service";
 import {UserDto} from "../users/users.dto";
 import {RefreshJwtAuthGuard} from "./guards/refresh-jwt-auth.guard";
+import {JwtAuthGuard} from "./guards/jwt-auth.guard";
 
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService, private userService: UsersService) {
     }
 
-    @UseGuards(RefreshJwtAuthGuard)
+    @UseGuards(LocalAuthGuard)
     @Post('login')
     async login(@Request() req: any) {
         return await this.authService.login(req.user);

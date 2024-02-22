@@ -1,8 +1,10 @@
 // cart.controller.ts
 
-import { Controller, Post, Delete, Get, Param, Body } from '@nestjs/common';
+import {Controller, Post, Delete, Get, Param, Body, UseGuards} from '@nestjs/common';
 import { CartService } from './cart.service';
+import {RefreshJwtAuthGuard} from "../auth/guards/refresh-jwt-auth.guard";
 
+@UseGuards(RefreshJwtAuthGuard)
 @Controller('cart')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
@@ -26,11 +28,11 @@ export class CartController {
 
   @Get(':userId')
   async getCartItems(@Param('userId') userId: number) {
-    return this.cartService.getCartItems(userId);
+    return await this.cartService.getCartItems(userId);
   }
 
   @Get('total/:userId')
   async calculateTotalPrice(@Param('userId') userId: number) {
-    return this.cartService.calculateTotalPrice(userId);
+    return await this.cartService.calculateTotalPrice(userId);
   }
 }

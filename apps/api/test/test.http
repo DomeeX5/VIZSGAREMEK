@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "username": "testUser",
-  "email": "testUser@test.com",
+  "email": "testUser@test2.com",
   "password": "Password123_"
 }
 
@@ -13,8 +13,8 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-  "username": "testUser@test.com",
-  "password": "Password123_"
+  "username": "major.dominik0505@gmail.com",
+  "password": "Domcsebe051124_"
 }
 
 ###
@@ -24,4 +24,41 @@ Content-Type: application/json
 
 {
   "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RVc2VyQHRlc3QuY29tIiwic3ViIjp7ImlkIjo0LCJuYW1lIjoidGVzdFVzZXIifSwiaWF0IjoxNzA4NTAwMTY2LCJleHAiOjE3MDkxMDQ5NjZ9.7GeNgEWWTG23xJk_nrRadXevc7lRurZN-ofIfXTK_DU"
+}
+
+###
+
+POST http://localhost:3000/api/cart/add/5/1
+Content-Type: application/json
+
+{
+  "quantity": 1,
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1ham9yLmRvbWluaWswNTA1QGdtYWlsLmNvbSIsInN1YiI6eyJpZCI6NSwibmFtZSI6IkRvbWVlWDUifSwiaWF0IjoxNzA4NTkzNTU3LCJleHAiOjE3MDkxOTgzNTd9.KHBI2pNZeqEHG4L8vZpXglGrZpvZMTqwbezD49GOY6g"
+}
+
+###
+
+GET http://localhost:3000/api/cart/5
+Content-Type: application/json
+
+{
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1ham9yLmRvbWluaWswNTA1QGdtYWlsLmNvbSIsInN1YiI6eyJpZCI6NSwibmFtZSI6IkRvbWVlWDUifSwiaWF0IjoxNzA4NTkzNTU3LCJleHAiOjE3MDkxOTgzNTd9.KHBI2pNZeqEHG4L8vZpXglGrZpvZMTqwbezD49GOY6g"
+}
+###
+
+GET http://localhost:3000/api/cart/total/5
+Content-Type: application/json
+
+{
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1ham9yLmRvbWluaWswNTA1QGdtYWlsLmNvbSIsInN1YiI6eyJpZCI6NSwibmFtZSI6IkRvbWVlWDUifSwiaWF0IjoxNzA4NTkzNTU3LCJleHAiOjE3MDkxOTgzNTd9.KHBI2pNZeqEHG4L8vZpXglGrZpvZMTqwbezD49GOY6g"
+}
+
+###
+
+POST http://localhost:3000/api/auth/logout
+Content-Type: application/json
+
+{
+  "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1ham9yLmRvbWluaWswNTA1QGdtYWlsLmNvbSIsInN1YiI6eyJpZCI6NSwibmFtZSI6IkRvbWVlWDUifSwiaWF0IjoxNzA4NTk4MTAwLCJleHAiOjE3MDg1OTgxNjB9.6aPF1F-SpNSv_t07tsIwGI-id0T_T_rKPIcMd698HR0",
+  "refresh": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1ham9yLmRvbWluaWswNTA1QGdtYWlsLmNvbSIsInN1YiI6eyJpZCI6NSwibmFtZSI6IkRvbWVlWDUifSwiaWF0IjoxNzA4NTk4MTAwLCJleHAiOjE3MDkyMDI5MDB9._7iulYpH20ArkZ_7RDv06ABpeYihimILQ9h2hX6xoWU"
 }
