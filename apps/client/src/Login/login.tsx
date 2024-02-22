@@ -27,11 +27,11 @@ function Login(){
     }
 
 
-    function errors(){
-        if(error.length > 0){
-            error.map((err, index) => <div className={"error"} key={index}>{err}</div>)
-        } else{
-            return null
+    function errors() {
+        if (error.length !== 0) {
+            return <div className={"error"}>{error}</div>;
+        } else {
+            return null;
         }
     }
 
@@ -39,7 +39,7 @@ function Login(){
         <>
             {Navbar()}
             <form onSubmit={getData}>
-                <label>Email cím</label>
+                <label>Email cím</label><br/>
                 <input
                     type={"text"}
                     name={"email"}
@@ -47,7 +47,7 @@ function Login(){
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 /><br/>
-                <label>Jelszo</label>
+                <label>Jelszo</label><br/>
                 <input
                     type={"password"}
                     name={"password"}
@@ -56,7 +56,8 @@ function Login(){
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <br/>
-                <input type={"submit"} id={"tovabb"} value={"Bejelentkezés"}/>
+                <p></p>
+                    <input type={"submit"} id={"tovabb"} value={"Bejelentkezés"}/>
             </form>
             {errors()}
             <Link to={"/register"}>Nincs fiókod akkor regisztrálj</Link>

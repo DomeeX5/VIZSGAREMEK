@@ -1,0 +1,52 @@
+.body{
+    background-color: #8CABFF;
+}
+
+
+.kellContainer{
+    background-color: #150485;
+    align-items: center;
+    border: 3px solid;
+    box-shadow: 5px 3px 3px #1a1d20;
+    border-radius: 5px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top:50%;
+    left:50%;
+    padding: 40px;
+    justify-content: center;
+}
+.h1-nek{
+    color: #8FD6E1;
+}
+
+.labelnek{
+    margin: 5px;
+    color: #8FD6E1;
+}
+
+.textInput{
+    border-radius: 10px;
+}
+
+.gomb{
+    border: 3px black;
+    box-shadow: 2px 2px 2px #0F3460;
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-bottom: 10px;
+    transition-duration: 1s;
+    cursor: pointer;
+}
+
+.Alert{
+    width: fit-content;
+    transform: translate(-50%, -50%);
+    top:10%;
+    left:50%;
+}
+
+.linkel{
+    margin-top: 30px;
+    margin-left: 50px;
+}
