@@ -33,6 +33,7 @@ model User {
   Privilages         Privilages? @relation(fields: [Privilages_priv_id], references: [priv_id])
   orders             Order[]
   address            Address[]
+  CartItem           CartItem[]
 }
 
 // Order tábla
@@ -49,12 +50,15 @@ model Order {
 
 // Product tábla
 model Product {
-  product_id   Int         @id @default(autoincrement())
-  product_name String      @db.VarChar(45)
-  price        Int
-  descreption  String?     @db.VarChar(500)
-  product_pic  Bytes       @db.LongBlob
-  order_items  OrderItem[]
+  product_id       Int         @id @default(autoincrement())
+  product_name     String      @db.VarChar(45)
+  product_type     String      @db.VarChar(30)
+  product_spectype String      @db.VarChar(30)
+  price            Int         @db.Int
+  description      String?     @db.VarChar(500)
+  product_pic      String      @db.VarChar(100)
+  order_items      OrderItem[]
+  CartItem         CartItem[]
 }
 
 // OrderItem tábla
@@ -67,6 +71,17 @@ model OrderItem {
   Order              Order?  @relation(fields: [Order_order_id], references: [order_id])
 
   @@id([Product_product_id, Order_order_id])
+}
+
+model CartItem {
+  cart_item_id       Int     @id @default(autoincrement())
+  quantity           Int
+  User_user_id       Int
+  Product_product_id Int
+  User               User    @relation(fields: [User_user_id], references: [user_id])
+  Product            Product @relation(fields: [Product_product_id], references: [product_id])
+
+  @@unique([User_user_id, Product_product_id])
 }
 
 // Address tábla

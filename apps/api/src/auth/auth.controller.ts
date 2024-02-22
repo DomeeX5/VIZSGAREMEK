@@ -10,7 +10,7 @@ export class AuthController {
     constructor(private authService: AuthService, private userService: UsersService) {
     }
 
-    @UseGuards(LocalAuthGuard)
+    @UseGuards(RefreshJwtAuthGuard)
     @Post('login')
     async login(@Request() req: any) {
         return await this.authService.login(req.user);
