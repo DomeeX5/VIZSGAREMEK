@@ -1,9 +1,10 @@
 import {FormEvent, useState} from "react";
 import {Link} from "react-router-dom";
-import './Register.css'
+import './Register-login.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
-import Navbar from "../Navbar.tsx";
+import Navbar from "../Main elements/Navbar.tsx";
+import Footer from "../Main elements/Footer.tsx";
 
     function Register() {
 
@@ -49,10 +50,9 @@ import Navbar from "../Navbar.tsx";
 
         return (
             <>
-                {Navbar()}
-                <div className={"body"}>
-                <div className={"kellContainer"}>
-                    <form onSubmit={sendData}>
+                <div className={"bodies"}>
+                    {Navbar()}
+                    <form onSubmit={sendData} className={"kellContainer"}>
                         <h1 className={"h1-nek"}>Regisztráció</h1>
                         <br/>
                         <label className={"labelnek"}>Username</label><br/>
@@ -91,11 +91,13 @@ import Navbar from "../Navbar.tsx";
                             className={"textInput"}
                             onChange={(e)=>setPasswordS(e.target.value)}
                         /><br/>
+                        <p></p>
                         <input type={"submit"} value={"Regisztrálás"} className="btn btn-primary gomb"/>
                         <br/>
+                        <p></p>
                         <Link to={"/login"} className={"link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover linkel"}>Van már fiókod</Link>
                     </form>
-                </div>
+                    <Footer/>
                 </div>
                 {errors()}
             </>
