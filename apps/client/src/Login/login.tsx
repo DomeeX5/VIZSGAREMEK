@@ -1,6 +1,9 @@
 import {Link} from "react-router-dom";
 import {FormEvent, useState} from "react";
-import Navbar from "../Navbar.tsx";
+import Navbar from "../Main elements/Navbar.tsx";
+import Footer from "../Main elements/Footer.tsx";
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap/dist/js/bootstrap.js'
 
 function Login(){
 
@@ -29,7 +32,12 @@ function Login(){
 
     function errors() {
         if (error.length !== 0) {
-            return <div className={"error"}>{error}</div>;
+            return error.map((err, index) => (
+                <div className={"alert alert-warning alert-dismissible fade show Alert"} role="alert" key={index}>
+                    {err}
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            ));
         } else {
             return null;
         }
@@ -37,30 +45,37 @@ function Login(){
 
     return(
         <>
+            <div className={"bodies"}>
             {Navbar()}
-            <form onSubmit={getData}>
-                <label>Email cím</label><br/>
+            <form onSubmit={getData} className={"kellContainer"}>
+                <h1 className={'h1-nek'}>Bejelentkezés</h1>
+                <label className={"labelnek"}>Email cím</label><br/>
                 <input
                     type={"text"}
                     name={"email"}
                     id={"email"}
+                    className={"textInput"}
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                 /><br/>
-                <label>Jelszo</label><br/>
+                <label className={"labelnek"}>Jelszo</label><br/>
                 <input
                     type={"password"}
                     name={"password"}
                     id={"password"}
+                    className={"textInput"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
                 <br/>
                 <p></p>
-                    <input type={"submit"} id={"tovabb"} value={"Bejelentkezés"}/>
+                    <input type={"submit"} id={"tovabb"} value={"Bejelentkezés"} className="btn btn-primary gomb"/>
+                <p></p>
+                <Link to={"/register"} className={"link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover linkel"}>Nincs fiókod akkor regisztrálj</Link>
             </form>
+            {Footer()}
             {errors()}
-            <Link to={"/register"}>Nincs fiókod akkor regisztrálj</Link>
+            </div>
         </>
     )
 }

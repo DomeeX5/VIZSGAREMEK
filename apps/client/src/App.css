@@ -2,3 +2,11 @@
     width: 30px;
     height: 30px;
 }
+
+.footerem{
+    border: black solid 3px;
+    background-color: #150485;
+    color: #8FD6E1;
+    margin-top: auto;
+    width: auto;
+}
