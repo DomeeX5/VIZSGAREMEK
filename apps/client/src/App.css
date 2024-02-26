@@ -1,3 +1,9 @@
+.body{
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 .navbarKep{
     width: 30px;
     height: 30px;
@@ -8,5 +14,10 @@
     background-color: #150485;
     color: #8FD6E1;
     margin-top: auto;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    height: 50px;
+    font-size: 10px;
     width: auto;
 }

@@ -3,22 +3,22 @@ import {Link} from "react-router-dom";
 import './Register-login.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
-import Navbar from "../Main elements/Navbar.tsx";
-import Footer from "../Main elements/Footer.tsx";
+import Navbar from "../Main_elements/Navbar.tsx";
+import Footer from "../Main_elements/Footer.tsx";
 
     function Register() {
 
             const [username,setUsername]=useState('')
             const [email, setEmail] = useState('');
             const [password, setPassword] = useState('');
-            const [passwordS, setPasswordS] = useState("");
+            const [passwordAgain, setPasswordAgain] = useState("");
             const [error, setError] = useState <string[]>([]);
 
             function sendData(event: FormEvent<HTMLFormElement>) {
                 event.preventDefault();
                 fetch('/api/auth/register', {
                     method: 'POST',
-                    body: JSON.stringify({email, username, password}),
+                    body: JSON.stringify({username, email, password}),
                     headers: {
                         'Content-type': 'application/json'
                     }
@@ -33,14 +33,14 @@ import Footer from "../Main elements/Footer.tsx";
                 }
 
         function errors() {
-            if (error.length !== 0) {
+            if (Array.isArray(error) && error.length !== 0) {
                 return error.map((err, index) => (
                     <div className={"alert alert-warning alert-dismissible fade show Alert"} role="alert" key={index}>
                         {err}
                         <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 ));
-            } else if (password !== passwordS) {
+            } else if (password !== passwordAgain) {
                 setError(["A jelszavak nem egyeznek."]);
                 return;
             } else {
@@ -87,21 +87,25 @@ import Footer from "../Main elements/Footer.tsx";
                             type={"password"}
                             name={"password1"}
                             id={"Password1"}
-                            value={passwordS}
+                            value={passwordAgain}
                             className={"textInput"}
-                            onChange={(e)=>setPasswordS(e.target.value)}
+                            onChange={(e) => setPasswordAgain(e.target.value)}
                         /><br/>
                         <p></p>
                         <input type={"submit"} value={"Regisztrálás"} className="btn btn-primary gomb"/>
                         <br/>
                         <p></p>
-                        <Link to={"/login"} className={"link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover linkel"}>Van már fiókod</Link>
+                        <Link to={"/login"}
+                              className={"link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover linkel"}>Van
+                            már fiókod</Link>
                     </form>
-                    <Footer/>
+                    <div>
+                        {errors()}
+                    </div>
+                    {Footer()}
                 </div>
-                {errors()}
             </>
         )
     }
 
-    export default Register;
+export default Register;
