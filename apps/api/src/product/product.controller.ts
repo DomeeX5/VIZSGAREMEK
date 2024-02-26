@@ -5,23 +5,23 @@ import { ProductService } from './product.service';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
-  @Get()
+  @Get('/all')
   async getAllProducts() {
-    await this.productService.getAllProducts();
+    return await this.productService.getAllProducts();
   }
 
-  @Get(`/:selectedType`)
+  @Get(`type/:selectedType`)
   async getProductsByType(@Param('selectedType') selectedType: string) {
-    await this.productService.getProductByType(selectedType);
+    return await this.productService.getProductByType(selectedType);
   }
 
-  @Get(':selectedType/:selected')
+  @Get('type/:selectedType/:selected')
   async getProductsBySpecType(
       @Param('selected') selected: string,
       @Param('selectedType') selectedType: string
   ) {
     await this.getProductsByType(selectedType);
-    await this.productService.getProductBySpecType(selected);
+    return await this.productService.getProductBySpecType(selected);
   }
 
   @Get()

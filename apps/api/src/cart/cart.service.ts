@@ -70,7 +70,11 @@ export class CartService {
                 User_user_id: userid,
             },
             include: {
-                Product: true,
+                Product: {
+                    include: {
+                        ProductPictures: true
+                    }
+                }
             }
         });
         return cartItems.map((item) => ({

@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import {PrismaService} from "../prisma.service";
+import {Product} from "@prisma/client";
 
 @Injectable()
 export class ProductService {
@@ -7,30 +8,46 @@ export class ProductService {
     constructor(private prisma: PrismaService) {}
 
     async getAllProducts() {
-        await this.prisma.product.findMany();
+        return this.prisma.product.findMany();
     }
 
-    async getProductByType(selectedOption: string) {
-        await this.prisma.product.findMany( {
+    async getProductByType(selectedType: string): Promise<Product[]>{
+        const products: Product[] = await this.prisma.product.findMany( {
             where: {
-                product_type: selectedOption,
+                product_type: selectedType,
+            },
+            include: {
+                ProductPictures: {
+                    select: {
+                        image: true,
+                    }
+                }
             }
         })
+        return products as Product[];
     }
 
-    async getProductBySpecType(selectedOption: string) {
-        await this.prisma.product.findMany({
+    async getProductBySpecType(selectedType: string) {
+        const products: Product[] = await this.prisma.product.findMany( {
             where: {
-                product_spectype: selectedOption,
+                product_spectype: selectedType,
+            },
+            include: {
+                ProductPictures: {
+                    select: {
+                        image: true,
+                    }
+                }
             }
         })
+        return products as Product[];
     }
 
     async getProduct(selected: number) {
-        await this.prisma.product.findUnique({
+        return this.prisma.product.findUnique({
             where: {
                 product_id: selected,
             }
-        })
+        });
     }
 }
