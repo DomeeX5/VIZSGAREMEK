@@ -6,7 +6,6 @@ import {JwtModule, JwtService} from "@nestjs/jwt";
 import {LocalStrategy} from "./strategies/local-strategy";
 import {PrismaService} from "../prisma.service";
 import {JwtStrategy} from "./strategies/jwt-strategy";
-import {RefreshJwtStrategy} from "./strategies/refreshToken.strategy";
 
 @Module({
   providers: [
@@ -14,14 +13,13 @@ import {RefreshJwtStrategy} from "./strategies/refreshToken.strategy";
       UsersService,
       LocalStrategy,
       JwtStrategy,
-      RefreshJwtStrategy,
       PrismaService
   ],
   controllers: [AuthController],
   imports: [
       JwtModule.register({
         secret: process.env.jwt_secret,
-        signOptions: { expiresIn: '60s'},
+        signOptions: { expiresIn: '7d'},
       })
   ],
     exports: [AuthService]

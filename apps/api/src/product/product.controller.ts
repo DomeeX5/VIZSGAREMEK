@@ -1,7 +1,7 @@
 import {Body, Controller, Get, Param} from '@nestjs/common';
 import { ProductService } from './product.service';
 
-@Controller()
+@Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
@@ -10,7 +10,7 @@ export class ProductController {
     await this.productService.getAllProducts();
   }
 
-  @Get(`:selectedType`)
+  @Get(`/:selectedType`)
   async getProductsByType(@Param('selectedType') selectedType: string) {
     await this.productService.getProductByType(selectedType);
   }

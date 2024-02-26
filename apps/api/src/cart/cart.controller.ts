@@ -1,10 +1,8 @@
-// cart.controller.ts
-
 import {Controller, Post, Delete, Get, Param, Body, UseGuards} from '@nestjs/common';
 import { CartService } from './cart.service';
-import {RefreshJwtAuthGuard} from "../auth/guards/refresh-jwt-auth.guard";
+import {JwtAuthGuard} from "../auth/guards/jwt-auth.guard";
 
-@UseGuards(RefreshJwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @Controller('cart')
 export class CartController {
   constructor(private readonly cartService: CartService) {}
@@ -26,7 +24,7 @@ export class CartController {
     await this.cartService.removeFromCart(userId, productId);
   }
 
-  @Get(':userId')
+  @Get('items/:userId')
   async getCartItems(@Param('userId') userId: number) {
     return await this.cartService.getCartItems(userId);
   }

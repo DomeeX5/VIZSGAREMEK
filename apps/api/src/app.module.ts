@@ -19,6 +19,6 @@ import { CartModule } from './cart/cart.module';
         rootPath: join(__dirname, '../../../', 'client', 'dist'),
       }),
       CartModule,
-  ],
+  ]
 })
 export class AppModule {}
