@@ -1,62 +1,51 @@
+import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import {Product} from "@prisma/client";
 import Navbar from "../Main_elements/Navbar.tsx";
 import Footer from "../Main_elements/Footer.tsx";
-import "./mainDesign.css"
-import {Link} from "react-router-dom";
-import {FormEvent, useState} from "react";
 
-function About(){
+function About() {
+    const [products, setProducts] = useState<Product[] | null>(null);
+    const [_, setErrors] = useState<string[]>([]);
 
-    const [product,setProduct]=useState('')
-    //const [selected,setSelected]=useState('')
-    //const [selectedType,setSelectedType]=useState('')
-    const [_,setErrors]=useState<string[]>()
-
-    function getProduct(event: FormEvent<HTMLFormElement>){
-        event.preventDefault()
-        fetch('/api/product',{
-            method:"POST",
-            body: JSON.stringify({product}),
-            headers:{
-                'Content-type':'application/json'
-            }
-        })
+    useEffect(() => {
+        fetch('/api/products/all')
             .then(async (res)=>{
                 if(!res.ok){
-                    return setErrors(await res.json().then(err=>err.message))
+                    const error = await res.json();
+                    setErrors([error.message]);
                 } else {
-                    return res.json();
+                    const data = await res.json();
+                    setProducts(data);
                 }
             })
-    }
+            .catch(error => {
+                console.error('Error fetching products:', error);
+                setErrors(['Error fetching products']);
+            });
+    }, []);
 
-    const sel = Array.from({ length: 16 }, (_, i) => i + 1);
-
-    return(
-        <>
+    return (
         <div>
             {Navbar()}
-            <form onSubmit={getProduct}>
             <div className={"container"}>
                 <div className={"row"}>
-                    {sel.slice(0, 16).map((itemIndex) => (
-                        <div key={itemIndex} className={"col-xl-3 col-lg-4 col-md-6 col-12"}>
+                    {products && products.map((product) => (
+                        <div key={product.product_id} className={"col-xl-3 col-lg-4 col-md-6 col-12"}>
+                            <img src="" alt=""/>
                             <div className="card kartya">
-                                <img src={product} className="card-img-top" alt="gojo"/>
                                 <div className="card-body">
-                                    <h5 className="card-title">{product.description}</h5>
-                                    <p className="card-text">{product}</p>
-                                    <Link to={`/product/${product.id}`} className="btn btn-primary">Áru megtekintése</Link>
+                                    <h5 className="card-title">{product.product_name}</h5>
+                                    <p className="card-text">{product.description}</p>
+                                    <Link to={`/product/${product.product_id}`} className="btn btn-primary">Áru megtekintése</Link>
                                 </div>
                             </div>
                         </div>
                     ))}
-
                 </div>
             </div>
-            </form>
             {Footer()}
         </div>
-        </>
     )
 }
 
