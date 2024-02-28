@@ -7,23 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Prisma sémája a vizsgaremek adatbázisnak
-
-// Payment_type tábla
 model Payment_type {
   pay_id    Int     @id @default(autoincrement())
   type_name String  @db.VarChar(30)
   orders    Order[]
 }
 
-// Privilages tábla
 model Privilages {
   priv_id   Int    @id
   priv_name String @db.VarChar(45)
   users     User[]
 }
 
-// User tábla
 model User {
   user_id            Int         @id @default(autoincrement())
   username           String      @db.VarChar(20)
@@ -36,19 +31,18 @@ model User {
   CartItem           CartItem[]
 }
 
-// Order tábla
 model Order {
-  order_id            Int          @id @default(autoincrement())
+  order_id            Int             @id @default(autoincrement())
   order_date          DateTime
   ship_date           DateTime?
-  Payment_type_pay_id Int          @db.Int
-  User_user_id        Int?         @db.Int
-  Payment_type        Payment_type @relation(fields: [Payment_type_pay_id], references: [pay_id])
-  User                User?        @relation(fields: [User_user_id], references: [user_id])
+  Payment_type_pay_id Int             @db.Int
+  User_user_id        Int?            @db.Int
+  Payment_type        Payment_type    @relation(fields: [Payment_type_pay_id], references: [pay_id])
+  User                User?           @relation(fields: [User_user_id], references: [user_id])
   order_items         OrderItem[]
+  Order_address       Order_address[]
 }
 
-// Product tábla
 model Product {
   product_id       Int               @id @default(autoincrement())
   product_name     String            @db.VarChar(45)
@@ -63,12 +57,11 @@ model Product {
 
 model ProductPictures {
   id        Int     @id @default(autoincrement())
-  image  String  @db.VarChar(100)
+  image     String  @db.VarChar(100)
   product   Product @relation(fields: [productId], references: [product_id])
   productId Int
 }
 
-// OrderItem tábla
 model OrderItem {
   Product_product_id Int
   Order_order_id     Int
@@ -91,7 +84,17 @@ model CartItem {
   @@unique([User_user_id, Product_product_id])
 }
 
-// Address tábla
+model Order_address {
+  address_id     Int    @id @default(autoincrement())
+  country        String @db.VarChar(45)
+  state          String @db.VarChar(45)
+  city           String @db.VarChar(45)
+  street         String @db.VarChar(45)
+  house_number   Int
+  Order_order_id Int    @db.Int
+  Order          Order  @relation(fields: [Order_order_id], references: [order_id])
+}
+
 model Address {
   address_id   Int    @id
   country      String @db.VarChar(45)
