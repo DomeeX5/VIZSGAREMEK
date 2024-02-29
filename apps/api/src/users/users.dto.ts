@@ -1,6 +1,15 @@
 import {IsEmail, IsNotEmpty, IsString, IsStrongPassword, Matches} from "class-validator";
 
-export class UserDto {
+
+export class UserLoginDto {
+    @IsEmail({}, {message: "Invalid email"})
+    @IsString()
+    email!: string;
+
+    @IsString()
+    password!: string;
+}
+export class UserRegisterDto {
     @IsEmail({}, {message: "Invalid email"})
     @IsString()
     email!: string;

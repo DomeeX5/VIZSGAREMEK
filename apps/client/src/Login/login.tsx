@@ -20,13 +20,15 @@ function Login(){
                 'Content-type': 'application/json'
             }
         })
-            .then(async (res) => {
-                if (!res.ok) {
-                    setError(await res.json().then(err => err.message))
-                } else {
-                    return res.json();
-                }
+            .then(response => response.json())
+            .then(data => {
+                const accessToken = data;
+                console.log(accessToken)
+                localStorage.setItem("token", accessToken)
             })
+            .catch(err => {
+                setError(err.errorMessage)
+            });
     }
 
 

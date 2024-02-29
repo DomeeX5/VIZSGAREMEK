@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "username": "testUser",
-  "email": "testUser@test2.com",
+  "email": "testUser@test3.com",
   "password": "Password123_"
 }
 
@@ -13,19 +13,20 @@ POST http://localhost:3000/api/auth/login
 Content-Type: application/json
 
 {
-  "username": "testUser@test2.com",
+  "email": "testUser@test2.com",
   "password": "Password123_"
 }
 
 ###
 
-POST http://localhost:3000/api/cart/add/1/4
+POST http://localhost:3000/api/cart/add/1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RVc2VyQHRlc3QyLmNvbSIsInN1YiI6eyJpZCI6MSwibmFtZSI6InRlc3RVc2VyIn0sImlhdCI6MTcwOTExNzk0NywiZXhwIjoxNzA5NzIyNzQ3fQ.ianK_hZPtf0VG70Ims0YvD9scvIftEYbiGcXCRKDJwQ
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RVc2VyQHRlc3QyLmNvbSIsInN1YiI6eyJpZCI6MSwibmFtZSI6InRlc3RVc2VyIn0sImlhdCI6MTcwOTIwMTM5NSwiZXhwIjoxNzA5ODA2MTk1fQ.cKTHVIY3ofpaItmGGIzXffPSb-HWT4qBNqddj955Bz0
 
 {
+  "productId": 4,
   "quantity": 1
-  }
+}
 
 ###
 
@@ -46,8 +47,12 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/api/products/type/Type1
+GET http://localhost:3000/api/products/type
 Content-Type: application/json
+
+{
+  "selectedType": "Type 1"
+}
 
 ###
 

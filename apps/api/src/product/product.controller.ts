@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param} from '@nestjs/common';
+import {Body, Controller, Get, Param, Query} from '@nestjs/common';
 import { ProductService } from './product.service';
 
 @Controller('products')
@@ -10,22 +10,22 @@ export class ProductController {
     return await this.productService.getAllProducts();
   }
 
-  @Get(`type/:selectedType`)
-  async getProductsByType(@Param('selectedType') selectedType: string) {
+  @Get(`type`)
+  async getProductsByType(@Body('selectedType') selectedType: string) {
     return await this.productService.getProductByType(selectedType);
   }
 
-  @Get('type/:selectedType/:selected')
+  @Get('specificType')
   async getProductsBySpecType(
-      @Param('selected') selected: string,
-      @Param('selectedType') selectedType: string
+      @Body('selected') selected: string,
+      @Body('selectedType') selectedType: string
   ) {
     await this.getProductsByType(selectedType);
     return await this.productService.getProductBySpecType(selected);
   }
 
-  @Get()
-  async getProduct(@Param('id') id: number) {
+  @Get('product')
+  async getProduct(@Query('id') id: number) {
     await this.productService.getProduct(id);
   }
 }

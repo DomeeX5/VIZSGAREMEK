@@ -59,7 +59,6 @@ export class OrderService {
                     }
                 }
             }),
-
             /*this.prisma.cartItem.deleteMany({
                 where: {
                     User_user_id: userid

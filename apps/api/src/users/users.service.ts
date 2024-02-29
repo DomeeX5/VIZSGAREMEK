@@ -1,6 +1,6 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {PrismaService} from "../prisma.service";
-import {UserDto, UpdatePasswordDto} from "./users.dto";
+import {UserRegisterDto, UpdatePasswordDto} from "./users.dto";
 import {compare, genSalt, hash} from "bcrypt"
 import {User} from "@prisma/client";
 
@@ -15,22 +15,23 @@ export class UsersService {
             },
         });
     }
-    async createUser(registerDto: UserDto): Promise<any> {
+    async createUser(registerDto: UserRegisterDto): Promise<any> {
         const userInDb = await this.prisma.user.findFirst({
             where: {email: registerDto.email}
         });
         if (userInDb) {
-            throw new HttpException("user_already_exist",
-                HttpStatus.CONFLICT);
-        }
-
-        const genSaltOrRound = await genSalt(10)
-        return this.prisma.user.create({
-            data: {
-                ...registerDto,
-                password: await hash(registerDto.password, genSaltOrRound)
+            return {
+                errorMessage: "User already exists!"
             }
-        });
+        } else {
+            const genSaltOrRound = await genSalt(10)
+            return this.prisma.user.create({
+                data: {
+                    ...registerDto,
+                    password: await hash(registerDto.password, genSaltOrRound)
+                }
+            });
+        }
     }
 
     /*async updatePassword(payload: UpdatePasswordDto, id: number): Promise<User> {

@@ -3,35 +3,33 @@ import {UsersService} from "../users/users.service";
 import {compare} from "bcrypt";
 import {User} from "@prisma/client";
 import {JwtService} from "@nestjs/jwt";
-import {UserDto} from "../users/users.dto";
+import {UserLoginDto, UserRegisterDto} from "../users/users.dto";
+import {validate} from "class-validator";
 
 @Injectable()
 export class AuthService {
 
     constructor(private readonly userService: UsersService, private jwtService: JwtService) {
     }
-    async validateUser(email: string, password: string) {
-        const user = await this.userService.loginUser(email)
 
-        if (user && (await compare(password, user.password))) {
-            const {password, ...result} = user;
-            return result;
-        }
-        return null;
-    }
-
-    async login(user: User) {
-        const payload = {
-            email: user.email,
-            sub: {
-                id: user.user_id,
-                name: user.username,
+    async login(user: UserLoginDto) {
+        const userFromDb = await this.userService.loginUser(user.email)
+        if (userFromDb && (await compare(user.password, userFromDb.password))) {
+            const payload = {
+                email: userFromDb.email,
+                sub: {
+                    id: userFromDb.user_id,
+                    name: userFromDb.username,
+                }
             }
-        }
 
-        return {
-            ...user,
-            accessToken: this.jwtService.sign(payload),
+            return {
+                accessToken: this.jwtService.sign(payload),
+            }
+        } else {
+            return {
+                errorMessage: "Invalid email or password!"
+            }
         }
     }
 }

@@ -7,19 +7,19 @@ import {JwtAuthGuard} from "../auth/guards/jwt-auth.guard";
 export class CartController {
   constructor(private readonly cartService: CartService) {}
 
-  @Post('add/:userId/:productId')
+  @Post('add/:userId')
   async addToCart(
       @Param('userId') userId: number,
-      @Param('productId') productId: number,
+      @Body('productId') productId: number,
       @Body('quantity') quantity: number,
   ) {
     await this.cartService.addToCart(userId, productId, quantity);
   }
 
-  @Delete('remove/:userId/:productId')
+  @Delete('remove/:userId')
   async removeFromCart(
       @Param('userId') userId: number,
-      @Param('productId') productId: number,
+      @Body('productId') productId: number,
   ) {
     await this.cartService.removeFromCart(userId, productId);
   }

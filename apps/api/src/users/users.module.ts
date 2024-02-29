@@ -1,4 +1,4 @@
-import {Module, ValidationPipe} from '@nestjs/common';
+import {HttpStatus, Module, ValidationPipe} from '@nestjs/common';
 import { UsersService } from './users.service';
 import {PrismaService} from "../prisma.service";
 import {APP_PIPE} from "@nestjs/core";
@@ -21,6 +21,7 @@ import {JwtService} from "@nestjs/jwt";
             transform: true,
             whitelist: true,
             forbidNonWhitelisted: true,
+            errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY
         })
       }],
     exports: [UsersService]
