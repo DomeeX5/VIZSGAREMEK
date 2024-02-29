@@ -52,7 +52,7 @@ import Footer from "../Main_elements/Footer.tsx";
             <>
                 <div className={"bodies"}>
                     {Navbar()}
-                    <form onSubmit={sendData} className={"kellContainer"}>
+                    <form onSubmit={sendData} className={"NeedContainer"}>
                         <h1 className={"h1-nek"}>Regisztráció</h1>
                         <br/>
                         <label className={"labelnek"}>Username</label><br/>

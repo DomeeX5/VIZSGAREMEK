@@ -1,4 +1,4 @@
-function Product(){
+function Products(){
     return(
         <>
             <div>
@@ -8,4 +8,4 @@ function Product(){
     )
 }
 
-export default Product;
+export default Products;

@@ -1,9 +1,10 @@
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
 import Register from "./Register/Register.tsx";
-import About from "./Main_page/About.tsx";
+import Main from "./Main_page/Main.tsx";
 import Login from "./Login/login.tsx";
 import LoginSuccess from "./Login/Login-success.tsx";
-import Product from "./Product_page/product.tsx";
+import Products from "./Product_page/product.tsx";
+import Cart from "./Cart/Cart.tsx";
 
 function App() {
 
@@ -11,11 +12,12 @@ function App() {
     <>
         <BrowserRouter>
             <Routes>
-                <Route path={"/"} element={<About />}/>
+                <Route path={"/"} element={<Main />}/>
                 <Route path={"/register"} element={<Register/>}/>
                 <Route path={"/login"} element={<Login/>}/>
-                <Route path={"/product"} element={<Product/>}/>
+                <Route path={`/products`} element={<Products/>}/>
                 <Route path={"/login-success"} element={<LoginSuccess/>}/>
+                <Route path={"/cart"} element={<Cart/>}/>
                 <Route path={"*"} element={<Navigate to={"/"} />}/>
             </Routes>
         </BrowserRouter>

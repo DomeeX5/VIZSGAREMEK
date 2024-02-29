@@ -47,7 +47,7 @@ function Login(){
         <>
             <div className={"bodies"}>
                 {Navbar()}
-                <form onSubmit={getData} className={"kellContainer"}>
+                <form onSubmit={getData} className={"NeedContainer"}>
                     <h1 className={'h1-nek'}>Bejelentkezés</h1>
                     <label className={"labelnek"}>Email cím</label><br/>
                     <input

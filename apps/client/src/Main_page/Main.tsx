@@ -1,10 +1,11 @@
-import { useState, useEffect } from 'react';
+import {useState, useEffect, useCallback} from 'react';
 import { Link } from 'react-router-dom';
-import {Product} from "@prisma/client";
+import './mainDesign.css'
+import {Product, ProductPictures} from "@prisma/client";
 import Navbar from "../Main_elements/Navbar.tsx";
 import Footer from "../Main_elements/Footer.tsx";
 
-function About() {
+function Main() {
     const [products, setProducts] = useState<Product[] | null>(null);
     const [_, setErrors] = useState<string[]>([]);
 
@@ -32,12 +33,14 @@ function About() {
                 <div className={"row"}>
                     {products && products.map((product) => (
                         <div key={product.product_id} className={"col-xl-3 col-lg-4 col-md-6 col-12"}>
-                            <img src="" alt=""/>
                             <div className="card kartya">
+                                {product.ProductPictures && product.ProductPictures.length > 0 &&
+                                    <img src={product.ProductPictures[0].image} alt={product.product_name} className={"card-img-top"} />
+                                }
                                 <div className="card-body">
                                     <h5 className="card-title">{product.product_name}</h5>
                                     <p className="card-text">{product.description}</p>
-                                    <Link to={`/product/${product.product_id}`} className="btn btn-primary">Áru megtekintése</Link>
+                                    <Link to={`/products/${product.product_id}`} className="btn btn-primary">Áru megtekintése</Link>
                                 </div>
                             </div>
                         </div>
@@ -49,4 +52,4 @@ function About() {
     )
 }
 
-export default About;
+export default Main;
