@@ -1,8 +1,37 @@
 import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '/src/App.css'
+import {jwtDecode} from "jwt-decode";
+import {useState} from "react";
 
 function Navbar(){
+
+    const [getCart,setGetCart]=useState('')
+    const [_, setErrors] = useState<string[]>([]);
+
+    function GetCart(){
+        const accessToken = sessionStorage.getItem("token");
+        if (!accessToken) {
+            console.log("Nincs accessToken a localStorage-ban");
+            return;
+        }
+        const decodedToken = jwtDecode(accessToken);
+        fetch(`/api/cart/items/${decodedToken.sub}`,{
+            headers:{
+                'Content-type':'application/json',
+                'Authorization':`Bearer ${accessToken}`
+            }
+        }).then(async (res) =>{
+            if(!res.ok){
+                const error=await res.json()
+                setErrors([error.message])
+            } else {
+                const data=await res.json();
+                setGetCart(data)
+            }
+        })
+    }
+
     return(
         <>
             <header>
@@ -30,7 +59,14 @@ function Navbar(){
                             </ul>
                             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 ">
                                 <li className="nav-item">
-                                    <Link to={"/bag"} className="nav-link active">Kosár</Link>
+                                    <Link
+                                      to={"/cart"}
+                                      onClick={GetCart}
+                                      className="nav-link active"
+                                      defaultValue={getCart}
+                                    >
+                                        Kosár
+                                    </Link>
                                 </li>
                                 <li className="nav-item">
                                     <Link to={"/login"} className="nav-link active">Bejelentkezés</Link>

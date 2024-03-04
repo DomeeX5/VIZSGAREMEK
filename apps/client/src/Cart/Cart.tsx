@@ -1,5 +1,3 @@
-import {FormEvent, useState} from "react";
-import {CartItem} from "@prisma/client";
 
 function Cart(){
 

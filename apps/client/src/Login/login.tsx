@@ -9,10 +9,11 @@ function Login(){
 
     const [username,setUsername]=useState('')
     const [password,setPassword]=useState('')
-    const [error,setError]=useState<string[]>([]);
+    const [error,setError]=useState<string>('');
 
     function getData(event:FormEvent<HTMLFormElement>) {
         event.preventDefault()
+        setError('')
         fetch('/api/auth/login', {
             method: 'POST',
             body: JSON.stringify({username, password}),
@@ -22,27 +23,19 @@ function Login(){
         })
             .then(response => response.json())
             .then(data => {
-                const accessToken = data;
-                console.log(accessToken)
-                localStorage.setItem("token", accessToken)
+                if (data.errorMessage) {
+                    setError(data.errorMessage);
+                } else {
+                    const accessToken = data.accessToken;
+                    console.log(accessToken);
+                    sessionStorage.setItem("token", accessToken);
+                    //jwtDecode(accessToken)
+                    setError('');
+                }
             })
             .catch(err => {
-                setError(err.errorMessage)
+                setError('Hiba történt a kérés során.');
             });
-    }
-
-
-    function errors() {
-        if (Array.isArray(error) && error.length !== 0) {
-            return error.map((err, index) => (
-                <div className={"alert alert-warning alert-dismissible fade show Alert"} role="alert" key={index}>
-                    {err}
-                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            ));
-        } else {
-            return null;
-        }
     }
 
     return(
@@ -78,7 +71,12 @@ function Login(){
                         fiókod akkor regisztrálj</Link>
                 </form>
                 <div>
-                    {errors()}
+                    {error !== '' && (
+                        <div className={"alert alert-warning alert-dismissible fade show Alert"} role="alert">
+                            {error}
+                            <button type="button" className="btn-close" aria-label="Close" onClick={() => setError('')}></button>
+                        </div>
+                    )}
                 </div>
                 {Footer()}
             </div>
