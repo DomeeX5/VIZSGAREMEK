@@ -32,6 +32,10 @@ function Navbar(){
         })
     }
 
+    function handleLogout() {
+        sessionStorage.removeItem("token");
+    }
+
     return(
         <>
             <header>
@@ -60,20 +64,35 @@ function Navbar(){
                             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 ">
                                 <li className="nav-item">
                                     <Link
-                                      to={"/cart"}
-                                      onClick={GetCart}
-                                      className="nav-link active"
-                                      defaultValue={getCart}
+                                        to={"/cart"}
+                                        className="nav-link active"
+                                        onClick={GetCart}
                                     >
                                         Kosár
                                     </Link>
                                 </li>
-                                <li className="nav-item">
-                                    <Link to={"/login"} className="nav-link active">Bejelentkezés</Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link to={"/register"} className="nav-link active">Regisztráció</Link>
-                                </li>
+                                {sessionStorage.getItem("token") && (
+                                    <li className="nav-item">
+                                        <Link to={'/'}>
+                                            <button
+                                                onClick={handleLogout}
+                                                className="nav-link active"
+                                            >
+                                                Kijelentkezés
+                                            </button>
+                                        </Link>
+                                    </li>
+                                )}
+                                {!sessionStorage.getItem("token") && (
+                                    <>
+                                        <li className="nav-item">
+                                            <Link to={"/login"} className="nav-link active">Bejelentkezés</Link>
+                                        </li>
+                                        <li className="nav-item">
+                                            <Link to={"/register"} className="nav-link active">Regisztráció</Link>
+                                        </li>
+                                    </>
+                                )}
                             </ul>
                         </div>
 

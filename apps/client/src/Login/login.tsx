@@ -68,7 +68,8 @@ function Login(){
                     <p></p>
                     <Link to={"/register"}
                           className={"link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover linkel"}>Nincs
-                        fiókod akkor regisztrálj</Link>
+                        fiókod akkor regisztrálj
+                    </Link>
                 </form>
                 <div>
                     {error !== '' && (
