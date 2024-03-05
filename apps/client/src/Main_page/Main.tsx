@@ -74,7 +74,7 @@ function Main() {
                                     <p className="card-text">{product.description}</p>
                                     <button className="btn btn-primary" onClick={() => {AddCart(product.product_id)}} key={product.product_id}>Kosárba</button>
                                     <p></p>
-                                    <Link to={`/products/product/${product.product_id}`} className="btn btn-primary">Áru megtekintése</Link>
+                                    <Link to={`/products/${product.product_id}`} className="btn btn-primary">Áru megtekintése</Link>
                                 </div>
                             </div>
                         </div>

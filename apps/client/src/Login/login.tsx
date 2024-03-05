@@ -29,7 +29,6 @@ function Login(){
                     const accessToken = data.accessToken;
                     console.log(accessToken);
                     sessionStorage.setItem("token", accessToken);
-                    //jwtDecode(accessToken)
                     setError('');
                 }
             })

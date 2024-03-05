@@ -24,8 +24,8 @@ export class ProductController {
     return await this.productService.getProductBySpecType(selected);
   }
 
-  @Get('product/:id')
+  @Get(':id')
   async getProduct(@Param('id') id: number) {
-    await this.productService.getProduct(id);
+    return await this.productService.getProduct(id);
   }
 }

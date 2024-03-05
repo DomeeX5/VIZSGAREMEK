@@ -17,7 +17,7 @@ export class ProductService {
     }
 
     async getProductByType(selectedType: string): Promise<Product[]>{
-        const products: Product[] = await this.prisma.product.findMany( {
+        const products = await this.prisma.product.findMany( {
             where: {
                 product_type: selectedType,
             },
@@ -29,11 +29,11 @@ export class ProductService {
                 }
             }
         })
-        return products as Product[];
+        return products;
     }
 
     async getProductBySpecType(selectedType: string) {
-        const products: Product[] = await this.prisma.product.findMany( {
+        const products = await this.prisma.product.findMany( {
             where: {
                 product_spectype: selectedType,
             },
@@ -49,10 +49,19 @@ export class ProductService {
     }
 
     async getProduct(selected: number) {
-        return this.prisma.product.findUnique({
+        const productById = await this.prisma.product.findFirst({
             where: {
                 product_id: selected,
+            },
+            include: {
+                ProductPictures: {
+                    select: {
+                        image: true
+                    }
+                }
             }
         });
+
+        return productById;
     }
 }

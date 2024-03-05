@@ -14,7 +14,7 @@ function App() {
                 <Route path={"/"} element={<Main />}/>
                 <Route path={"/register"} element={<Register/>}/>
                 <Route path={"/login"} element={<Login/>}/>
-                <Route path={`/products/product/:id`} element={<Products/>}/>
+                <Route path={`/products/:id`} element={<Products/>}/>
                 <Route path={"/cart"} element={<Cart/>}/>
                 <Route path={"*"} element={<Navigate to={"/"} />}/>
             </Routes>
