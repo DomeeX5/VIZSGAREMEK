@@ -42,7 +42,7 @@ function Main() {
         fetch(`/api/cart/add`,{
             method:'POST',
             body:JSON.stringify(data),
-            headers:{
+            headers: {
                 'Content-type':'application/json',
                 'Authorization':`Bearer ${accessToken}`
             }

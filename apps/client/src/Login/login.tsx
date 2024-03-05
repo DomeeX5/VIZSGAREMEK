@@ -7,7 +7,7 @@ import 'bootstrap/dist/js/bootstrap.js'
 
 function Login(){
 
-    const [username,setUsername]=useState('')
+    const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
     const [error,setError]=useState<string>('');
 
@@ -16,7 +16,7 @@ function Login(){
         setError('')
         fetch('/api/auth/login', {
             method: 'POST',
-            body: JSON.stringify({username, password}),
+            body: JSON.stringify({username: email, password}),
             headers: {
                 'Content-type': 'application/json'
             }
@@ -50,8 +50,8 @@ function Login(){
                         name={"email"}
                         id={"email"}
                         className={"textInput"}
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
                     /><br/>
                     <label className={"labelnek"}>Jelszo</label><br/>
                     <input
