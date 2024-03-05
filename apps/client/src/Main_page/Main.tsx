@@ -1,13 +1,14 @@
 import {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import './mainDesign.css'
-import {CartItem, Product} from "@prisma/client";
+import {CartItem} from "@prisma/client";
 import Navbar from "../Main_elements/Navbar.tsx";
 import Footer from "../Main_elements/Footer.tsx";
+import {ExtendedProduct} from "../interfaces.ts";
 
 function Main() {
 
-    const [products, setProducts] = useState<Product[] | null>(null);
+    const [products, setProducts] = useState<ExtendedProduct[] | null>(null);
     //const [productId, setProductId] = useState<Product['product_id'] | null>(null)
     const [addCart,setAddCart]=useState<CartItem[]>()
     const [_, setErrors] = useState<string[]>([]);
@@ -73,7 +74,7 @@ function Main() {
                                     <p className="card-text">{product.description}</p>
                                     <button className="btn btn-primary" onClick={() => {AddCart(product.product_id)}} key={product.product_id}>Kosárba</button>
                                     <p></p>
-                                    <Link to={`/products/${product.product_id}`} className="btn btn-primary">Áru megtekintése</Link>
+                                    <Link to={`/products/product/${product.product_id}`} className="btn btn-primary">Áru megtekintése</Link>
                                 </div>
                             </div>
                         </div>

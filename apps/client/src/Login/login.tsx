@@ -33,7 +33,7 @@ function Login(){
                     setError('');
                 }
             })
-            .catch(err => {
+            .catch(_ => {
                 setError('Hiba történt a kérés során.');
             });
     }
