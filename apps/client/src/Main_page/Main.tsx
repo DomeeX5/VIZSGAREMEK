@@ -4,11 +4,11 @@ import './mainDesign.css'
 import {CartItem, Product} from "@prisma/client";
 import Navbar from "../Main_elements/Navbar.tsx";
 import Footer from "../Main_elements/Footer.tsx";
-import {jwtDecode} from "jwt-decode";
 
 function Main() {
 
     const [products, setProducts] = useState<Product[] | null>(null);
+    //const [productId, setProductId] = useState<Product['product_id'] | null>(null)
     const [addCart,setAddCart]=useState<CartItem[]>()
     const [_, setErrors] = useState<string[]>([]);
 
@@ -29,16 +29,19 @@ function Main() {
             });
     }, []);
 
-    function AddCart(){
+
+
+    function AddCart(productId: number){
         const accessToken = sessionStorage.getItem("token");
         if (!accessToken) {
-            console.log("Nincs accessToken a localStorage-ban");
+            console.log("Nincs accessToken a sessionStorage-ben");
             return;
         }
-        const decodedToken = jwtDecode(accessToken);
-        fetch(`/api/cart/add/${decodedToken.sub}`,{
+        const data = {addCart, productId, quantity: 1}
+
+        fetch(`/api/cart/add`,{
             method:'POST',
-            body:JSON.stringify({addCart}),
+            body:JSON.stringify(data),
             headers:{
                 'Content-type':'application/json',
                 'Authorization':`Bearer ${accessToken}`
@@ -68,7 +71,7 @@ function Main() {
                                 <div className="card-body">
                                     <h5 className="card-title">{product.product_name}</h5>
                                     <p className="card-text">{product.description}</p>
-                                    <button className="btn btn-primary" onClick={AddCart} key={product.product_id}>Kosárba</button>
+                                    <button className="btn btn-primary" onClick={() => {AddCart(product.product_id)}} key={product.product_id}>Kosárba</button>
                                     <p></p>
                                     <Link to={`/products/${product.product_id}`} className="btn btn-primary">Áru megtekintése</Link>
                                 </div>

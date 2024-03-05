@@ -7,10 +7,10 @@ export class CartService {
 
     constructor(private prisma: PrismaService) {}
 
-    async addToCart(userid: number, productid: number, quantity: number) {
+    async addToCart(userid: { user: {id: number, name: string }, email: string }, productId: number, quantity: number) {
         const user = await this.prisma.user.findUnique({
             where: {
-                user_id: userid,
+                user_id: userid.user.id,
             }
         })
 
@@ -20,7 +20,7 @@ export class CartService {
 
         const product = await this.prisma.product.findUnique({
             where: {
-                product_id: productid,
+                product_id: productId,
             }
         })
 
@@ -30,8 +30,8 @@ export class CartService {
 
         const existingCart = await this.prisma.cartItem.findFirst({
             where: {
-                User_user_id: userid,
-                Product_product_id: productid,
+                User_user_id: userid.user.id,
+                Product_product_id: productId,
             }
         })
 
@@ -48,8 +48,8 @@ export class CartService {
             await this.prisma.cartItem.create({
                 data: {
                     quantity,
-                    User: { connect: { user_id: userid } },
-                    Product: { connect: { product_id: productid } },
+                    User: { connect: { user_id: userid.user.id } },
+                    Product: { connect: { product_id: productId } },
                 },
             });
         }

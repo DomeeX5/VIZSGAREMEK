@@ -19,9 +19,9 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/api/cart/add/1
+POST http://localhost:3000/api/cart/add
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RVc2VyQHRlc3QzLmNvbSIsInN1YiI6eyJpZCI6MSwibmFtZSI6InRlc3RVc2VyIn0sImlhdCI6MTcwOTIwODk4NCwiZXhwIjoxNzA5ODEzNzg0fQ.B2WI0iVmXaO_otFy70sWJrySKZhKC5t4Gn9uPkMvE9I
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RVc2VyQHRlc3QzLmNvbSIsInN1YiI6eyJpZCI6MiwibmFtZSI6InRlc3RVc2VyIn0sImlhdCI6MTcwOTYyNjQ0MCwiZXhwIjoxNzEwMjMxMjQwfQ.sS_KUYOFhyRE2o10HyGVjhbEdEWaDi6cYBF6dvzsPTY
 
 {
   "productId": 4,
@@ -30,15 +30,15 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RVc
 
 ###
 
-GET http://localhost:3000/api/cart/items/1
+GET http://localhost:3000/api/cart/items
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RVc2VyQHRlc3QzLmNvbSIsInN1YiI6eyJpZCI6MSwibmFtZSI6InRlc3RVc2VyIn0sImlhdCI6MTcwOTIwODk4NCwiZXhwIjoxNzA5ODEzNzg0fQ.B2WI0iVmXaO_otFy70sWJrySKZhKC5t4Gn9uPkMvE9I
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RVc2VyQHRlc3QzLmNvbSIsInN1YiI6eyJpZCI6MiwibmFtZSI6InRlc3RVc2VyIn0sImlhdCI6MTcwOTYyNjQ0MCwiZXhwIjoxNzEwMjMxMjQwfQ.sS_KUYOFhyRE2o10HyGVjhbEdEWaDi6cYBF6dvzsPTY
 
 ###
 
-GET http://localhost:3000/api/cart/total/1
+GET http://localhost:3000/api/cart/total
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RVc2VyQHRlc3QzLmNvbSIsInN1YiI6eyJpZCI6MSwibmFtZSI6InRlc3RVc2VyIn0sImlhdCI6MTcwOTIwODk4NCwiZXhwIjoxNzA5ODEzNzg0fQ.B2WI0iVmXaO_otFy70sWJrySKZhKC5t4Gn9uPkMvE9I
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RVc2VyQHRlc3QzLmNvbSIsInN1YiI6eyJpZCI6MiwibmFtZSI6InRlc3RVc2VyIn0sImlhdCI6MTcwOTYyNjQ0MCwiZXhwIjoxNzEwMjMxMjQwfQ.sS_KUYOFhyRE2o10HyGVjhbEdEWaDi6cYBF6dvzsPTY
 
 ###
 

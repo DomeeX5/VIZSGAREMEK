@@ -32,4 +32,13 @@ export class AuthService {
             }
         }
     }
+
+    async getUserIdFromToken(token: string): Promise<number | null> {
+        try {
+            const decoded = this.jwtService.verify(token.replace('Bearer', ''))
+            return decoded.user.sub;
+        } catch (e) {
+            return null;
+        }
+    }
 }
