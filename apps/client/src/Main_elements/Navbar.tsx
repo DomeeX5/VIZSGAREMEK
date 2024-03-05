@@ -1,36 +1,8 @@
 import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '/src/App.css'
-import {jwtDecode} from "jwt-decode";
-import {useState} from "react";
 
 function Navbar(){
-
-    const [getCart,setGetCart]=useState('')
-    const [_, setErrors] = useState<string[]>([]);
-
-    function GetCart(){
-        const accessToken = sessionStorage.getItem("token");
-        if (!accessToken) {
-            console.log("Nincs accessToken a localStorage-ban");
-            return;
-        }
-        const decodedToken = jwtDecode(accessToken);
-        fetch(`/api/cart/items/${decodedToken.sub}`,{
-            headers:{
-                'Content-type':'application/json',
-                'Authorization':`Bearer ${accessToken}`
-            }
-        }).then(async (res) =>{
-            if(!res.ok){
-                const error=await res.json()
-                setErrors([error.message])
-            } else {
-                const data=await res.json();
-                setGetCart(data)
-            }
-        })
-    }
 
     function handleLogout() {
         sessionStorage.removeItem("token");
@@ -66,7 +38,6 @@ function Navbar(){
                                     <Link
                                         to={"/cart"}
                                         className="nav-link active"
-                                        onClick={GetCart}
                                     >
                                         Kosár
                                     </Link>
