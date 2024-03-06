@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {FormEvent, useState} from "react";
 import Navbar from "../Main_elements/Navbar.tsx";
 import Footer from "../Main_elements/Footer.tsx";
@@ -10,26 +10,27 @@ function Login(){
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
     const [error,setError]=useState<string>('');
+    const navigate = useNavigate()
 
     function getData(event:FormEvent<HTMLFormElement>) {
         event.preventDefault()
         setError('')
         fetch('/api/auth/login', {
             method: 'POST',
-            body: JSON.stringify({username: email, password}),
+            body: JSON.stringify({email, password}),
             headers: {
                 'Content-type': 'application/json'
             }
         })
             .then(response => response.json())
-            .then(data => {
+            .then(async data => {
                 if (data.errorMessage) {
                     setError(data.errorMessage);
                 } else {
-                    const accessToken = data.accessToken;
-                    console.log(accessToken);
+                    const accessToken = await data.accessToken;
                     sessionStorage.setItem("token", accessToken);
                     setError('');
+                    navigate('/')
                 }
             })
             .catch(_ => {
@@ -64,10 +65,11 @@ function Login(){
                     <br/>
                     <p></p>
                     <input type={"submit"} id={"tovabb"} value={"Bejelentkezés"} className="btn btn-primary gomb"/>
+
                     <p></p>
                     <Link to={"/register"}
                           className={"link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover linkel"}>Nincs
-                        fiókod akkor regisztrálj
+                        fiókod? Regisztrálj itt
                     </Link>
                 </form>
                 <div>

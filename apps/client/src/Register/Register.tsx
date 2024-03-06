@@ -1,5 +1,5 @@
 import {FormEvent, useState} from "react";
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import './Register-login.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
@@ -13,9 +13,14 @@ import Footer from "../Main_elements/Footer.tsx";
             const [password, setPassword] = useState('');
             const [passwordAgain, setPasswordAgain] = useState("");
             const [error, setError] = useState <string[]>([]);
+            const navigate = useNavigate()
 
             function sendData(event: FormEvent<HTMLFormElement>) {
                 event.preventDefault();
+                if (password !== passwordAgain) {
+                    setError(["A jelszavak nem egyeznek."]);
+                    return;
+                }
                 fetch('/api/auth/register', {
                     method: 'POST',
                     body: JSON.stringify({username, email, password}),
@@ -23,30 +28,17 @@ import Footer from "../Main_elements/Footer.tsx";
                         'Content-type': 'application/json'
                     }
                 })
-                    .then(async (res) => {
-                        if (!res.ok) {
-                            return setError(await res.json().then(err => err.message))
+                    .then(response => response.json())
+                    .then(async data => {
+                        if (data.message) {
+                            setError(data.message);
                         } else {
-                            return res.json();
+                            setError([]);
+                            navigate('/login')
                         }
                     })
                 }
 
-        function errors() {
-            if (Array.isArray(error) && error.length !== 0) {
-                return error.map((err, index) => (
-                    <div className={"alert alert-warning alert-dismissible fade show Alert"} role="alert" key={index}>
-                        {err}
-                        <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                ));
-            } else if (password !== passwordAgain) {
-                setError(["A jelszavak nem egyeznek."]);
-                return;
-            } else {
-                return null;
-            }
-        }
 
         return (
             <>
@@ -95,12 +87,19 @@ import Footer from "../Main_elements/Footer.tsx";
                         <input type={"submit"} value={"Regisztrálás"} className="btn btn-primary gomb"/>
                         <br/>
                         <p></p>
+                        <label className={'color'}>Van már fiókod?</label>
                         <Link to={"/login"}
-                              className={"link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover linkel"}>Van
-                            már fiókod</Link>
+                              className={"link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover linkel"}><br/>Bejelentkezés</Link>
                     </form>
                     <div>
-                        {errors()}
+                        {error.length > 0 && (
+                            error.map((err, index) => (
+                                <div className={"alert alert-warning alert-dismissible fade show Alert"} role="alert" key={index}>
+                                    {err}
+                                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            ))
+                        )}
                     </div>
                     {Footer()}
                 </div>

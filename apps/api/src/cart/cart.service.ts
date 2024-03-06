@@ -55,19 +55,19 @@ export class CartService {
         }
     }
 
-    async removeFromCart(userid: number, productid: number) {
+    async removeFromCart(userid: { user: {id: number, name: string }, email: string }, productid: number) {
         await this.prisma.cartItem.deleteMany({
             where: {
-                User_user_id: userid,
+                User_user_id: userid.user.id,
                 Product_product_id: productid,
             }
         })
     }
 
-    async getCartItems(userid: number): Promise<any> {
+    async getCartItems(userid: { user: {id: number, name: string }, email: string }): Promise<any> {
         const cartItems = await this.prisma.cartItem.findMany({
             where: {
-                User_user_id: userid,
+                User_user_id: userid.user.id,
             },
             include: {
                 Product: {
@@ -83,7 +83,7 @@ export class CartService {
         }))
     }
 
-    async calculateTotalPrice(userid: number): Promise<number> {
+    async calculateTotalPrice(userid: { user: {id: number, name: string }, email: string }): Promise<number> {
         const cartItems = await this.getCartItems(userid);
         return cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0)
     }

@@ -22,19 +22,19 @@ export class CartController {
       @Req() req: Request,
       @Body('productId') productId: number,
   ) {
-    const userId = req['user_id'];
+    const userId = req['user'];
     await this.cartService.removeFromCart(userId, productId);
   }
 
   @Get('items')
   async getCartItems(@Req() req: Request) {
-    const userId = req['user_id'];
+    const userId = req['user'];
     return await this.cartService.getCartItems(userId);
   }
 
   @Get('total')
   async calculateTotalPrice(@Req() req: Request) {
-    const userId = req['user_id'];
+    const userId = req['user'];
     return await this.cartService.calculateTotalPrice(userId);
   }
 }

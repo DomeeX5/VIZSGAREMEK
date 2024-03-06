@@ -1,4 +1,4 @@
-import {IsInt, IsString} from "class-validator";
+import {IsInt, IsNumberString, IsString} from "class-validator";
 
 export class AddressDto {
     @IsString()
@@ -13,6 +13,6 @@ export class AddressDto {
     @IsString()
     street!: string
 
-    @IsInt()
+    @IsString()
     house_number!: number
 }
