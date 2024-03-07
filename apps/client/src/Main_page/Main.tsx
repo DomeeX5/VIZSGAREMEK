@@ -9,7 +9,6 @@ import {ExtendedProduct} from "../interfaces.ts";
 function Main() {
 
     const [products, setProducts] = useState<ExtendedProduct[] | null>(null);
-    //const [productId, setProductId] = useState<Product['product_id'] | null>(null)
     const [addCart,setAddCart]=useState<CartItem[]>()
     const [_, setErrors] = useState<string[]>([]);
 
@@ -60,25 +59,41 @@ function Main() {
 
     return (
         <div>
-            {Navbar()}
+            <div>
+                {Navbar()}
+            </div>
             <div className={"container"}>
                 <div className={"row"}>
                     {products && products.map((product) => (
-                        <div key={product.product_id} className={"col-xl-3 col-lg-4 col-md-6 col-12"}>
-                            <div className="card kartya">
+                        <div key={product.product_id} className={"col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6"}>
+                            <div className="card ">
                                 {product.ProductPictures && product.ProductPictures.length > 0 &&
-                                    <img src={product.ProductPictures[0].image} alt={product.product_name} className={"card-img-top"} />
+                                    <img src={product.ProductPictures[0].image} alt={product.product_name}
+                                         className={"card-img-top"}/>
                                 }
                                 <div className="card-body">
                                     <h5 className="card-title">{product.product_name}</h5>
                                     <p className="card-text">{product.description}</p>
-                                    <button className="btn btn-primary" onClick={() => {AddCart(product.product_id)}} key={product.product_id}>Kosárba</button>
+                                    <button className="btn btn-primary " onClick={() => {
+                                        AddCart(product.product_id)
+                                    }} key={product.product_id}>Kosárba
+                                    </button>
                                     <p></p>
-                                    <Link to={`/products/${product.product_id}`} className="btn btn-primary">Áru megtekintése</Link>
+                                    <Link to={`/products/${product.product_id}`} className="btn btn-primary">Áru
+                                        megtekintése</Link>
                                 </div>
                             </div>
                         </div>
                     ))}
+                    <nav className="pagi col-3">
+                        <ul className="pagination">
+                            <li className="page-item"><Link className="page-link" to={'/'}>Previous</Link></li>
+                            <li className="page-item"><Link className="page-link" to={'/'}>1</Link></li>
+                            <li className="page-item"><Link className="page-link" to={'/'}>2</Link></li>
+                            <li className="page-item"><Link className="page-link" to={'/'}>3</Link></li>
+                            <li className="page-item"><Link className="page-link" to={'/'}> Next </Link></li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
             {Footer()}

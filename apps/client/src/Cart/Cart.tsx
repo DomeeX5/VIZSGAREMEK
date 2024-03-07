@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import {ExtendedCartItem} from "../interfaces.ts";
 import Navbar from "../Main_elements/Navbar.tsx";
 import Footer from "../Main_elements/Footer.tsx";
+import {Link} from "react-router-dom";
 
 
 function Cart() {
@@ -51,6 +52,11 @@ function Cart() {
                     </li>
                 ))}
             </ul>
+            <Link to={"/purchase"}>
+                <button>
+                    Fizetés
+                </button>
+            </Link>
             {Footer()}
         </div>
     );

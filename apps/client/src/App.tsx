@@ -4,6 +4,7 @@ import Main from "./Main_page/Main.tsx";
 import Login from "./Login/login.tsx";
 import Products from "./Product_page/product.tsx";
 import Cart from "./Cart/Cart.tsx";
+import Purchase from "./Purchase/Purchase.tsx";
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
                 <Route path={"/login"} element={<Login/>}/>
                 <Route path={`/products/:id`} element={<Products/>}/>
                 <Route path={"/cart"} element={<Cart/>}/>
+                <Route path={"/purchase"} element={<Purchase/>}/>
                 <Route path={"*"} element={<Navigate to={"/"} />}/>
             </Routes>
         </BrowserRouter>
