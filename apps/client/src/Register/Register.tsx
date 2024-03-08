@@ -44,6 +44,18 @@ import Footer from "../Main_elements/Footer.tsx";
             <>
                 <div className={"bodies"}>
                     {Navbar()}
+                    <div>
+                        {error.length > 0 && (
+                            error.map((err, index) => (
+                                <div className={"alert alert-warning alert-dismissible fade show Alert"} role="alert"
+                                     key={index}>
+                                    {err}
+                                    <button type="button" className="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                </div>
+                            ))
+                        )}
+                    </div>
                     <form onSubmit={sendData} className={"NeedContainer"}>
                         <h1 className={"h1-nek"}>Regisztráció</h1>
                         <br/>
@@ -91,16 +103,6 @@ import Footer from "../Main_elements/Footer.tsx";
                         <Link to={"/login"}
                               className={"link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover linkel"}><br/>Bejelentkezés</Link>
                     </form>
-                    <div>
-                        {error.length > 0 && (
-                            error.map((err, index) => (
-                                <div className={"alert alert-warning alert-dismissible fade show Alert"} role="alert" key={index}>
-                                    {err}
-                                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                                </div>
-                            ))
-                        )}
-                    </div>
                     {Footer()}
                 </div>
             </>

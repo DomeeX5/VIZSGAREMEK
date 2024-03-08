@@ -1,6 +1,12 @@
 import {Link} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '/src/App.css'
+import {Button, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import LoginIcon from '@mui/icons-material/Login';
+import LogoutIcon from '@mui/icons-material/Logout';
+import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 
 function Navbar(){
 
@@ -13,7 +19,7 @@ function Navbar(){
     return(
         <>
             <header>
-                <nav className="navbar navbar-dark bg-dark fixed-top">
+                <nav className="navbar navbar-dark bg-dark sticky-top ">
                     <div className="container-fluid">
                         <Link to={"/"} className="navbar-brand Webshop">
                             Webshop
@@ -26,12 +32,9 @@ function Navbar(){
                                     placeholder="Search"
                                     aria-label="Search"
                                 />
-                                <button
-                                    className="btn btn-outline-success mx-auto"
-                                    type="submit"
-                                >
-                                    Search
-                                </button>
+                                <Button type={'submit'} variant="contained" size="small" color="success" endIcon={<SearchRoundedIcon />}>
+                                    Send
+                                </Button>
                             </form>
                         </ul>
                         <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas"
@@ -48,27 +51,56 @@ function Navbar(){
                             <div className="offcanvas-body">
                                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0 ">
                                     <li className="nav-item">
-                                        <Link
-                                            to={"/cart"}
-                                            className="nav-link active"
-                                        >
-                                            Kosár
+                                        <Link to={"/cart"} className="nav-link active">
+                                            <ListItem disablePadding>
+                                                <ListItemButton>
+                                                    <ListItemIcon>
+                                                        <ShoppingCartIcon/>
+                                                    </ListItemIcon>
+                                                    <ListItemText primary="Kosar" />
+                                                </ListItemButton>
+                                            </ListItem>
                                         </Link>
                                     </li>
                                     {sessionStorage.getItem("token") && (
                                         <li className="nav-item">
                                             <a href={"/"} onClick={handleLogout} className="nav-link active">
-                                                Kijelentkezés
+                                                <ListItem disablePadding>
+                                                    <ListItemButton>
+                                                        <ListItemIcon>
+                                                            <LogoutIcon/>
+                                                        </ListItemIcon>
+                                                        <ListItemText primary="Kijelentkezes" />
+                                                    </ListItemButton>
+                                                </ListItem>
                                             </a>
                                         </li>
                                     )}
                                     {!sessionStorage.getItem("token") && (
                                         <>
                                             <li className="nav-item">
-                                                <Link to={"/login"} className="nav-link active">Bejelentkezés</Link>
+                                                <Link to={"/login"} className="nav-link active">
+                                                    <ListItem disablePadding>
+                                                        <ListItemButton>
+                                                            <ListItemIcon>
+                                                                <LoginIcon/>
+                                                            </ListItemIcon>
+                                                            <ListItemText primary="Bejelentkezés" />
+                                                        </ListItemButton>
+                                                    </ListItem>
+                                                </Link>
                                             </li>
                                             <li className="nav-item">
-                                                <Link to={"/register"} className="nav-link active">Regisztráció</Link>
+                                                <Link to={"/register"} className="nav-link active">
+                                                    <ListItem disablePadding>
+                                                        <ListItemButton>
+                                                            <ListItemIcon>
+                                                                <PersonAddRoundedIcon/>
+                                                            </ListItemIcon>
+                                                            <ListItemText primary="Regisztráció" />
+                                                        </ListItemButton>
+                                                    </ListItem>
+                                                </Link>
                                             </li>
                                         </>
                                     )}
@@ -77,8 +109,6 @@ function Navbar(){
                         </div>
                     </div>
                 </nav>
-
-
             </header>
         </>
     )

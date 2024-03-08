@@ -5,6 +5,9 @@ import {CartItem} from "@prisma/client";
 import Navbar from "../Main_elements/Navbar.tsx";
 import Footer from "../Main_elements/Footer.tsx";
 import {ExtendedProduct} from "../interfaces.ts";
+import {Button, Grid, IconButton, Pagination, Stack} from "@mui/material";
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+
 
 function Main() {
 
@@ -74,26 +77,35 @@ function Main() {
                                 <div className="card-body">
                                     <h5 className="card-title">{product.product_name}</h5>
                                     <p className="card-text">{product.description}</p>
-                                    <button className="btn btn-primary " onClick={() => {
-                                        AddCart(product.product_id)
-                                    }} key={product.product_id}>Kosárba
-                                    </button>
+                                    <Stack direction="row" spacing={1}>
+                                        <IconButton
+                                                color="primary"
+                                                aria-label="add to shopping cart"
+                                                onClick={() => {
+                                            AddCart(product.product_id)}} key={product.product_id}>
+                                            <AddShoppingCartIcon/>
+                                        </IconButton>
+                                    </Stack>
                                     <p></p>
-                                    <Link to={`/products/${product.product_id}`} className="btn btn-primary">Áru
-                                        megtekintése</Link>
+                                    <Link to={`/products/${product.product_id}`}>
+                                        <Button variant="contained" size="small">
+                                            Áru megtekintése
+                                        </Button>
+                                    </Link>
                                 </div>
                             </div>
                         </div>
                     ))}
-                    <nav className="pagi col-3">
-                        <ul className="pagination">
-                            <li className="page-item"><Link className="page-link" to={'/'}>Previous</Link></li>
-                            <li className="page-item"><Link className="page-link" to={'/'}>1</Link></li>
-                            <li className="page-item"><Link className="page-link" to={'/'}>2</Link></li>
-                            <li className="page-item"><Link className="page-link" to={'/'}>3</Link></li>
-                            <li className="page-item"><Link className="page-link" to={'/'}> Next </Link></li>
-                        </ul>
-                    </nav>
+                    <p></p>
+                    <Grid container spacing={3}>
+                        <Grid xs>
+                        </Grid>
+                        <Grid display="flex" justifyContent="center" alignItems="center" xs={6}>
+                            <Pagination count={10} variant="outlined" color="primary"/>
+                        </Grid>
+                        <Grid xs>
+                        </Grid>
+                    </Grid>
                 </div>
             </div>
             {Footer()}

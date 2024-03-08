@@ -10,19 +10,19 @@
     margin: auto;
     text-align: center;
     width: fit-content;
-    background-color: #150485;
+    background-color: #85F4FF;
     border: 3px solid;
     box-shadow: 5px 3px 3px #1a1d20;
     border-radius: 5px;
     padding: 40px;
 }
 .h1-nek{
-    color: #8FD6E1;
+    color: #516BEB;
 }
 
 .labelnek{
     margin: 5px;
-    color: #8FD6E1;
+    color: #516BEB;
 }
 
 .textInput{
@@ -31,7 +31,7 @@
 
 .gomb{
     border: 3px black;
-    box-shadow: 2px 2px 2px #0F3460;
+    box-shadow: 2px 2px 2px #42C2FF;
     margin: auto;
     transition-duration: 1s;
     cursor: pointer;
@@ -40,7 +40,6 @@
 .Alert{
     width: fit-content;
     transform: translate(-50%, -50%);
-    top:10%;
     left:50%;
 }
 
