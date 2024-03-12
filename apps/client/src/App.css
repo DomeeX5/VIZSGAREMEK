@@ -11,9 +11,9 @@
 }
 
 .footerem {
-    border-top: black solid 3px;
-    background-color: #150485;
-    color: #8FD6E1;
+    border-top: black solid 0.5px;
+    background-color: #A0E9FF;
+    color: #222831;
     position: fixed;
     left: 0;
     bottom: 0;

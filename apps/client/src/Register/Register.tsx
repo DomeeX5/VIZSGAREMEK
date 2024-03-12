@@ -50,8 +50,15 @@ import Footer from "../Main_elements/Footer.tsx";
                                 <div className={"alert alert-warning alert-dismissible fade show Alert"} role="alert"
                                      key={index}>
                                     {err}
-                                    <button type="button" className="btn-close" data-bs-dismiss="alert"
-                                            aria-label="Close"></button>
+                                    <button
+                                        type="button"
+                                        className="btn-close"
+                                        data-bs-dismiss="alert"
+                                        aria-label="Close"
+                                        onClick={() => {
+                                            setError(prevErrors => prevErrors.filter((_, i) => i !== index));
+                                        }}>
+                                    </button>
                                 </div>
                             ))
                         )}
@@ -95,10 +102,10 @@ import Footer from "../Main_elements/Footer.tsx";
                             className={"textInput"}
                             onChange={(e) => setPasswordAgain(e.target.value)}
                         /><br/>
-                        <p></p>
+                        <div className={"break"}>
                         <input type={"submit"} value={"Regisztrálás"} className="btn btn-primary gomb"/>
                         <br/>
-                        <p></p>
+                        </div>
                         <label className={'color'}>Van már fiókod?</label>
                         <Link to={"/login"}
                               className={"link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover linkel"}><br/>Bejelentkezés</Link>

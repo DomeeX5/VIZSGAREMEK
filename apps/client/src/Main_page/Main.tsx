@@ -5,7 +5,7 @@ import {CartItem} from "@prisma/client";
 import Navbar from "../Main_elements/Navbar.tsx";
 import Footer from "../Main_elements/Footer.tsx";
 import {ExtendedProduct} from "../interfaces.ts";
-import {Button, Grid, IconButton, Pagination, Stack} from "@mui/material";
+import {Button, IconButton, Pagination, Stack} from "@mui/material";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 
@@ -67,6 +67,29 @@ function Main() {
             </div>
             <div className={"container"}>
                 <div className={"row"}>
+                    <div id="carouselExampleInterval " className="carousel slide col-xl-13 col-lg-13 col-md-13 col-sm-13 col-13" data-bs-ride="carousel">
+                        <div className="carousel-inner">
+                            <div className="carousel-item active" data-bs-interval="1000">
+                                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3FzMHVjNXEwMjI0cWNma3NicHF4a3JsZDVzM2c0NXlyaHZveXk0aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dmvodzjX8wU7icE3TL/giphy.gif" className="d-block w-100 c-img" alt="..."/>
+                            </div>
+                            <div className="carousel-item" data-bs-interval="2000">
+                                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3FzMHVjNXEwMjI0cWNma3NicHF4a3JsZDVzM2c0NXlyaHZveXk0aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dmvodzjX8wU7icE3TL/giphy.gif" className="d-block w-100 c-img" alt="..."/>
+                            </div>
+                            <div className="carousel-item">
+                                <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3FzMHVjNXEwMjI0cWNma3NicHF4a3JsZDVzM2c0NXlyaHZveXk0aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dmvodzjX8wU7icE3TL/giphy.gif" className="d-block w-100 c-img" alt="..."/>
+                            </div>
+                        </div>
+                        <button className="carousel-control-prev" type="button"
+                                data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                            <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span className="visually-hidden">Previous</span>
+                        </button>
+                        <button className="carousel-control-next" type="button"
+                                data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                            <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span className="visually-hidden">Next</span>
+                        </button>
+                    </div>
                     {products && products.map((product) => (
                         <div key={product.product_id} className={"col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6"}>
                             <div className="card ">
@@ -79,10 +102,9 @@ function Main() {
                                     <p className="card-text">{product.description}</p>
                                     <Stack direction="row" spacing={1}>
                                         <IconButton
-                                                color="primary"
-                                                aria-label="add to shopping cart"
-                                                onClick={() => {
-                                            AddCart(product.product_id)}} key={product.product_id}>
+                                            color="primary"
+                                            aria-label="add to shopping cart"
+                                            onClick={() => {AddCart(product.product_id)}} key={product.product_id}>
                                             <AddShoppingCartIcon/>
                                         </IconButton>
                                     </Stack>
@@ -96,16 +118,9 @@ function Main() {
                             </div>
                         </div>
                     ))}
-                    <p></p>
-                    <Grid container spacing={3}>
-                        <Grid xs>
-                        </Grid>
-                        <Grid display="flex" justifyContent="center" alignItems="center" xs={6}>
-                            <Pagination count={10} variant="outlined" color="primary"/>
-                        </Grid>
-                        <Grid xs>
-                        </Grid>
-                    </Grid>
+                </div><br/>
+                <div className={"pag"}>
+                    <Pagination count={10} variant="outlined" color="primary"/>
                 </div>
             </div>
             {Footer()}

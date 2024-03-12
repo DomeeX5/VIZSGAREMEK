@@ -1,5 +1,5 @@
 .card{
-    margin: 20px;
+    margin: 20px 0 20px 40px;
     border-radius: 0;
 }
 
@@ -26,8 +26,21 @@
     object-fit: cover;
 }
 
-.pagi{
-    display: inline-block;
-    align-items: center;
-    margin: auto;
+
+.carousel{
+    margin: 22px;
+}
+
+.carousel-item{
+    height: 480px;
+}
+
+.c-img{
+    height: 100%;
+    object-fit: cover;
+}
+
+.pag{
+    display: flex;
+    justify-content: center;
 }

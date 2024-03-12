@@ -62,11 +62,9 @@ function Login(){
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                    <br/>
-                    <p></p>
-                    <input type={"submit"} id={"tovabb"} value={"Bejelentkezés"} className="btn btn-primary gomb"/>
-
-                    <p></p>
+                    <div className="break"></div>
+                    <input type="submit" id="tovabb" value="Bejelentkezés" className="btn btn-primary gomb" />
+                    <div className="break"></div>
                     <Link to={"/register"}
                           className={"link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover linkel"}>Nincs
                         fiókod? Regisztrálj itt

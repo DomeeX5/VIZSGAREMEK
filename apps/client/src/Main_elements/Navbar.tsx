@@ -10,10 +10,15 @@ import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 
 function Navbar(){
 
-
-
     function handleLogout() {
         sessionStorage.removeItem("token");
+    }
+
+    function handleCartClick(event:MouseEvent) {
+        if (!sessionStorage.getItem("token")) {
+            event.preventDefault();
+            alert("Ahoz, hogy a kosarat meg tud nezni, be kell jelentkezned.");
+        }
     }
 
     return(
@@ -50,58 +55,52 @@ function Navbar(){
                             </div>
                             <div className="offcanvas-body">
                                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0 ">
-                                    <li className="nav-item">
-                                        <Link to={"/cart"} className="nav-link active">
-                                            <ListItem disablePadding>
+                                    <ListItem disablePadding className="nav-item">
+                                        <button onClick={handleCartClick}>
+                                            <Link to={"/cart"} className="nav-link active">
                                                 <ListItemButton>
                                                     <ListItemIcon>
                                                         <ShoppingCartIcon/>
                                                     </ListItemIcon>
                                                     <ListItemText primary="Kosar" />
                                                 </ListItemButton>
-                                            </ListItem>
-                                        </Link>
-                                    </li>
+                                            </Link>
+                                        </button>
+                                    </ListItem>
                                     {sessionStorage.getItem("token") && (
-                                        <li className="nav-item">
+                                        <ListItem disablePadding className="nav-item">
                                             <a href={"/"} onClick={handleLogout} className="nav-link active">
-                                                <ListItem disablePadding>
-                                                    <ListItemButton>
-                                                        <ListItemIcon>
-                                                            <LogoutIcon/>
-                                                        </ListItemIcon>
-                                                        <ListItemText primary="Kijelentkezes" />
-                                                    </ListItemButton>
-                                                </ListItem>
+                                                <ListItemButton>
+                                                    <ListItemIcon>
+                                                        <LogoutIcon/>
+                                                    </ListItemIcon>
+                                                    <ListItemText primary="Kijelentkezes" />
+                                                </ListItemButton>
                                             </a>
-                                        </li>
+                                        </ListItem>
                                     )}
                                     {!sessionStorage.getItem("token") && (
                                         <>
-                                            <li className="nav-item">
+                                            <ListItem disablePadding className="nav-item">
                                                 <Link to={"/login"} className="nav-link active">
-                                                    <ListItem disablePadding>
-                                                        <ListItemButton>
-                                                            <ListItemIcon>
-                                                                <LoginIcon/>
-                                                            </ListItemIcon>
-                                                            <ListItemText primary="Bejelentkezés" />
-                                                        </ListItemButton>
-                                                    </ListItem>
+                                                    <ListItemButton>
+                                                        <ListItemIcon>
+                                                            <LoginIcon/>
+                                                        </ListItemIcon>
+                                                        <ListItemText primary="Bejelentkezés" />
+                                                    </ListItemButton>
                                                 </Link>
-                                            </li>
-                                            <li className="nav-item">
+                                            </ListItem>
+                                            <ListItem disablePadding className="nav-item">
                                                 <Link to={"/register"} className="nav-link active">
-                                                    <ListItem disablePadding>
-                                                        <ListItemButton>
-                                                            <ListItemIcon>
-                                                                <PersonAddRoundedIcon/>
-                                                            </ListItemIcon>
-                                                            <ListItemText primary="Regisztráció" />
-                                                        </ListItemButton>
-                                                    </ListItem>
+                                                    <ListItemButton>
+                                                        <ListItemIcon>
+                                                            <PersonAddRoundedIcon/>
+                                                        </ListItemIcon>
+                                                        <ListItemText primary="Regisztráció" />
+                                                    </ListItemButton>
                                                 </Link>
-                                            </li>
+                                            </ListItem>
                                         </>
                                     )}
                                 </ul>

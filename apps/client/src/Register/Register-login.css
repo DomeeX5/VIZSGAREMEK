@@ -2,27 +2,34 @@
     display: flex;
     min-height: 100vh;
     flex-direction: column;
+    position: relative;
 }
 
 .NeedContainer{
+    position: absolute;
     display: inline-block;
     align-items: center;
     margin: auto;
     text-align: center;
     width: fit-content;
-    background-color: #85F4FF;
+    background-color: #A0E9FF;
     border: 3px solid;
     box-shadow: 5px 3px 3px #1a1d20;
     border-radius: 5px;
-    padding: 40px;
+    padding: 40px 60px 40px 60px ;
+    height: fit-content;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 .h1-nek{
-    color: #516BEB;
+    color: #222831;
+    font-size: 50px;
 }
 
 .labelnek{
     margin: 5px;
-    color: #516BEB;
+    color: #222831;
 }
 
 .textInput{
@@ -31,23 +38,33 @@
 
 .gomb{
     border: 3px black;
-    box-shadow: 2px 2px 2px #42C2FF;
+    box-shadow: 2px 2px 2px black;
     margin: auto;
     transition-duration: 1s;
     cursor: pointer;
 }
 
 .Alert{
+    position: fixed;
+    top: 20px;
     width: fit-content;
-    transform: translate(-50%, -50%);
-    left:50%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
 }
 
 .linkel{
     padding-top: 10px;
     margin: auto;
+    color: #222831;
 }
 
 .color {
-    color: #0a67ee;
+    color: #222831;
+}
+
+.break{
+    display: block;
+    line-height: 20px;
+    margin: 10px 0;
 }
