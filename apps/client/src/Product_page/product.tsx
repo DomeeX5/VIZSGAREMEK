@@ -65,7 +65,7 @@ function Products(){
                         <div className={"col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12"}>
                             <div id="carouselExampleCaptions" className="carousel car carousel-dark slide ">
                                 <div className="carousel-indicators">
-                                    {product.ProductPictures.map((picture, index) => (
+                                    {product.ProductPictures.map((_, index) => (
                                         <button key={index} type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to={index} className={index === 0 ? "active" : ""} aria-label={`Slide ${index + 1}`}></button>
                                     ))}
                                 </div>

@@ -17,9 +17,11 @@ function Navbar(){
     function handleCartClick(event:MouseEvent) {
         if (!sessionStorage.getItem("token")) {
             event.preventDefault();
-            alert("Ahoz, hogy a kosarat meg tud nezni, be kell jelentkezned.");
+            alert("Ahhoz, hogy a kosarat meg tud nezni, be kell jelentkezned.");
         }
     }
+
+
 
     return(
         <>
@@ -29,7 +31,7 @@ function Navbar(){
                         <Link to={"/"} className="navbar-brand Webshop">
                             Webshop
                         </Link>
-                        <ul className="navbar-nav mx-auto col-xl-4 col-lg-4 col-md-4 col-sm-4 col-4">
+                        <ul className="navbar-nav mx-auto col-xl-3 col-lg-3 col-md-3 col-sm-2 col-1">
                             <form className="d-flex justify-content-center" role="search">
                                 <input
                                     className="form-control me-2"
@@ -56,16 +58,14 @@ function Navbar(){
                             <div className="offcanvas-body">
                                 <ul className="navbar-nav ms-auto mb-2 mb-lg-0 ">
                                     <ListItem disablePadding className="nav-item">
-                                        <button onClick={handleCartClick}>
-                                            <Link to={"/cart"} className="nav-link active">
+                                        <Link to={"/cart"} className="nav-link active" onClick={()=>handleCartClick}>
                                                 <ListItemButton>
                                                     <ListItemIcon>
                                                         <ShoppingCartIcon/>
                                                     </ListItemIcon>
                                                     <ListItemText primary="Kosar" />
                                                 </ListItemButton>
-                                            </Link>
-                                        </button>
+                                        </Link>
                                     </ListItem>
                                     {sessionStorage.getItem("token") && (
                                         <ListItem disablePadding className="nav-item">
