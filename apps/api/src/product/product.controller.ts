@@ -5,6 +5,14 @@ import { ProductService } from './product.service';
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
+  @Get('count')
+  async getProductCount() {
+    const totalCount = await this.productService.getAllProductsCount()
+    return {
+      totalCount: totalCount
+    }
+  }
+
   @Get('all')
   async getAllProducts(
       @Query('page', ParseIntPipe) page: number,
@@ -14,17 +22,23 @@ export class ProductController {
   }
 
   @Get(`type`)
-  async getProductsByType(@Body('selectedType') selectedType: string) {
-    return await this.productService.getProductByType(selectedType);
+  async getProductsByType(
+      @Body('selectedType') selectedType: string,
+      @Query('page', ParseIntPipe) page: number,
+      @Query('limit', ParseIntPipe) limit: number,
+  ) {
+    return await this.productService.getProductByType(selectedType, page, limit);
   }
 
   @Get('specificType')
   async getProductsBySpecType(
       @Body('selected') selected: string,
-      @Body('selectedType') selectedType: string
+      @Body('selectedType') selectedType: string,
+      @Query('page', ParseIntPipe) page: number,
+      @Query('limit', ParseIntPipe) limit: number,
   ) {
-    await this.getProductsByType(selectedType);
-    return await this.productService.getProductBySpecType(selected);
+    await this.getProductsByType(selectedType, page, limit);
+    return await this.productService.getProductBySpecType(selected, page, limit);
   }
 
   @Get(':id')

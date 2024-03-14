@@ -8,6 +8,11 @@ export class ProductService {
 
     constructor(private prisma: PrismaService) {}
 
+    async getAllProductsCount() {
+        const products = await this.prisma.product.findMany()
+        return products.length;
+    }
+
     async getAllProducts(page: number, limit: number) {
         const skip = (page - 1) * limit;
         return this.prisma.product.findMany({

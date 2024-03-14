@@ -20,6 +20,15 @@ function Main() {
     const [_, setErrors] = useState<string[]>([]);
 
     useEffect(() => {
+        fetch('/api/products/count')
+            .then(async (res) => {
+                const data = await res.json();
+                setTotalPages(Math.round(data.totalCount / productsPerPage))
+            })
+            .catch(error => {
+            console.error('Error fetching products:', error);
+            setErrors(['Error fetching products']);
+        });
         fetch(`/api/products/all?page=${currentPage}&limit=${productsPerPage}`)
             .then(async (res)=>{
                 if(!res.ok){
@@ -28,7 +37,7 @@ function Main() {
                 } else {
                     const data = await res.json();
                     setProducts(data);
-                    setTotalPages(Math.ceil(data.totalCount / productsPerPage));
+                    //setTotalPages(Math.ceil(data.totalCount / productsPerPage));
                 }
             })
             .catch(error => {
@@ -135,7 +144,7 @@ function Main() {
                 </div><br/>
                 <div className={"pag"}>
                     <Pagination
-                        count={10}
+                        count={totalPages}
                         variant="outlined"
                         color="primary"
                         onChange={(_, page) => {
