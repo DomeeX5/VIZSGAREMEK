@@ -19,7 +19,8 @@ export class ProductService {
         });
     }
 
-    async getProductByType(selectedType: string): Promise<Product[]>{
+    async getProductByType(selectedType: string, page: number, limit: number): Promise<Product[]>{
+        const skip = (page - 1) * limit;
         const products = await this.prisma.product.findMany( {
             where: {
                 product_type: selectedType,
@@ -30,12 +31,15 @@ export class ProductService {
                         image: true,
                     }
                 }
-            }
+            },
+            skip,
+            take: limit
         })
         return products;
     }
 
-    async getProductBySpecType(selectedType: string) {
+    async getProductBySpecType(selectedType: string, page: number, limit: number) {
+        const skip = (page - 1) * limit;
         const products = await this.prisma.product.findMany( {
             where: {
                 product_spectype: selectedType,
@@ -46,7 +50,9 @@ export class ProductService {
                         image: true,
                     }
                 }
-            }
+            },
+            skip,
+            take: limit
         })
         return products as Product[];
     }
