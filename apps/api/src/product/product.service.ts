@@ -8,11 +8,14 @@ export class ProductService {
 
     constructor(private prisma: PrismaService) {}
 
-    async getAllProducts() {
+    async getAllProducts(page: number, limit: number) {
+        const skip = (page - 1) * limit;
         return this.prisma.product.findMany({
             include: {
                 ProductPictures: true
-            }
+            },
+            skip,
+            take: limit,
         });
     }
 

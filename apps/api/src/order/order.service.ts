@@ -14,7 +14,11 @@ export class OrderService {
             include: {
                 CartItem: {
                     include: {
-                        Product: true,
+                        Product: {
+                            include: {
+                                ProductPictures: true
+                            }
+                        }
                     }
                 },
             }
