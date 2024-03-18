@@ -77,14 +77,15 @@ function Main() {
 
     return (
         <div>
+            {showAlert && (
+                <Alert severity="error" className={"Alert"} onClose={() => setShowAlert(false)}>
+                    Ahhoz, hogy a kosárba tudd a terméket rakni, be kell jelentkezned.
+                </Alert>
+            )}
             <div>
                 {Navbar()}
             </div>
-                {showAlert && (
-                    <Alert severity="error" className={"Alert"} onClose={() => setShowAlert(false)}>
-                        Ahhoz, hogy a kosarba tud a termeket rakni be kell jelentkezned.
-                    </Alert>
-                )}
+
             <div className={"container"}>
                 <div className={"row"}>
                     {currentPage === 1 && (
