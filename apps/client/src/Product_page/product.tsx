@@ -1,8 +1,6 @@
 import {useNavigate, useParams} from "react-router-dom";
 import {useEffect, useState} from "react";
 import {ExtendedProduct} from "../interfaces.ts";
-import Navbar from "../Main_elements/Navbar.tsx";
-import Footer from "../Main_elements/Footer.tsx";
 import './productDesign.css'
 import {CartItem} from "@prisma/client";
 import {Button} from "@mui/material";
@@ -56,7 +54,6 @@ function Products(){
 
     return (
         <div>
-            {Navbar()}
             {error && <div>{error}</div>}
             {product &&
                 <div className={"container"}>
@@ -106,7 +103,6 @@ function Products(){
                     </div>
                 </div>
             }
-            {Footer()}
         </div>
     );
 }

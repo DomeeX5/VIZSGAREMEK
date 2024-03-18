@@ -15,6 +15,7 @@
   "devDependencies": {
     "@nestjs/testing": "^10.3.3",
     "@types/bcrypt": "^5.0.2",
+    "@types/bootstrap": "^5.2.10",
     "@types/passport-jwt": "^4.0.1",
     "@types/passport-local": "^1.0.38",
     "turbo": "^1.12.2"

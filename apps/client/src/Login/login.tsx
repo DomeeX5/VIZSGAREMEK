@@ -1,7 +1,5 @@
 import {Link, useNavigate} from "react-router-dom";
 import {FormEvent, useState} from "react";
-import Navbar from "../Main_elements/Navbar.tsx";
-import Footer from "../Main_elements/Footer.tsx";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
 
@@ -41,7 +39,6 @@ function Login(){
     return(
         <>
             <div className={"bodies"}>
-                {Navbar()}
                 <form onSubmit={getData} className={"NeedContainer"}>
                     <h1 className={'h1-nek'}>Bejelentkezés</h1>
                     <label className={"labelnek"}>Email cím</label><br/>
@@ -78,7 +75,6 @@ function Login(){
                         </div>
                     )}
                 </div>
-                {Footer()}
             </div>
         </>
     )

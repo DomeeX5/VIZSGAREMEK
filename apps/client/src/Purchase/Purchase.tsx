@@ -1,7 +1,5 @@
 import {ChangeEvent, useState} from "react";
 import { Link } from "react-router-dom";
-import Footer from "../Main_elements/Footer.tsx";
-import Navbar from "../Main_elements/Navbar.tsx";
 import {Order} from "@prisma/client";
 
 function Purchase() {
@@ -15,7 +13,7 @@ function Purchase() {
         house_number: ""
     });
     const [_, setErrors] = useState<string[]>([]);
-
+    console.log(order)
     function createOrder() {
         fetch('/order/new?userid=1', {
             method: 'POST',
@@ -45,7 +43,6 @@ function Purchase() {
     return (
         <>
             <div>
-                {Navbar()}
                 <label>Ország</label><br />
                 <input
                     type="text"
@@ -86,7 +83,6 @@ function Purchase() {
                         Vissza a kosárhoz
                     </button>
                 </Link>
-                {Footer()}
             </div>
         </>
     );

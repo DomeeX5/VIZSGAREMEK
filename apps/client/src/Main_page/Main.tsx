@@ -2,8 +2,6 @@ import {useState, useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import './mainDesign.css'
 import {CartItem} from "@prisma/client";
-import Navbar from "../Main_elements/Navbar.tsx";
-import Footer from "../Main_elements/Footer.tsx";
 import {ExtendedProduct} from "../interfaces.ts";
 import {Alert, Button, IconButton, Pagination, Stack} from "@mui/material";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
@@ -82,9 +80,6 @@ function Main() {
                     Ahhoz, hogy a kosárba tudd a terméket rakni, be kell jelentkezned.
                 </Alert>
             )}
-            <div>
-                {Navbar()}
-            </div>
 
             <div className={"container"}>
                 <div className={"row"}>
@@ -155,7 +150,6 @@ function Main() {
                     />
                 </div>
             </div>
-            {Footer()}
         </div>
     )
 }

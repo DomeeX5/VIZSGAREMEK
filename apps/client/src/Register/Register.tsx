@@ -3,8 +3,6 @@ import {Link, useNavigate} from "react-router-dom";
 import './Register-login.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
-import Navbar from "../Main_elements/Navbar.tsx";
-import Footer from "../Main_elements/Footer.tsx";
 
     function Register() {
 
@@ -43,7 +41,6 @@ import Footer from "../Main_elements/Footer.tsx";
         return (
             <>
                 <div className={"bodies"}>
-                    {Navbar()}
                     <div>
                         {error.length > 0 && (
                             error.map((err, index) => (
@@ -110,7 +107,6 @@ import Footer from "../Main_elements/Footer.tsx";
                         <Link to={"/login"}
                               className={"link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover linkel"}><br/>Bejelentkezés</Link>
                     </form>
-                    {Footer()}
                 </div>
             </>
         )

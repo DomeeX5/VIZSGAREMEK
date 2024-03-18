@@ -1,15 +1,46 @@
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '/src/App.css'
+import {Offcanvas} from 'bootstrap';
 import {Button, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import {useEffect} from "react";
 
 function Navbar(){
+    const location = useLocation();
 
+    useEffect(() => {
+        const offcanvas = document!.getElementById('offcanvasDarkNavbar');
+        if (offcanvas) {
+            const bsOffcanvas = new Offcanvas(offcanvas);
+
+            bsOffcanvas.hide();
+            const backdropElement = document.querySelector('.offcanvas-backdrop');
+            if (backdropElement) {
+                backdropElement.parentNode!.removeChild(backdropElement);
+            }
+
+            return () => {
+                bsOffcanvas.dispose();
+            };
+        }
+    }, []);
+
+    useEffect(() => {
+        const offcanvas = document!.getElementById('offcanvasDarkNavbar');
+        if (offcanvas) {
+            const bsOffcanvas = Offcanvas.getInstance(offcanvas);
+            bsOffcanvas!.hide();
+            const backdropElement = document.querySelector('.offcanvas-backdrop');
+            if (backdropElement) {
+                backdropElement.parentNode!.removeChild(backdropElement);
+            }
+        }
+    }, [location.pathname]);
     function handleLogout() {
         sessionStorage.removeItem("token");
     }
