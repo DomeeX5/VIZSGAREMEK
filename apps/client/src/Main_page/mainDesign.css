@@ -1,3 +1,26 @@
+.skeleton-card {
+    margin: 20px 0 20px 40px;
+    border-radius: 0;
+    overflow: hidden; /* Ensure skeleton text does not overflow */
+}
+
+.skeleton-text {
+    padding: 10px;
+}
+
+.skeleton-text > * {
+    margin-bottom: 10px;
+}
+
+.skeleton-text > *:last-child {
+    margin-bottom: 0;
+}
+
+.skeleton-text > *:first-child {
+    margin-top: 5px;
+}
+
+
 .card{
     margin: 20px 0 20px 40px;
     border-radius: 0;

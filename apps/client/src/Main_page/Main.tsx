@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import './mainDesign.css'
 import {CartItem} from "@prisma/client";
 import {ExtendedProduct} from "../interfaces.ts";
-import {Alert, Button, IconButton, Pagination, Stack} from "@mui/material";
+import {Alert, Button, IconButton, Pagination, Skeleton, Stack} from "@mui/material";
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 
@@ -14,6 +14,7 @@ function Main() {
     const [showAlert, setShowAlert] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 16;
+    const [loading, setLoading] = useState(true);
     const [totalPages, setTotalPages] = useState(1);
     const [_, setErrors] = useState<string[]>([]);
 
@@ -27,21 +28,24 @@ function Main() {
             console.error('Error fetching products:', error);
             setErrors(['Error fetching products']);
         });
-        fetch(`/api/products/all?page=${currentPage}&limit=${productsPerPage}`)
-            .then(async (res)=>{
-                if(!res.ok){
-                    const error = await res.json();
-                    setErrors([error.message]);
-                } else {
-                    const data = await res.json();
-                    setProducts(data);
-                    //setTotalPages(Math.ceil(data.totalCount / productsPerPage));
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching products:', error);
-                setErrors(['Error fetching products']);
-            });
+        const delay = setTimeout(() => {
+            fetch(`/api/products/all?page=${currentPage}&limit=${productsPerPage}`)
+                .then(async (res) => {
+                    if (!res.ok) {
+                        const error = await res.json();
+                        setErrors([error.message]);
+                    } else {
+                        const data = await res.json();
+                        setProducts(data);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching products:', error);
+                    setErrors(['Error fetching products']);
+                })
+                .finally(() => setLoading(false)); // Set loading to false when data fetching is complete
+        }, 1000);
+        return () => clearTimeout(delay);
     }, [currentPage]);
 
 
@@ -72,6 +76,10 @@ function Main() {
             }
         })
     }
+
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+    }, [currentPage]);
 
     return (
         <div>
@@ -108,7 +116,20 @@ function Main() {
                             </button>
                         </div>
                     )}
-                    {products && products.map((product) => (
+                    {loading ? (
+                        Array.from({ length: productsPerPage }).map((_, index) => (
+                            <div key={index} className={"col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6"}>
+                                <div className="skeleton-card">
+                                    <Skeleton variant="rectangular" width={210} height={280} />
+                                    <div className="skeleton-text">
+                                        <Skeleton variant="text" width={200} height={20} />
+                                        <Skeleton variant="text" width={180} height={80} />
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        products && products.map((product) => (
                         <div key={product.product_id} className={"col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6"}>
                             <div className="card ">
                                 {product.ProductPictures && product.ProductPictures.length > 0 &&
@@ -136,7 +157,7 @@ function Main() {
                                 </div>
                             </div>
                         </div>
-                    ))}
+                    )))}
                 </div><br/>
                 <div className={"pag"}>
                     <Pagination
