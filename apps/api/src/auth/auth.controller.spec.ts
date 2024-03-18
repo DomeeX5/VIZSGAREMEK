@@ -2,7 +2,7 @@ import {AuthController} from "./auth.controller";
 import {AuthService} from "./auth.service";
 import {Test, TestingModule} from "@nestjs/testing";
 import {UsersService} from "../users/users.service";
-import {PrismaService} from "../prisma.service";
+import {PrismaService} from "../prisma/prisma.service";
 import {UserRegisterDto} from "../users/users.dto";
 
 describe('AuthController', () => {

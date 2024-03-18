@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import {JwtService} from "@nestjs/jwt";
 import {UsersService} from "../users/users.service";
-import {PrismaService} from "../prisma.service";
+import {PrismaService} from "../prisma/prisma.service";
 import {UserLoginDto} from "../users/users.dto";
 import {User} from "@prisma/client";
 describe('AuthService', () => {

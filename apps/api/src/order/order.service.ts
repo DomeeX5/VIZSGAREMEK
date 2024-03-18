@@ -1,5 +1,5 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
-import { PrismaService } from '../prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import {CartItem, Order, Payment_type} from '@prisma/client';
 import {AddressDto} from "./order.address.dto";
 import {connect} from "rxjs";

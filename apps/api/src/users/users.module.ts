@@ -1,18 +1,18 @@
 import {HttpStatus, Module, ValidationPipe} from '@nestjs/common';
 import { UsersService } from './users.service';
-import {PrismaService} from "../prisma.service";
+import {PrismaService} from "../prisma/prisma.service";
 import {APP_PIPE} from "@nestjs/core";
 import {AuthModule} from "../auth/auth.module";
 import {AuthService} from "../auth/auth.service";
 import {JwtService} from "@nestjs/jwt";
+import PrismaModule from "../prisma/prisma.module";
 
 
 @Module({
-  imports: [],
+  imports: [PrismaModule],
   controllers: [],
   providers: [
       UsersService,
-      PrismaService,
       JwtService,
       AuthService,
       {

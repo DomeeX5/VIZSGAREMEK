@@ -4,7 +4,7 @@ import { join } from 'path';
 import {HomeModule} from "./home/home.module";
 import {UsersModule} from "./users/users.module";
 import {AuthModule} from "./auth/auth.module";
-import {PrismaService} from "./prisma.service";
+import {PrismaService} from "./prisma/prisma.service";
 import { ProductModule } from './product/product.module';
 import { CartModule } from './cart/cart.module';
 import { OrderModule } from './order/order.module';
