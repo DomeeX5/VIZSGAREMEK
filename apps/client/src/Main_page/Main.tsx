@@ -120,17 +120,18 @@ function Main() {
                         Array.from({ length: productsPerPage }).map((_, index) => (
                             <div key={index} className={"col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6"}>
                                 <div className="skeleton-card">
-                                    <Skeleton variant="rectangular" width={210} height={280} />
+                                    <Skeleton variant="rectangular" width={250} height={300} />
                                     <div className="skeleton-text">
-                                        <Skeleton variant="text" width={200} height={20} />
-                                        <Skeleton variant="text" width={180} height={80} />
+                                        <Skeleton variant="text" width={100} height={30} />
+                                        <Skeleton variant="text" width={230} height={80} />
+                                        <Skeleton variant="text" width={150} height={40} />
                                     </div>
                                 </div>
                             </div>
                         ))
                     ) : (
                         products && products.map((product) => (
-                        <div key={product.product_id} className={"col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6"}>
+                        <div key={product.product_id} className={"col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12"}>
                             <div className="card ">
                                 {product.ProductPictures && product.ProductPictures.length > 0 &&
                                     <img src={product.ProductPictures[0].image} alt={product.product_name}
@@ -138,7 +139,7 @@ function Main() {
                                 }
                                 <div className="card-body">
                                     <h5 className="card-title">{product.product_name}</h5>
-                                    <p className="card-text">{product.description}</p>
+                                    <p className="card-text">{product.price}Ft</p>
                                     <Stack direction="row" spacing={1}>
                                         <IconButton
                                             color="primary"

@@ -5,7 +5,7 @@ import Login from "./Login/login.tsx";
 import Products from "./Product_page/product.tsx";
 import Cart from "./Cart/Cart.tsx";
 import Purchase from "./Purchase/Purchase.tsx";
-import Navbar from "./Main_elements/Navbar.tsx";
+import Navbars from "./Main_elements/Navbar.tsx";
 import Footer from "./Main_elements/Footer.tsx";
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
   return (
     <>
         <BrowserRouter>
-            <Navbar/>
+            <Navbars/>
             <Routes>
                 <Route path={"/"} element={<Main/>}/>
                 <Route path={"/register"} element={<Register/>}/>

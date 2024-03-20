@@ -1,7 +1,7 @@
 .skeleton-card {
     margin: 20px 0 20px 40px;
     border-radius: 0;
-    overflow: hidden; /* Ensure skeleton text does not overflow */
+    overflow: hidden;
 }
 
 .skeleton-text {

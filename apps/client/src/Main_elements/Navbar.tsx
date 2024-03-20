@@ -1,147 +1,114 @@
-import {Link, useLocation} from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import {Button, Container, Form, Nav, Navbar, Offcanvas } from 'react-bootstrap';
+import {Link} from "react-router-dom";
 import '/src/App.css'
-import {Offcanvas} from 'bootstrap';
-import {Button, ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
+import {ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
-import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 
-function Navbar(){
-    const location = useLocation();
+
+function Navbars() {
+
+    const [tokenPresent, setTokenPresent] = useState(Boolean(sessionStorage.getItem("token")));
 
     useEffect(() => {
-        const offcanvas = document!.getElementById('offcanvasDarkNavbar');
-        if (offcanvas) {
-            const bsOffcanvas = new Offcanvas(offcanvas);
-
-            bsOffcanvas.hide();
-            const backdropElement = document.querySelector('.offcanvas-backdrop');
-            if (backdropElement) {
-                backdropElement.parentNode!.removeChild(backdropElement);
-            }
-
-            return () => {
-                bsOffcanvas.dispose();
-            };
-        }
+        setTokenPresent(Boolean(sessionStorage.getItem("token")));
     }, []);
 
-    useEffect(() => {
-        const offcanvas = document!.getElementById('offcanvasDarkNavbar');
-        if (offcanvas) {
-            const bsOffcanvas = Offcanvas.getInstance(offcanvas);
-            bsOffcanvas!.hide();
-            const backdropElement = document.querySelector('.offcanvas-backdrop');
-            if (backdropElement) {
-                backdropElement.parentNode!.removeChild(backdropElement);
-            }
+    function handleCartClick(event:MouseEvent) {
+        if (!tokenPresent) {
+            event.preventDefault();
+            alert("Ahhoz, hogy a kosarat meg tud nézni, be kell jelentkezned.");
         }
-    }, [location.pathname]);
+    }
+
     function handleLogout() {
         sessionStorage.removeItem("token");
+        setTokenPresent(false);
     }
 
-    function handleCartClick(event:MouseEvent) {
-        if (!sessionStorage.getItem("token")) {
-            event.preventDefault();
-            alert("Ahhoz, hogy a kosarat meg tud nezni, be kell jelentkezned.");
-        }
-    }
-
-
-
-    return(
-        <>
-            <header>
-                <nav className="navbar navbar-dark bg-dark sticky-top ">
-                    <div className="container-fluid">
-                        <Link to={"/"} className="navbar-brand Webshop">
-                            Webshop
-                        </Link>
-                        <ul className="navbar-nav mx-auto col-xl-3 col-lg-3 col-md-3 col-sm-2 col-1">
-                            <form className="d-flex justify-content-center" role="search">
-                                <input
-                                    className="form-control me-2"
-                                    type="search"
-                                    placeholder="Search"
-                                    aria-label="Search"
-                                />
-                                <Button type={'submit'} variant="contained" size="small" color="success" endIcon={<SearchRoundedIcon />}>
-                                    Send
-                                </Button>
-                            </form>
-                        </ul>
-                        <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#offcanvasDarkNavbar" aria-controls="offcanvasDarkNavbar">
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-                        <div className="offcanvas offcanvas-end text-bg-dark" tabIndex={-1} id="offcanvasDarkNavbar"
-                             aria-labelledby="offcanvasDarkNavbarLabel">
-                            <div className="offcanvas-header">
-                                <h5 className="offcanvas-title" id="offcanvasDarkNavbarLabel">Menu</h5>
-                                <button type="button" className="btn-close btn-close-white" data-bs-dismiss="offcanvas"
-                                        aria-label="Close"></button>
-                            </div>
-                            <div className="offcanvas-body">
-                                <ul className="navbar-nav ms-auto mb-2 mb-lg-0 ">
+    return (
+        <Navbar expand={false} className="bg-body-tertiary mb-3" sticky="top" bg="dark" data-bs-theme="dark">
+            <Container fluid>
+                <Link to={"/"}>
+                    <Navbar.Brand>Webshop</Navbar.Brand>
+                </Link>
+                <Form className="d-flex">
+                    <Form.Control
+                        type="search"
+                        placeholder="Search"
+                        className="me-2"
+                        aria-label="Search"
+                    />
+                    <Button type={'submit'} variant="contained" size="sm" color="success">
+                        Send
+                    </Button>
+                </Form>
+                <Navbar.Toggle aria-controls="offcanvasNavbar" />
+                <Navbar.Offcanvas
+                    id="offcanvasNavbar"
+                    aria-labelledby="offcanvasNavbarLabel"
+                    placement="end"
+                >
+                    <Offcanvas.Header closeButton>
+                        <Offcanvas.Title id="offcanvasNavbarLabel">
+                            Menu
+                        </Offcanvas.Title>
+                    </Offcanvas.Header>
+                    <Offcanvas.Body>
+                        <Nav className="justify-content-end flex-grow-1 pe-3">
+                            <Link to={"/cart"} className="nav-link active" onClick={handleCartClick}>
+                                <ListItemButton>
+                                    <ListItemIcon>
+                                        <ShoppingCartIcon/>
+                                    </ListItemIcon>
+                                    <ListItemText primary="Kosar" />
+                                </ListItemButton>
+                            </Link>
+                            {sessionStorage.getItem("token") && (
+                                <ListItem disablePadding className="nav-item">
+                                    <a href={"/"} onClick={handleLogout} className="nav-link active">
+                                        <ListItemButton>
+                                            <ListItemIcon>
+                                                <LogoutIcon/>
+                                            </ListItemIcon>
+                                            <ListItemText primary="Kijelentkezes" />
+                                        </ListItemButton>
+                                    </a>
+                                </ListItem>
+                            )}
+                            {!sessionStorage.getItem("token") && (
+                                <>
                                     <ListItem disablePadding className="nav-item">
-                                        <Link to={"/cart"} className="nav-link active" onClick={()=>handleCartClick}>
-                                                <ListItemButton>
-                                                    <ListItemIcon>
-                                                        <ShoppingCartIcon/>
-                                                    </ListItemIcon>
-                                                    <ListItemText primary="Kosar" />
-                                                </ListItemButton>
+                                        <Link to={"/login"} className="nav-link active">
+                                            <ListItemButton>
+                                                <ListItemIcon>
+                                                    <LoginIcon/>
+                                                </ListItemIcon>
+                                                <ListItemText primary="Bejelentkezés" />
+                                            </ListItemButton>
                                         </Link>
                                     </ListItem>
-                                    {sessionStorage.getItem("token") && (
-                                        <ListItem disablePadding className="nav-item">
-                                            <a href={"/"} onClick={handleLogout} className="nav-link active">
-                                                <ListItemButton>
-                                                    <ListItemIcon>
-                                                        <LogoutIcon/>
-                                                    </ListItemIcon>
-                                                    <ListItemText primary="Kijelentkezes" />
-                                                </ListItemButton>
-                                            </a>
-                                        </ListItem>
-                                    )}
-                                    {!sessionStorage.getItem("token") && (
-                                        <>
-                                            <ListItem disablePadding className="nav-item">
-                                                <Link to={"/login"} className="nav-link active">
-                                                    <ListItemButton>
-                                                        <ListItemIcon>
-                                                            <LoginIcon/>
-                                                        </ListItemIcon>
-                                                        <ListItemText primary="Bejelentkezés" />
-                                                    </ListItemButton>
-                                                </Link>
-                                            </ListItem>
-                                            <ListItem disablePadding className="nav-item">
-                                                <Link to={"/register"} className="nav-link active">
-                                                    <ListItemButton>
-                                                        <ListItemIcon>
-                                                            <PersonAddRoundedIcon/>
-                                                        </ListItemIcon>
-                                                        <ListItemText primary="Regisztráció" />
-                                                    </ListItemButton>
-                                                </Link>
-                                            </ListItem>
-                                        </>
-                                    )}
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </nav>
-            </header>
-        </>
-    )
+                                    <ListItem disablePadding className="nav-item">
+                                        <Link to={"/register"} className="nav-link active">
+                                            <ListItemButton>
+                                                <ListItemIcon>
+                                                    <PersonAddRoundedIcon/>
+                                                </ListItemIcon>
+                                                <ListItemText primary="Regisztráció" />
+                                            </ListItemButton>
+                                        </Link>
+                                    </ListItem>
+                                </>
+                            )}
+                        </Nav>
+                    </Offcanvas.Body>
+                </Navbar.Offcanvas>
+            </Container>
+        </Navbar>
+    );
 }
 
-export default Navbar;
+export default Navbars;
