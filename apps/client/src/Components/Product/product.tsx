@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { ExtendedProduct } from '../interfaces.ts';
-import './productDesign.css';
+import { ExtendedProduct } from '../../interfaces.ts';
+import '../../styles/productDesign.css';
 import { Alert, Button } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import useAddToCart from "../Components/AddCart.tsx";
+import useAddToCart from "../AddCart.tsx";
 
 function Products() {
     const { id } = useParams<{ id: string }>();

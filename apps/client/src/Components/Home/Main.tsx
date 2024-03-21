@@ -1,9 +1,9 @@
 import {useEffect, useState} from 'react';
-import './mainDesign.css'
-import {ExtendedProduct} from "../interfaces.ts";
+import '../../styles/mainDesign.css'
+import {ExtendedProduct} from "../../interfaces.ts";
 import {Alert, Pagination, Skeleton} from "@mui/material";
-import {CardComponent} from "../Components/CardComponent.tsx";
-import useAddToCart from "../Components/AddCart.tsx";
+import {CardComponent} from "../CardComponent.tsx";
+import useAddToCart from "../AddCart.tsx";
 
 
 function Main() {

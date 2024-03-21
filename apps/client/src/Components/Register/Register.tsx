@@ -1,6 +1,6 @@
 import {FormEvent, useState} from "react";
 import {Link, useNavigate} from "react-router-dom";
-import './Register-login.css'
+import '../../styles/Register-login.css'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
 

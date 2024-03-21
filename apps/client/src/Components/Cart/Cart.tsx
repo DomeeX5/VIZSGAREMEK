@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import {ExtendedCartItem} from "../interfaces.ts";
+import {ExtendedCartItem} from "../../interfaces.ts";
 import {Link} from "react-router-dom";
 import DeleteIcon from '@mui/icons-material/Delete';
 import {IconButton} from "@mui/material";
