@@ -44,14 +44,37 @@ function Products() {
                         <div className={'row'}>
                             <h2 className={'h2'}>{product.product_name}</h2>
                             <div className={'col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12'}>
-                                {/* Carousel code */}
+                                <div id="carouselExampleCaptions" className="carousel car carousel-dark slide ">
+                                    <div className="carousel-indicators">
+                                        {product.ProductPictures.map((_, index) => (
+                                            <button key={index} type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to={index} className={index === 0 ? "active" : ""} aria-label={`Slide ${index + 1}`}></button>
+                                        ))}
+                                    </div>
+                                    <div className="carousel-inner">
+                                        {product.ProductPictures.map((picture, index) => (
+                                            <div key={index} className={`carousel-item ${index === 0 ? "active" : ""}`}>
+                                                <img src={picture.image} alt={product.product_name} className={"c-img"} />
+                                                <div className="carousel-caption d-none d-md-block">
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                    <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+                                        <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                                        <span className="visually-hidden">Previous</span>
+                                    </button>
+                                    <button className="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+                                        <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                                        <span className="visually-hidden">Next</span>
+                                    </button>
+                                </div>
                             </div>
                             <div className={'col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6'}>
                                 <div className={'break'}>
                                     <p>Price: {product.price}Ft</p>
                                     <Button
                                         onClick={() => {
-                                            addToCart(product.product_id); // Call the addToCart function
+                                            addToCart(product.product_id);
                                         }}
                                         variant={'outlined'}
                                         startIcon={<AddShoppingCartIcon />}
