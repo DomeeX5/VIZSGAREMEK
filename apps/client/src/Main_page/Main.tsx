@@ -1,21 +1,22 @@
 import {useEffect, useState} from 'react';
 import './mainDesign.css'
-import {CartItem} from "@prisma/client";
 import {ExtendedProduct} from "../interfaces.ts";
 import {Alert, Pagination, Skeleton} from "@mui/material";
-import {CardComponent} from "./CardComponent.tsx";
+import {CardComponent} from "../Components/CardComponent.tsx";
+import useAddToCart from "../Components/AddCart.tsx";
 
 
 function Main() {
 
     const [products, setProducts] = useState<ExtendedProduct[] | null>(null);
-    const [addCart,setAddCart]=useState<CartItem[]>()
     const [showAlert, setShowAlert] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 16;
     const [loading, setLoading] = useState(true);
     const [totalPages, setTotalPages] = useState(1);
+    const { addToCart } = useAddToCart();
     const [_, setErrors] = useState<string[]>([]);
+
 
     useEffect(() => {
         fetch('/api/products/count')
@@ -46,35 +47,6 @@ function Main() {
         }, 1000);
         return () => clearTimeout(delay);
     }, [currentPage]);
-
-
-
-    function AddCart(productId: number){
-        const accessToken = sessionStorage.getItem("token");
-        if (!accessToken) {
-            console.log("Nincs accessToken a sessionStorage-ben");
-            setShowAlert(true);
-            return;
-        }
-        const data = {addCart, productId, quantity: 1}
-
-        fetch(`/api/cart/add`,{
-            method:'POST',
-            body:JSON.stringify(data),
-            headers: {
-                'Content-type':'application/json',
-                'Authorization':`Bearer ${accessToken}`
-            }
-        }).then(async(res)=>{
-            if(!res.ok) {
-                const error=await res.json()
-                setErrors([error.message])
-            } else {
-                const data=await res.json()
-                setAddCart(data)
-            }
-        })
-    }
 
     useEffect(() => {
         window.scrollTo({ top: 0, behavior: 'instant' });
@@ -131,7 +103,7 @@ function Main() {
                     ) : (
                         products && products.map((product) => (
                         <CardComponent key={product.product_id} product={product} onClick={() => {
-                            AddCart(product.product_id)
+                            addToCart(product.product_id)
                         }}/>
                     )))}
                 </div><br/>

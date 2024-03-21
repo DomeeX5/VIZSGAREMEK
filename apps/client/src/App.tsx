@@ -5,8 +5,8 @@ import Login from "./Login/login.tsx";
 import Products from "./Product_page/product.tsx";
 import Cart from "./Cart/Cart.tsx";
 import Purchase from "./Purchase/Purchase.tsx";
-import Navbars from "./Main_elements/Navbar.tsx";
-import Footer from "./Main_elements/Footer.tsx";
+import Navbars from "./Components/Navbar.tsx";
+import Footer from "./Components/Footer.tsx";
 
 function App() {
 
