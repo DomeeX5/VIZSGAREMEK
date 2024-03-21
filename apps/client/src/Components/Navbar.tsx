@@ -1,6 +1,6 @@
 import {Button, Container, Form, Nav, Navbar, Offcanvas } from 'react-bootstrap';
 import {Link} from "react-router-dom";
-import '/src/App.css'
+import '../styles/App.css'
 import {ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LoginIcon from '@mui/icons-material/Login';

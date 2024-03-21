@@ -8,6 +8,7 @@ import useAddToCart from "../AddCart.tsx";
 
 function Main() {
 
+
     const [products, setProducts] = useState<ExtendedProduct[] | null>(null);
     const [showAlert, setShowAlert] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
