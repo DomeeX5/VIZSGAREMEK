@@ -1,10 +1,9 @@
-import {useState, useEffect} from 'react';
-import { Link } from 'react-router-dom';
+import {useEffect, useState} from 'react';
 import './mainDesign.css'
 import {CartItem} from "@prisma/client";
 import {ExtendedProduct} from "../interfaces.ts";
-import {Alert, Button, IconButton, Pagination, Skeleton, Stack} from "@mui/material";
-import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
+import {Alert, Pagination, Skeleton} from "@mui/material";
+import {CardComponent} from "./CardComponent.tsx";
 
 
 function Main() {
@@ -131,33 +130,9 @@ function Main() {
                         ))
                     ) : (
                         products && products.map((product) => (
-                        <div key={product.product_id} className={"col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12"}>
-                            <div className="card ">
-                                {product.ProductPictures && product.ProductPictures.length > 0 &&
-                                    <img src={product.ProductPictures[0].image} alt={product.product_name}
-                                         className={"card-img-top"}/>
-                                }
-                                <div className="card-body">
-                                    <h5 className="card-title">{product.product_name}</h5>
-                                    <p className="card-text">{product.price}Ft</p>
-                                    <Stack direction="row" spacing={1}>
-                                        <IconButton
-                                            color="primary"
-                                            aria-label="add to shopping cart"
-                                            onClick={() => {AddCart(product.product_id)}} key={product.product_id}>
-                                            <AddShoppingCartIcon/>
-                                        </IconButton>
-                                    </Stack>
-                                    <div className={'break'}>
-                                        <Link to={`/products/${product.product_id}`}>
-                                            <Button variant="contained" size="small">
-                                                Áru megtekintése
-                                            </Button>
-                                        </Link>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <CardComponent key={product.product_id} product={product} onClick={() => {
+                            AddCart(product.product_id)
+                        }}/>
                     )))}
                 </div><br/>
                 <div className={"pag"}>
