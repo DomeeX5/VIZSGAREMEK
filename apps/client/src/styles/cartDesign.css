@@ -1,4 +1,26 @@
-.lista{
-    pointer-events:none;
-    opacity:0.6;
+.ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.cards{
+    max-width: 50em;
+    flex-direction: row;
+    height: 10em;
+}
+
+.card-bodys{
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-image{
+    width: 210px;
+    text-align: center;
+    vertical-align: center;
+    margin: auto;
+    padding: 0.5em;
+    max-height: 100%;
+    object-fit: contain;
 }

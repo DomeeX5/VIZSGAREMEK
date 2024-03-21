@@ -17,13 +17,6 @@ function Navbars() {
         setTokenPresent(Boolean(sessionStorage.getItem("token")));
     }, []);
 
-    function handleCartClick(event:MouseEvent) {
-        if (!tokenPresent) {
-            event.preventDefault();
-            alert("Ahhoz, hogy a kosarat meg tud nézni, be kell jelentkezned.");
-        }
-    }
-
     function handleLogout() {
         sessionStorage.removeItem("token");
         setTokenPresent(false);
@@ -59,25 +52,29 @@ function Navbars() {
                     </Offcanvas.Header>
                     <Offcanvas.Body>
                         <Nav className="justify-content-end flex-grow-1 pe-3">
-                            <Link to={"/cart"} className="nav-link active" onClick={handleCartClick}>
-                                <ListItemButton>
-                                    <ListItemIcon>
-                                        <ShoppingCartIcon/>
-                                    </ListItemIcon>
-                                    <ListItemText primary="Kosar" />
-                                </ListItemButton>
-                            </Link>
                             {sessionStorage.getItem("token") && (
-                                <ListItem disablePadding className="nav-item">
-                                    <a href={"/"} onClick={handleLogout} className="nav-link active">
-                                        <ListItemButton>
-                                            <ListItemIcon>
-                                                <LogoutIcon/>
-                                            </ListItemIcon>
-                                            <ListItemText primary="Kijelentkezes" />
-                                        </ListItemButton>
-                                    </a>
-                                </ListItem>
+                                <>
+                                    <ListItem disablePadding className="nav-item">
+                                        <Link to={"/cart"} className="nav-link active">
+                                            <ListItemButton>
+                                                <ListItemIcon>
+                                                    <ShoppingCartIcon/>
+                                                </ListItemIcon>
+                                                <ListItemText primary="Kosar" />
+                                            </ListItemButton>
+                                        </Link>
+                                    </ListItem>
+                                    <ListItem disablePadding className="nav-item">
+                                        <a href={"/"} onClick={handleLogout} className="nav-link active">
+                                            <ListItemButton>
+                                                <ListItemIcon>
+                                                    <LogoutIcon/>
+                                                </ListItemIcon>
+                                                <ListItemText primary="Kijelentkezes" />
+                                            </ListItemButton>
+                                        </a>
+                                    </ListItem>
+                                </>
                             )}
                             {!sessionStorage.getItem("token") && (
                                 <>
