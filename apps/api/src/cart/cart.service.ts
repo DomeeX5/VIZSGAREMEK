@@ -64,7 +64,7 @@ export class CartService {
         })
     }
 
-    async getCartItems(userid: { user: {id: number, name: string }, email: string }): Promise<any> {
+    async getCartItems(userid: { user: {id: number, name: string }, email: string }) {
         const cartItems = await this.prisma.cartItem.findMany({
             where: {
                 User_user_id: userid.user.id,
@@ -83,7 +83,7 @@ export class CartService {
         }))
     }
 
-    async calculateTotalPrice(userid: { user: {id: number, name: string }, email: string }): Promise<number> {
+    async calculateTotalPrice(userid: { user: {id: number, name: string }, email: string }) {
         const cartItems = await this.getCartItems(userid);
         return cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0)
     }
