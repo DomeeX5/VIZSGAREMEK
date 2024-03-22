@@ -72,13 +72,13 @@ function Cart() {
                 </Typography>
                 <Typography variant="body2">
                     well meaning and kindly.
-                    <br />
+                    <br/>
                     {'"a benevolent smile"'}
                 </Typography>
             </CardContent>
             <Link to={"/purchase"}>
                 <CardActions>
-                    <Button size="small" >Fizetes</Button>
+                    <Button size="small">Fizetes</Button>
                 </CardActions>
             </Link>
         </Fragment>

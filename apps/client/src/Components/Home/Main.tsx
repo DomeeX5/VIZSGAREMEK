@@ -92,7 +92,7 @@ function Main() {
                         Array.from({ length: productsPerPage }).map((_, index) => (
                             <div key={index} className={"col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6"}>
                                 <div className="skeleton-card">
-                                    <Skeleton variant="rectangular" width={250} height={300} />
+                                    <Skeleton variant="rectangular" width={350} height={300} />
                                     <div className="skeleton-text">
                                         <Skeleton variant="text" width={100} height={30} />
                                         <Skeleton variant="text" width={230} height={80} />

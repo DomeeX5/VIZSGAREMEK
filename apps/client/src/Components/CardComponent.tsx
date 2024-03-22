@@ -4,12 +4,13 @@ import {Card, Button, CardActions, CardContent, IconButton, Stack} from "@mui/ma
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import {Link} from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import "../styles/mainDesign.css"
 
 export class CardComponent extends Component<{ product: ExtendedProduct, onClick: () => void }> {
     render() {
         return (
             <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                <Card>
+                <Card className={"card"}>
                     <img
                         src={this.props.product.ProductPictures && this.props.product.ProductPictures.length > 0 ? this.props.product.ProductPictures[0].image : ''}
                         alt={this.props.product.product_name} className="card-img-top"/>
