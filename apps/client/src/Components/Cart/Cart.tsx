@@ -6,11 +6,14 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import "../../styles/cartDesign.css"
 import DeleteIcon from '@mui/icons-material/Delete';
+import {CartItem} from "@prisma/client";
 
 
 function Cart() {
+
     const [getCart, setGetCart] = useState<ExtendedCartItem[]>([]);
-    const [responseData, setResponseData] = useState(null);
+    const [totalPrice, setTotalPrice] = useState    ("");
+    const [removeCart, setRemoveCart] = useState<CartItem[]>();
     const [_, setErrors] = useState<string[]>([]);
 
     useEffect(() => {
@@ -23,7 +26,7 @@ function Cart() {
         fetch(`/api/cart/items`, {
             headers: {
                 'Content-type': 'application/json',
-                'Authorization': `Bearer ${accessToken}`
+                Authorization: `Bearer ${accessToken}`
             }
         })
             .then(async (res) => {
@@ -40,26 +43,57 @@ function Cart() {
                 setErrors(['Error fetching cart items']);
             });
 
-
-    }, []);
-
-    function removeCart(){
-        fetch("/api/cart/remove",{
-            method: "DELETE"
+        fetch('/api/cart/total', {
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${accessToken}`
+            }
         })
             .then(async res => {
                 if (!res.ok) {
                     const error = await res.json();
-                    setErrors([error.message])
-                }else{
+                    setErrors([error.message]);
+                } else {
                     const data = await res.json();
-                    setResponseData(data);
+                    setTotalPrice(data);
+                }
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+
+    }, []);
+
+    function remove(productId:number) {
+        const accessToken = sessionStorage.getItem("token");
+        if (!accessToken) {
+            console.log("Nincs accessToken a localStorage-ban");
+            return;
+        }
+        const data = { productId, removeCart, quantity: 1 };
+
+        fetch("/api/cart/remove", {
+            method: "DELETE",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-Type": "application/json",
+                 Authorization: `Bearer ${accessToken}`
+            }
+        })
+            .then(async res => {
+                if (!res.ok) {
+                    const error = await res.json();
+                    setErrors([error.message]);
+                } else {
+                    const data = await res.json();
+                    setRemoveCart(data);
                 }
             })
             .catch(error => {
                 setErrors(error.message);
             });
-    };
+    }
+
 
     const card = (
         <Fragment>
@@ -71,13 +105,15 @@ function Cart() {
                     Vasarlas
                 </Typography>
                 <Typography variant="body2">
-                    well meaning and kindly.
+                    {getCart.map((item) => (
+                            <p>{item.product.product_name} {item.quantity}x{item.product.price} Ft</p>
+                    ))}
                     <br/>
-                    {'"a benevolent smile"'}
+                    Total Price: {totalPrice !== null ? totalPrice : 'Loading...'} Ft
                 </Typography>
             </CardContent>
             <Link to={"/purchase"}>
-                <CardActions>
+            <CardActions>
                     <Button size="small">Fizetes</Button>
                 </CardActions>
             </Link>
@@ -100,8 +136,9 @@ function Cart() {
                                             <div className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-7 col-7">
                                                 <div className="card-body card-bodys">
                                                     <h5 className="card-title">{item.product.product_name}</h5>
+                                                    <p className={"card-text"}>{item.product.price} Ft</p>
                                                     <p className="card-text">Darabszam: {item.quantity}</p>
-                                                    <IconButton aria-label="delete" size="small" onClick={removeCart} >
+                                                    <IconButton aria-label="delete" size="small" onClick={() => remove(item.product.product_id)}>
                                                         <DeleteIcon fontSize="small" />
                                                     </IconButton>
                                                 </div>
@@ -113,7 +150,7 @@ function Cart() {
                         </ul>
                     </div>
                     <div className={"col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6"}>
-                        <Box sx={{ minWidth: 300 }}>
+                        <Box sx={{ minWidth: 350 }}>
                             <Card variant="outlined">{card}</Card>
                         </Box>
                     </div>

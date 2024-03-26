@@ -6,7 +6,7 @@
 }
 
 .NeedContainer{
-    position: absolute;
+    position: fixed;
     display: inline-block;
     align-items: center;
     margin: auto;

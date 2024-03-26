@@ -1,4 +1,4 @@
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import {FormEvent, useState} from "react";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
@@ -8,7 +8,6 @@ function Login(){
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
     const [error,setError]=useState<string>('');
-    const navigate = useNavigate()
 
     function getData(event:FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -28,7 +27,6 @@ function Login(){
                     const accessToken = await data.accessToken;
                     sessionStorage.setItem("token", accessToken);
                     setError('');
-                    navigate('/')
                 }
             })
             .catch(_ => {
@@ -60,7 +58,9 @@ function Login(){
                         onChange={(e) => setPassword(e.target.value)}
                     />
                     <div className="break"></div>
-                    <input type="submit" id="tovabb" value="Bejelentkezés" className="btn btn-primary gomb" />
+                    <a href="/">
+                        <input type="submit" id="tovabb" value="Bejelentkezés" className="btn btn-primary gomb" />
+                    </a>
                     <div className="break"></div>
                     <Link to={"/register"}
                           className={"link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover linkel"}>Nincs
