@@ -1,17 +1,20 @@
-import {Button, Container, Form, Nav, Navbar, Offcanvas } from 'react-bootstrap';
+import {Button, Container, Form, ListGroup, ListGroupItem, Nav, Navbar, Offcanvas, Image} from 'react-bootstrap';
 import {Link} from "react-router-dom";
 import '../styles/App.css'
-import {ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
+import { ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import {ExtendedProduct} from "../interfaces.ts";
 
 
 function Navbars() {
 
-    const [tokenPresent, setTokenPresent] = useState(Boolean(sessionStorage.getItem("token")));
+    const [_, setTokenPresent] = useState(Boolean(sessionStorage.getItem("token")));
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState<ExtendedProduct[]>([]);
 
     useEffect(() => {
         setTokenPresent(Boolean(sessionStorage.getItem("token")));
@@ -22,24 +25,82 @@ function Navbars() {
         setTokenPresent(false);
     }
 
+    const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value;
+        if (value.trim() === '') {
+            setResults([]);
+            return;
+        }
+        setQuery(value);
+        try {
+            const response = await fetch(`/api/products/search?query=${value}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch search results');
+            }
+            const data = await response.json();
+            setResults(data);
+        } catch (error) {
+            console.error('Error searching:', error);
+        }
+    }
+    console.log(results)
+
     return (
         <Navbar expand={false} className="bg-body-tertiary mb-3" sticky="top" bg="dark" data-bs-theme="dark">
             <Container fluid>
                 <Link to={"/"}>
                     <Navbar.Brand>Webshop</Navbar.Brand>
                 </Link>
-                <Form className="d-flex">
+                <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
                     <Form.Control
                         type="search"
                         placeholder="Search"
                         className="me-2"
                         aria-label="Search"
+                        value={query}
+                        onChange={handleSearch}
                     />
                     <Button type={'submit'} variant="contained" size="sm" color="success">
                         Send
                     </Button>
                 </Form>
-                <Navbar.Toggle aria-controls="offcanvasNavbar" />
+                <div style={{maxHeight: '300px', width: '180px', overflowY: 'scroll'}}>
+                    <ListGroup className="mt-2">
+                        {results.map((product, index) => (
+                            <ListGroupItem key={index} className="d-flex align-items-center">
+                                {product.ProductPictures.map((picture, index) => (
+                                    <Image key={index} src={picture.image} alt={product.product_name} thumbnail/>
+                                ))}
+                                <div className="ms-3">
+                                    <h5>{product.product_name}</h5>
+                                    <p>${product.price}</p>
+                                </div>
+                                <Button variant="outline-dark" className="ms-auto">
+                                    <ShoppingCartIcon/>
+                                </Button>
+                            </ListGroupItem>
+                        ))}
+                    </ListGroup>
+                </div>
+                {results.length > 0 && (
+                    <ListGroup className="mt-2">
+                        {results.map((product, index) => (
+                            <ListGroupItem key={index} className="d-flex align-items-center">
+                                {product.ProductPictures && product.ProductPictures.map((picture, pictureIndex) => (
+                                    <Image key={pictureIndex} src={picture.image} alt={product.product_name} thumbnail/>
+                                ))}
+                                <div className="ms-3">
+                                    <h5>{product.product_name}</h5>
+                                    <p>${product.price}</p>
+                                </div>
+                                <Button variant="outline-dark" className="ms-auto">
+                                    <ShoppingCartIcon/>
+                                </Button>
+                            </ListGroupItem>
+                        ))}
+                    </ListGroup>
+                )}
+                <Navbar.Toggle aria-controls="offcanvasNavbar"/>
                 <Navbar.Offcanvas
                     id="offcanvasNavbar"
                     aria-labelledby="offcanvasNavbarLabel"
@@ -60,7 +121,7 @@ function Navbars() {
                                                 <ListItemIcon>
                                                     <ShoppingCartIcon/>
                                                 </ListItemIcon>
-                                                <ListItemText primary="Kosar" />
+                                                <ListItemText primary="Kosar"/>
                                             </ListItemButton>
                                         </Link>
                                     </ListItem>
@@ -70,7 +131,7 @@ function Navbars() {
                                                 <ListItemIcon>
                                                     <LogoutIcon/>
                                                 </ListItemIcon>
-                                                <ListItemText primary="Kijelentkezes" />
+                                                <ListItemText primary="Kijelentkezes"/>
                                             </ListItemButton>
                                         </a>
                                     </ListItem>
@@ -84,7 +145,7 @@ function Navbars() {
                                                 <ListItemIcon>
                                                     <LoginIcon/>
                                                 </ListItemIcon>
-                                                <ListItemText primary="Bejelentkezés" />
+                                                <ListItemText primary="Bejelentkezés"/>
                                             </ListItemButton>
                                         </Link>
                                     </ListItem>
@@ -94,7 +155,7 @@ function Navbars() {
                                                 <ListItemIcon>
                                                     <PersonAddRoundedIcon/>
                                                 </ListItemIcon>
-                                                <ListItemText primary="Regisztráció" />
+                                                <ListItemText primary="Regisztráció"/>
                                             </ListItemButton>
                                         </Link>
                                     </ListItem>
