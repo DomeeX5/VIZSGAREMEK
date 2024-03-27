@@ -1,8 +1,8 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CartService } from './cart.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { HttpException, HttpStatus } from '@nestjs/common';
-import {CartItem, Product, User} from "@prisma/client";
+import { HttpException } from '@nestjs/common';
+import {CartItem, Product} from "@prisma/client";
 
 describe('CartService', () => {
     let service: CartService;
@@ -145,33 +145,6 @@ describe('CartService', () => {
 
 
     });
-    /*describe('calculateTotalPrice', () => {
-        it('should return total price of cart items for a user', async () => {
-            const userId = { user: { id: 1, name: 'Test User' }, email: 'test@example.com' };
-            const cartItems: CartItem[] = [
-                {
-                    cart_item_id: 1,
-                    quantity: 2,
-                    User_user_id: userId.user.id,
-                    Product_product_id: 1, // Assuming product_id for Product 1 is 1
-                },
-                {
-                    cart_item_id: 2,
-                    quantity: 1,
-                    User_user_id: userId.user.id,
-                    Product_product_id: 2, // Assuming product_id for Product 2 is 2
-                }
-            ];
-
-            jest.spyOn(service, 'getCartItems').mockResolvedValue(cartItems);
-
-            const totalPrice = await service.calculateTotalPrice(userId);
-
-            expect(totalPrice).toEqual(35);
-        });
-    });*/
-
-
     describe('calculateTotalPrice', () => {
         it('should return total price of cart items for a user', async () => {
             const userId = { user: { id: 1, name: 'Test User' }, email: 'test@example.com' };

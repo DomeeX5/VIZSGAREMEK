@@ -1,4 +1,4 @@
-import {Button, Container, Form, ListGroup, ListGroupItem, Nav, Navbar, Offcanvas, Image} from 'react-bootstrap';
+import {Button, Col, Container, Form, Nav, Navbar, Offcanvas, Row} from 'react-bootstrap';
 import {Link} from "react-router-dom";
 import '../styles/App.css'
 import { ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
@@ -8,6 +8,7 @@ import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
 import React, {useEffect, useState} from "react";
 import {ExtendedProduct} from "../interfaces.ts";
+import SearchResults from './SearchResults.tsx';
 
 
 function Navbars() {
@@ -15,6 +16,7 @@ function Navbars() {
     const [_, setTokenPresent] = useState(Boolean(sessionStorage.getItem("token")));
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<ExtendedProduct[]>([]);
+    const [showResults, setShowResults] = useState<boolean>(false);
 
     useEffect(() => {
         setTokenPresent(Boolean(sessionStorage.getItem("token")));
@@ -27,18 +29,20 @@ function Navbars() {
 
     const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
-        if (value.trim() === '') {
+        setQuery(value);
+        if (value === '') {
             setResults([]);
+            setShowResults(false);
             return;
         }
-        setQuery(value);
         try {
             const response = await fetch(`/api/products/search?query=${value}`);
             if (!response.ok) {
                 throw new Error('Failed to fetch search results');
             }
-            const data = await response.json();
+            const data: ExtendedProduct[] = await response.json();
             setResults(data);
+            setShowResults(true);
         } catch (error) {
             console.error('Error searching:', error);
         }
@@ -46,6 +50,7 @@ function Navbars() {
     console.log(results)
 
     return (
+        <>
         <Navbar expand={false} className="bg-body-tertiary mb-3" sticky="top" bg="dark" data-bs-theme="dark">
             <Container fluid>
                 <Link to={"/"}>
@@ -64,43 +69,7 @@ function Navbars() {
                         Send
                     </Button>
                 </Form>
-                <div style={{maxHeight: '300px', width: '180px', overflowY: 'scroll'}}>
-                    <ListGroup className="mt-2">
-                        {results.map((product, index) => (
-                            <ListGroupItem key={index} className="d-flex align-items-center">
-                                {product.ProductPictures.map((picture, index) => (
-                                    <Image key={index} src={picture.image} alt={product.product_name} thumbnail/>
-                                ))}
-                                <div className="ms-3">
-                                    <h5>{product.product_name}</h5>
-                                    <p>${product.price}</p>
-                                </div>
-                                <Button variant="outline-dark" className="ms-auto">
-                                    <ShoppingCartIcon/>
-                                </Button>
-                            </ListGroupItem>
-                        ))}
-                    </ListGroup>
-                </div>
-                {results.length > 0 && (
-                    <ListGroup className="mt-2">
-                        {results.map((product, index) => (
-                            <ListGroupItem key={index} className="d-flex align-items-center">
-                                {product.ProductPictures && product.ProductPictures.map((picture, pictureIndex) => (
-                                    <Image key={pictureIndex} src={picture.image} alt={product.product_name} thumbnail/>
-                                ))}
-                                <div className="ms-3">
-                                    <h5>{product.product_name}</h5>
-                                    <p>${product.price}</p>
-                                </div>
-                                <Button variant="outline-dark" className="ms-auto">
-                                    <ShoppingCartIcon/>
-                                </Button>
-                            </ListGroupItem>
-                        ))}
-                    </ListGroup>
-                )}
-                <Navbar.Toggle aria-controls="offcanvasNavbar"/>
+                <Navbar.Toggle aria-controls="offcanvasNavbar" />
                 <Navbar.Offcanvas
                     id="offcanvasNavbar"
                     aria-labelledby="offcanvasNavbarLabel"
@@ -121,7 +90,7 @@ function Navbars() {
                                                 <ListItemIcon>
                                                     <ShoppingCartIcon/>
                                                 </ListItemIcon>
-                                                <ListItemText primary="Kosar"/>
+                                                <ListItemText primary="Kosar" />
                                             </ListItemButton>
                                         </Link>
                                     </ListItem>
@@ -131,7 +100,7 @@ function Navbars() {
                                                 <ListItemIcon>
                                                     <LogoutIcon/>
                                                 </ListItemIcon>
-                                                <ListItemText primary="Kijelentkezes"/>
+                                                <ListItemText primary="Kijelentkezes" />
                                             </ListItemButton>
                                         </a>
                                     </ListItem>
@@ -145,7 +114,7 @@ function Navbars() {
                                                 <ListItemIcon>
                                                     <LoginIcon/>
                                                 </ListItemIcon>
-                                                <ListItemText primary="Bejelentkezés"/>
+                                                <ListItemText primary="Bejelentkezés" />
                                             </ListItemButton>
                                         </Link>
                                     </ListItem>
@@ -155,7 +124,7 @@ function Navbars() {
                                                 <ListItemIcon>
                                                     <PersonAddRoundedIcon/>
                                                 </ListItemIcon>
-                                                <ListItemText primary="Regisztráció"/>
+                                                <ListItemText primary="Regisztráció" />
                                             </ListItemButton>
                                         </Link>
                                     </ListItem>
@@ -165,7 +134,16 @@ function Navbars() {
                     </Offcanvas.Body>
                 </Navbar.Offcanvas>
             </Container>
+
         </Navbar>
+        <Container fluid="md">
+            <Row>
+                <Col></Col>
+                <Col>{showResults && <SearchResults results={results}/>}</Col>
+                <Col></Col>
+            </Row>
+        </Container>
+        </>
     );
 }
 

@@ -10,12 +10,11 @@ function Main() {
 
 
     const [products, setProducts] = useState<ExtendedProduct[] | null>(null);
-    const [showAlert, setShowAlert] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const productsPerPage = 16;
     const [loading, setLoading] = useState(true);
     const [totalPages, setTotalPages] = useState(1);
-    const { addToCart } = useAddToCart();
+    const { addToCart, setShowAlert, showAlert } = useAddToCart();
     const [_, setErrors] = useState<string[]>([]);
 
 
@@ -44,7 +43,7 @@ function Main() {
                     console.error('Error fetching products:', error);
                     setErrors(['Error fetching products']);
                 })
-                .finally(() => setLoading(false)); // Set loading to false when data fetching is complete
+                .finally(() => setLoading(false));
         }, 1000);
         return () => clearTimeout(delay);
     }, [currentPage]);

@@ -13,6 +13,16 @@ export class ProductService {
         return products.length;
     }
 
+    async productFindMany(query: string): Promise<Product[]> {
+        return this.prisma.product.findMany({
+            where: {
+                product_name: {
+                    contains: query,
+
+                },
+            },
+        });
+    }
     async getAllProducts(page: number, limit: number) {
         const skip = (page - 1) * limit;
         return this.prisma.product.findMany({
