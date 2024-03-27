@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { CartItem } from '@prisma/client';
 
 function useAddToCart() {
+
     const [addCart, setAddCart] = useState<CartItem[]>();
     const [showAlert, setShowAlert] = useState(false);
     const [errors, setErrors] = useState<string[]>([]);
