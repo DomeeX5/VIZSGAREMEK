@@ -14,5 +14,5 @@ export class AddressDto {
     street!: string
 
     @IsString()
-    house_number!: number
+    house_number!: string
 }

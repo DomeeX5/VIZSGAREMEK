@@ -12,11 +12,11 @@ export class OrderController {
     @Post('new')
     async createOrder(
         @Req() req: Request,
-        @Body('payment') payid: number,
+        @Body('paymentType') payid: string,
         @Body('address') address: AddressDto
     ) {
-        const userid = req['user_id'];
-        return await this.orderService.createOrder(userid, payid, address);
+        const userId = req['user'];
+        return await this.orderService.createOrder(userId, payid, address);
     }
 
 }

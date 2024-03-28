@@ -1,15 +1,14 @@
 import {Injectable, NotFoundException} from '@nestjs/common';
 import {AddressDto} from "./order.address.dto";
-import {connect} from "rxjs";
 import {PrismaService} from "../prisma/prisma.service";
 
 @Injectable()
 export class OrderService {
     constructor(private prisma: PrismaService) {}
 
-    async createOrder( userid: number, payid: number, address: AddressDto) {
+    async createOrder( userid: { user: {id: number, name: string }, email: string }, payid: string, address: AddressDto) {
         const user = await this.prisma.user.findUnique({
-            where: { user_id: userid },
+            where: { user_id: userid.user.id },
             include: {
                 CartItem: {
                     include: {
@@ -27,19 +26,19 @@ export class OrderService {
             throw new NotFoundException("A felhasznó nem létezik, vagy a kosár üres!")
         }
 
-        const transaction = await this.prisma.$transaction([
+        return this.prisma.$transaction([
             this.prisma.order.create({
                 data: {
 
                     order_date: new Date(),
                     User: {
                         connect: {
-                            user_id: userid,
+                            user_id: userid.user.id,
                         },
                     },
                     Payment_type: {
                         connect: {
-                            pay_id: payid
+                            pay_id: parseInt(payid)
                         }
                     },
                     order_items: {
@@ -57,18 +56,16 @@ export class OrderService {
                             state: address.state,
                             city: address.city,
                             street: address.street,
-                            house_number: address.house_number
+                            house_number: parseInt(address.house_number)
                         }
                     }
                 }
             }),
             this.prisma.cartItem.deleteMany({
                 where: {
-                    User_user_id: userid
+                    User_user_id: userid.user.id
                 },
             })
-        ])
-
-        return transaction;
+        ]);
     }
 }

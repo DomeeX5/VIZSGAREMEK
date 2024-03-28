@@ -5,13 +5,13 @@ import Stepper from "@mui/material/Stepper";
 import StepLabel from "@mui/material/StepLabel";
 import Step from "@mui/material/Step";
 import Typography from "@mui/material/Typography";
-import {Button, MenuItem, Select} from "@mui/material";
+import {Button, MenuItem, Select, SelectChangeEvent} from "@mui/material";
 import {useNavigate} from "react-router-dom";
-import {AddressDto} from "api/dist/src/order/order.address.dto.ts";
+import {AddressDto} from "api/dist/src/order/order.address.dto.ts"
 
 function Purchase() {
 
-    const [paymentType, setPaymentType] = useState("");
+    const [paymentType, setPaymentType] = useState<"" | { value: unknown } | undefined>("");
     const [address, setAddress] = useState<AddressDto>({
         country: '',
         state: '',
@@ -27,9 +27,14 @@ function Purchase() {
         'Adatok ellenőrzése',
     ];
     const navigate = useNavigate()
+    const accessToken = sessionStorage.getItem('token');
+    if (!accessToken) {
+        console.log('Nincs accessToken a sessionStorage-ben');
+        return;
+    }
 
-    const handlePaymentTypeChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-        setPaymentType(event.target.value as string);
+    const handlePaymentTypeChange = (event: SelectChangeEvent<{ value: unknown }>) => {
+        setPaymentType(event.target.value as "");
     };
 
     const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>, field: keyof Address) => {
@@ -45,7 +50,8 @@ function Purchase() {
         fetch('/api/order/new', {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${accessToken}`
             },
             body: JSON.stringify({ paymentType, address })
         })
