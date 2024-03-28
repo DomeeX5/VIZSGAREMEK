@@ -42,8 +42,8 @@ function Products() {
                 {product && (
                     <div className={'container'}>
                         <div className={'row'}>
-                            <h2 className={'h2'}>{product.product_name}</h2>
-                            <div className={'col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12'}>
+                            <h2 className={'h1'}>{product.product_name}</h2>
+                            <div className={'col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 break'}>
                                 <div id="carouselExampleCaptions" className="carousel car carousel-dark slide ">
                                     <div className="carousel-indicators">
                                         {product.ProductPictures.map((_, index) => (
@@ -69,22 +69,22 @@ function Products() {
                                     </button>
                                 </div>
                             </div>
-                            <div className={'col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6'}>
-                                <div className={'break'}>
-                                    <p>Price: {product.price}Ft</p>
-                                    <Button
-                                        onClick={() => {
-                                            addToCart(product.product_id);
-                                        }}
-                                        variant={'outlined'}
-                                        startIcon={<AddShoppingCartIcon />}
-                                    >
-                                        Kosárba
-                                    </Button>
-                                    <p>{product.description}</p>
+                            <div className={'col-xl-4 col-lg-4 col-md-12 col-sm-12 col-12'}>
+                                <div>
+                                    <div className={"Box"}>
+                                        <div>
+                                            <p className={"product"}>Price: {product.price}Ft</p>
+                                        </div>
+                                        <Button onClick={() => {addToCart(product.product_id);}} variant={'outlined'} startIcon={<AddShoppingCartIcon />}>
+                                            Kosárba
+                                        </Button>
+                                    </div>
+                                </div>
+                                <div>
+                                    <h2>Leírás</h2>
+                                    <p className={"paragraph"}>{product.description}</p></div>
                                 </div>
                             </div>
-                        </div>
                     </div>
                 )}
             </div>

@@ -17,3 +17,26 @@
     height: 100%;
     object-fit: cover;
 }
+
+.product{
+    display: inline-block;
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    vertical-align: center;
+    align-items: center;
+
+}
+
+.Box{
+    justify-content: space-evenly;
+    border: #0b5ed7 2px solid;
+    padding: 15px;
+    vertical-align: center;
+    margin-bottom: 10px;
+}
+
+.paragraph{
+    text-align: justify;
+    text-justify: inter-word;
+}

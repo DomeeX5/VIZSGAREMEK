@@ -1,49 +1,71 @@
-import React, {ChangeEvent, useState} from "react";
-import {Order} from "@prisma/client";
+import React, {useState} from "react";
+import {Address} from "@prisma/client";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import StepLabel from "@mui/material/StepLabel";
 import Step from "@mui/material/Step";
 import Typography from "@mui/material/Typography";
-import {Button} from "@mui/material";
+import {Button, MenuItem, Select} from "@mui/material";
+import {useNavigate} from "react-router-dom";
+import {AddressDto} from "api/dist/src/order/order.address.dto.ts";
 
 function Purchase() {
 
-    const [order,setOrder]=useState<Order[]>()
-    const [address, setAddress] = useState({
-        country: "",
-        state: "",
-        city: "",
-        street: "",
-        house_number: ""
+    const [paymentType, setPaymentType] = useState("");
+    const [address, setAddress] = useState<AddressDto>({
+        country: '',
+        state: '',
+        city: '',
+        street: '',
+        house_number: 0
     });
     const [activeStep, setActiveStep] = React.useState(0);
-    const [_, setErrors] = useState<string[]>([]);
+    const [_, setErrors] = useState<string>();
     const steps = [
         'Szállítás helye',
         'Fizetés',
         'Adatok ellenőrzése',
     ];
+    const navigate = useNavigate()
 
-    console.log(order)
+    const handlePaymentTypeChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+        setPaymentType(event.target.value as string);
+    };
 
-    function createOrder() {
-        fetch('/order/new?userid=1', {
-            method: 'POST',
-            body: JSON.stringify({ payment: 1, address }),
-            headers: {
-                'Content-type': 'application/json'
-            }
-        }).then(async (res) => {
-            if (!res.ok) {
-                const error = await res.json();
-                setErrors([error.message]);
-            } else {
-                const data = await res.json();
-                setOrder(data);
-            }
+    const handleAddressChange = (event: React.ChangeEvent<HTMLInputElement>, field: keyof Address) => {
+        setAddress({
+            ...address,
+            [field]: event.target.value
         });
-    }
+    };
+
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+
+        fetch('/api/order/new', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ paymentType, address })
+        })
+            .then(response => response.json())
+            .then(async res => {
+                if (!res.ok)
+                {
+                    setErrors(res.errorMessage);
+                } else {
+                    const accessToken = await res.accessToken;
+                    sessionStorage.setItem("token", accessToken);
+                    setErrors('');
+                    navigate("/")
+                }
+            })
+            .catch(error => {
+                console.error('Failed to submit order:', error);
+            });
+    };
+
 
 
     const handleNext = () => {
@@ -58,116 +80,148 @@ function Purchase() {
         setActiveStep(0);
     };
 
-    const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setAddress(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
-    };
-
     return (
         <>
-            <div>
-                <Box sx={{width: '100%'}} justifyContent={"center"} textAlign={"center"}>
-                    <Stepper activeStep={activeStep}>
-                        {steps.map((label) => {
-                            const stepProps: { completed?: boolean } = {};
-                            const labelProps: {
-                                optional?: React.ReactNode;
-                            } = {};
-                            return (
-                                <Step key={label} {...stepProps}>
-                                    <StepLabel {...labelProps}>{label}</StepLabel>
-                                </Step>
-                            );
-                        })}
-                    </Stepper>
-                    <div>
-                        {activeStep === 0 && (
-                            <>
-                                <label>Ország</label><br/>
-                                <input
-                                    type="text"
-                                    name="country"
-                                    value={address.country}
-                                    onChange={handleInputChange}/><br/>
-                                <label>Megye</label><br/>
-                                <input
-                                    type="text"
-                                    name="state"
-                                    value={address.state}
-                                    onChange={handleInputChange}/><br/>
-                                <label>Város</label><br/>
-                                <input
-                                    type="text"
-                                    name="city"
-                                    value={address.city}
-                                    onChange={handleInputChange}/><br/>
-                                <label>Utca</label><br/>
-                                <input
-                                    type="text"
-                                    name="street"
-                                    value={address.street}
-                                    onChange={handleInputChange}/><br/>
-                                <label>Házszám</label><br/>
-                                <input
-                                    type="text"
-                                    name="house_number"
-                                    value={address.house_number}
-                                    onChange={handleInputChange}/><br/>
-                                <div className={"break"}></div>
-                                <input
-                                    type="button"
-                                    value={'Vásárlás'}
-                                    onClick={createOrder}/><br/>
-                                <div className={"break"}></div>
-                            </>
+            <div className={"container"}>
+                    <Box sx={{width: '100%', minHeight: '500px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                        <Stepper activeStep={activeStep}>
+                            {steps.map((label) => {
+                                const stepProps: { completed?: boolean } = {};
+                                const labelProps: {
+                                    optional?: React.ReactNode;
+                                } = {};
+                                return (
+                                    <Step key={label} {...stepProps}>
+                                        <StepLabel {...labelProps}>{label}</StepLabel>
+                                    </Step>
+                                );
+                            })}
+                        </Stepper>
+                        <div>
+                            {activeStep === 0 && (
+                                <>
+                                    <div className={"break"}></div>
+                                    <label>
+                                        Country:
+                                        <input
+                                            type="text"
+                                            value={address.country}
+                                            onChange={(e) => handleAddressChange(e, 'country')}/>
+                                    </label>
+                                    <br/>
+                                    <div className={"break"}></div>
+                                    <label>
+                                        State:
+                                        <input
+                                            type="text"
+                                            value={address.state}
+                                            onChange={(e) => handleAddressChange(e, 'state')}/>
+                                    </label>
+                                    <br/>
+                                    <div className={"break"}></div>
+                                    <label>
+                                        City:
+                                        <input
+                                            type="text"
+                                            value={address.city}
+                                            onChange={(e) => handleAddressChange(e, 'city')}/>
+                                    </label>
+                                    <br/>
+                                    <div className={"break"}></div>
+                                    <label>
+                                        Street:
+                                        <input type="text" value={address.street}
+                                               onChange={(e) => handleAddressChange(e, 'street')}/>
+                                    </label>
+                                    <br/>
+                                    <div className={"break"}></div>
+                                    <label>
+                                        House Number:
+                                        <input type="text" value={address.house_number}
+                                               onChange={(e) => handleAddressChange(e, 'house_number')}/>
+                                    </label>
+                                    <br/>
+                                    <div className={"break"}></div>
+                                </>
+                            )}
+                            {activeStep === 1 && (
+                                <>
+                                    <div className={"break"}></div>
+                                    <label>
+                                        Kártyaszám:
+                                        <input type="type" maxLength={16}/>
+                                    </label><br/>
+                                    <div className={"break"}></div>
+                                    <label>
+                                        Lejárati idő:
+                                        <input type="type"/>
+                                    </label><br/>
+                                    <div className={"break"}></div>
+                                    <label>
+                                        Tulajdonos neve:
+                                        <input type="type" />
+                                    </label><br/>
+                                    <div className={"break"}></div>
+                                    <label>
+                                        CVV:
+                                        <input type="type" />
+                                    </label><br/>
+                                    <div className={"break"}></div>
+                                    <label>
+                                        Payment type:
+                                        <Select
+                                            value={paymentType}
+                                            onChange={handlePaymentTypeChange}
+                                            displayEmpty
+                                            fullWidth
+                                            variant="outlined"
+                                        >
+                                            <MenuItem value="10">Utalásos fizetés</MenuItem>
+                                            <MenuItem value="20">Bankártyás fizetés</MenuItem>
+                                            <MenuItem value="30">Átvételes fizetés</MenuItem>
+                                        </Select>
+                                    </label>
+                                    <div className={"break"}></div>
+                                </>
+                            )}
+                            {activeStep === 2 && (
+                                <>
+                                    <input type="submit" value={"Fizetés"} onClick={handleSubmit}/>
+                                </>
+                            )}
+                        </div>
+                        {activeStep === steps.length ? (
+                            <React.Fragment>
+                                <Typography sx={{mt: 2, mb: 1}}>
+                                    All steps completed - you&apos;re finished
+                                </Typography>
+                                <Box sx={{display: 'flex', flexDirection: 'row', pt: 2}}>
+                                    <Box sx={{flex: '1 1 auto'}}/>
+                                    <Button onClick={handleReset}>Reset</Button>
+                                </Box>
+                            </React.Fragment>
+                        ) : (
+                            <React.Fragment>
+                                <Box sx={{display: 'flex', flexDirection: 'row', pt: 2}}>
+                                    <Button
+                                        color="inherit"
+                                        disabled={activeStep === 0}
+                                        onClick={handleBack}
+                                        sx={{mr: 1}}
+                                    >
+                                        Vissza
+                                    </Button>
+                                    <Box sx={{flex: '1 1 auto'}}/>
+                                    <Button onClick={handleNext}>
+                                        {activeStep === steps.length - 1 ? 'Vásárlás' : 'Követkző'}
+                                    </Button>
+                                </Box>
+                            </React.Fragment>
                         )}
-                        {activeStep === 1 && (
-                            <>
-
-                            </>
-                        )}
-                        {activeStep === 2 && (
-                            <>
-
-                            </>
-                        )}
-                    </div>
-                    {activeStep === steps.length ? (
-                        <React.Fragment>
-                            <Typography sx={{mt: 2, mb: 1}}>
-                                All steps completed - you&apos;re finished
-                            </Typography>
-                            <Box sx={{display: 'flex', flexDirection: 'row', pt: 2}}>
-                            <Box sx={{flex: '1 1 auto'}}/>
-                                <Button onClick={handleReset}>Reset</Button>
-                            </Box>
-                        </React.Fragment>
-                    ) : (
-                        <React.Fragment>
-                            <Typography sx={{mt: 2, mb: 1}}>Step {activeStep + 1}</Typography>
-                            <Box sx={{display: 'flex', flexDirection: 'row', pt: 2}}>
-                                <Button
-                                    color="inherit"
-                                    disabled={activeStep === 0}
-                                    onClick={handleBack}
-                                    sx={{mr: 1}}
-                                >
-                                    Vissza
-                                </Button>
-                                <Box sx={{flex: '1 1 auto'}}/>
-                                <Button onClick={handleNext}>
-                                    {activeStep === steps.length - 1 ? 'Vásárlás' : 'Követkző'}
-                                </Button>
-                            </Box>
-                        </React.Fragment>
-                    )}
-                </Box>
+                    </Box>
             </div>
         </>
-    );
+);
 }
 
 export default Purchase;

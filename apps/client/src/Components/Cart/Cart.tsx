@@ -93,14 +93,11 @@ function Cart() {
                 setErrors(error.message);
             });
     }
-
+    useEffect(() => {}, [remove]);
 
     const card = (
         <Fragment>
             <CardContent>
-                <Typography sx={{ fontSize: 18 }} color="text.secondary" gutterBottom>
-                    Kosar tartalma
-                </Typography>
                 <Typography variant="h5" component="div">
                     Vasarlas
                 </Typography>
@@ -138,9 +135,11 @@ function Cart() {
                                                     <h5 className="card-title">{item.product.product_name}</h5>
                                                     <p className={"card-text"}>{item.product.price} Ft</p>
                                                     <p className="card-text">Darabszam: {item.quantity}</p>
-                                                    <IconButton aria-label="delete" size="small" onClick={() => remove(item.product.product_id)}>
-                                                        <DeleteIcon fontSize="small" />
-                                                    </IconButton>
+                                                    <a href="/cart">
+                                                        <IconButton aria-label="delete" size="small" onClick={() => remove(item.product.product_id)}>
+                                                            <DeleteIcon fontSize="small" />
+                                                        </IconButton>
+                                                    </a>
                                                 </div>
                                             </div>
                                         </div>

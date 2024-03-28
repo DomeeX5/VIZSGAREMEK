@@ -1,4 +1,4 @@
-import {Link} from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import {FormEvent, useState} from "react";
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.js'
@@ -8,6 +8,7 @@ function Login(){
     const [email,setEmail]=useState('')
     const [password,setPassword]=useState('')
     const [error,setError]=useState<string>('');
+    const navigate = useNavigate()
 
     function getData(event:FormEvent<HTMLFormElement>) {
         event.preventDefault()
@@ -27,6 +28,7 @@ function Login(){
                     const accessToken = await data.accessToken;
                     sessionStorage.setItem("token", accessToken);
                     setError('');
+                    navigate("/")
                 }
             })
             .catch(_ => {
