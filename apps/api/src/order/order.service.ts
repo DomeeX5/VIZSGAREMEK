@@ -30,7 +30,7 @@ export class OrderService {
             this.prisma.order.create({
                 data: {
 
-                    order_date: new Date(),
+                    order_date: (new Date()).toISOString(),
                     User: {
                         connect: {
                             user_id: userid.user.id,

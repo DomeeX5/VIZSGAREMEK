@@ -23,7 +23,7 @@ export class ProductService {
             },
         });
     }
-    async getAllProducts(page: number, limit: number) {
+    async getAllProductsWithLimit(page: number, limit: number) {
         const skip = (page - 1) * limit;
         return this.prisma.product.findMany({
             include: {
@@ -34,6 +34,13 @@ export class ProductService {
         });
     }
 
+    async getAllProducts() {
+        return this.prisma.product.findMany({
+            include: {
+                ProductPictures: true
+            },
+        });
+    }
     async getProductByType(selectedType: string, page: number, limit: number): Promise<Product[]>{
         const skip = (page - 1) * limit;
         const products = await this.prisma.product.findMany( {

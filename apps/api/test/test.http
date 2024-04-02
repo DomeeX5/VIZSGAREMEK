@@ -21,7 +21,7 @@ Content-Type: application/json
 
 POST http://localhost:3000/api/cart/add
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1ham9yZG9taW5pazNAZ21haWwuY29tIiwic3ViIjp7ImlkIjo0LCJuYW1lIjoiZG9tZWV4NSJ9LCJpYXQiOjE3MDk3MTAzNTUsImV4cCI6MTcxMDMxNTE1NX0.48twot4DYyoSqkdl9XcPtuaTS44CPxO72CoR-p0_NCA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1ham9yZG9taW5pazNAZ21haWwuY29tIiwic3ViIjp7ImlkIjo0LCJuYW1lIjoiZG9tZWV4NSJ9LCJpYXQiOjE3MTIwNDM4MjQsImV4cCI6MTcxMjY0ODYyNH0.5Uvl3pJKKkeNVOqIpckCY9HZir-wzxm1u-wuCwVxuM0
 
 {
   "productId": 4,
@@ -32,7 +32,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1ham9yZ
 
 GET http://localhost:3000/api/cart/items
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1ham9yZG9taW5pazNAZ21haWwuY29tIiwic3ViIjp7ImlkIjo0LCJuYW1lIjoiZG9tZWV4NSJ9LCJpYXQiOjE3MDk3MTAzNTUsImV4cCI6MTcxMDMxNTE1NX0.48twot4DYyoSqkdl9XcPtuaTS44CPxO72CoR-p0_NCA
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1ham9yZG9taW5pazNAZ21haWwuY29tIiwic3ViIjp7ImlkIjo0LCJuYW1lIjoiZG9tZWV4NSJ9LCJpYXQiOjE3MTIwNDM4MjQsImV4cCI6MTcxMjY0ODYyNH0.5Uvl3pJKKkeNVOqIpckCY9HZir-wzxm1u-wuCwVxuM0
 
 ###
 
@@ -73,6 +73,7 @@ Content-Type: application/json
 
 POST http://localhost:3000/api/order/new
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1ham9yZG9taW5pazNAZ21haWwuY29tIiwic3ViIjp7ImlkIjo0LCJuYW1lIjoiZG9tZWV4NSJ9LCJpYXQiOjE3MTIwNDM4MjQsImV4cCI6MTcxMjY0ODYyNH0.5Uvl3pJKKkeNVOqIpckCY9HZir-wzxm1u-wuCwVxuM0
 
 {
   "payment": 30,
@@ -81,6 +82,6 @@ Content-Type: application/json
     "state": "Fejér",
     "city": "Ráckeresztúr",
     "street": "Orgona utca",
-    "house_number": 4
+    "house_number": "4"
   }
 }

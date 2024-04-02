@@ -19,12 +19,17 @@ export class ProductController {
       @Query('page', ParseIntPipe) page: number,
       @Query('limit', ParseIntPipe) limit: number,
   ) {
-    return await this.productService.getAllProducts(page, limit);
+    return await this.productService.getAllProductsWithLimit(page, limit);
   }
 
   @Get('search')
   async search(@Query('query') query: string): Promise<Product[]> {
     return this.productService.productFindMany(query);
+  }
+
+  @Get('mobile')
+  async getProductsMobile() {
+    return this.productService.getAllProducts();
   }
 
   @Get(`type`)
