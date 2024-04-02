@@ -17,7 +17,7 @@ function Purchase() {
         state: '',
         city: '',
         street: '',
-        house_number: 0
+        house_number:''
     });
     const [activeStep, setActiveStep] = React.useState(0);
     const [_, setErrors] = useState<string>();

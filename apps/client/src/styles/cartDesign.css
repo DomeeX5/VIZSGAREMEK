@@ -5,9 +5,9 @@
 }
 
 .cards{
-    max-width: 50em;
+    max-width: 40em;
     flex-direction: row;
-    height: 10em;
+    height: auto;
 }
 
 .card-bodys{
@@ -17,9 +17,24 @@
 .card-image{
     width: 210px;
     text-align: center;
-    vertical-align: center;
+    vertical-align: middle;
     margin: auto;
     padding: 0.5em;
     max-height: 100%;
     object-fit: contain;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.centered {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.delete-link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
 }

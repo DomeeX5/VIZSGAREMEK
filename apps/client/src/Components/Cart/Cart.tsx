@@ -98,7 +98,7 @@ function Cart() {
     const card = (
         <Fragment>
             <CardContent>
-                <Typography variant="h5" component="div">
+                <Typography variant="h3" component="div">
                     Vasarlas
                 </Typography>
                 <Typography variant="body2">
@@ -121,21 +121,21 @@ function Cart() {
         <div>
             <div className={"container"}>
                 <div className={"row"}>
-                    <div className={"col-xl-9 col-lg-9 col-md-12 col-sm-12 col-12"}>
+                    <div className={"col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12"}>
                         <ul className={"ul"}>
                             {getCart.map((item) => (
                                 <li key={item.product.product_id}>
                                     <div className="card cards mb-3">
                                         <div className="row g-0">
-                                            <div className="col-xxl-4 col-xl-4 col-lg-4 col-md-4 col-sm-5 col-5">
-                                                <img src={item.product.ProductPictures[0].image} alt={item.product.product_name} className={"card-image img-fluid"}/>
+                                            <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-5 col-5 ">
+                                                <img src={item.product.ProductPictures[0].image} alt={item.product.product_name} className={"img-fluid card-image centered"}/>
                                             </div>
-                                            <div className="col-xxl-8 col-xl-8 col-lg-8 col-md-8 col-sm-7 col-7">
+                                            <div className="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-7 col-7">
                                                 <div className="card-body card-bodys">
                                                     <h5 className="card-title">{item.product.product_name}</h5>
                                                     <p className={"card-text"}>{item.product.price} Ft</p>
                                                     <p className="card-text">Darabszam: {item.quantity}</p>
-                                                    <a href="/cart">
+                                                    <a href="/cart" className="delete-link">
                                                         <IconButton aria-label="delete" size="small" onClick={() => remove(item.product.product_id)}>
                                                             <DeleteIcon fontSize="small" />
                                                         </IconButton>
@@ -148,8 +148,8 @@ function Cart() {
                             ))}
                         </ul>
                     </div>
-                    <div className={"col-xl-3 col-lg-3 col-md-6 col-sm-6 col-6"}>
-                        <Box sx={{ minWidth: 350 }}>
+                    <div className={"col-xl-4 col-lg-4 col-md-6 col-sm-6 col-6"}>
+                        <Box sx={{ width: "100%" }}>
                             <Card variant="outlined">{card}</Card>
                         </Box>
                     </div>
