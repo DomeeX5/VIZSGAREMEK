@@ -1,21 +1,21 @@
-import {Link, useNavigate} from "react-router-dom";
-import {FormEvent, useState} from "react";
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap/dist/js/bootstrap.js'
+import { Link, useNavigate } from "react-router-dom";
+import { FormEvent, useState } from "react";
+import { Button, TextField, Typography, Alert } from "@mui/material";
+import { useAuth } from './AuthContextProvider.tsx';
 
-function Login(){
+function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState<string>('');
+    const navigate = useNavigate();
+    const { login } = useAuth();
 
-    const [email,setEmail]=useState('')
-    const [password,setPassword]=useState('')
-    const [error,setError]=useState<string>('');
-    const navigate = useNavigate()
-
-    function getData(event:FormEvent<HTMLFormElement>) {
-        event.preventDefault()
-        setError('')
+    function getData(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        setError('');
         fetch('/api/auth/login', {
             method: 'POST',
-            body: JSON.stringify({email, password}),
+            body: JSON.stringify({ email, password }),
             headers: {
                 'Content-type': 'application/json'
             }
@@ -26,9 +26,9 @@ function Login(){
                     setError(data.errorMessage);
                 } else {
                     const accessToken = await data.accessToken;
-                    sessionStorage.setItem("token", accessToken);
+                    login(accessToken); // Set the access token after successful login
                     setError('');
-                    navigate("/")
+                    navigate("/");
                 }
             })
             .catch(_ => {
@@ -36,50 +36,46 @@ function Login(){
             });
     }
 
-    return(
+    return (
         <>
-            <div className={"bodies"}>
-                <form onSubmit={getData} className={"NeedContainer"}>
-                    <h1 className={'h1-nek'}>Bejelentkezés</h1>
-                    <label className={"labelnek"}>Email cím</label><br/>
-                    <input
-                        type={"text"}
-                        name={"email"}
-                        id={"email"}
-                        className={"textInput"}
+            <div className="bodies">
+                <form onSubmit={getData} className="NeedContainer">
+                    <Typography variant="h1" className="h1-nek">Bejelentkezés</Typography>
+                    <TextField
+                        id="email"
+                        label="Email cím"
+                        type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                    /><br/>
-                    <label className={"labelnek"}>Jelszo</label><br/>
-                    <input
-                        type={"password"}
-                        name={"password"}
-                        id={"password"}
-                        className={"textInput"}
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
+                    />
+                    <TextField
+                        id="password"
+                        label="Jelszó"
+                        type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        variant="outlined"
+                        fullWidth
+                        margin="normal"
                     />
-                    <div className="break"></div>
-                    <a href="/">
-                        <input type="submit" id="tovabb" value="Bejelentkezés" className="btn btn-primary gomb" />
-                    </a>
-                    <div className="break"></div>
-                    <Link to={"/register"}
-                          className={"link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover linkel"}>Nincs
-                        fiókod? Regisztrálj itt
+                    <Button variant="contained" color="primary" type="submit" fullWidth>
+                        Bejelentkezés
+                    </Button>
+                    <Link to="/register" className="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover linkel">
+                        Nincs fiókod? Regisztrálj itt
                     </Link>
                 </form>
-                <div>
-                    {error !== '' && (
-                        <div className={"alert alert-warning alert-dismissible fade show Alert"} role="alert">
-                            {error}
-                            <button type="button" className="btn-close" aria-label="Close" onClick={() => setError('')}></button>
-                        </div>
-                    )}
-                </div>
+                {error && (
+                    <Alert severity="error" className="Alert" onClose={() => setError('')}>
+                        {error}
+                    </Alert>
+                )}
             </div>
         </>
-    )
+    );
 }
 
 export default Login;

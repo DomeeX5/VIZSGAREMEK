@@ -14,16 +14,17 @@ export class CartController {
       @Body('quantity') quantity: number,
   ) {
     const userId = req['user']
-    await this.cartService.addToCart(userId, productId, quantity);
+    return await this.cartService.addToCart(userId, productId, quantity);
   }
 
   @Delete('remove')
   async removeFromCart(
       @Req() req: Request,
       @Body('productId') productId: number,
+      @Body('quantity') quantity: number,
   ) {
     const userId = req['user'];
-    await this.cartService.removeFromCart(userId, productId);
+    await this.cartService.removeFromCart(userId, productId, quantity);
   }
 
   @Get('items')

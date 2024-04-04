@@ -5,13 +5,13 @@ import '../../styles/productDesign.css';
 import { Alert, Button } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import useAddToCart from "../AddCart.tsx";
+import {Container, Row} from "react-bootstrap";
 
 function Products() {
     const { id } = useParams<{ id: string }>();
     const [product, setProduct] = useState<ExtendedProduct | null>(null);
-    const [showAlert, setShowAlert] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const { addToCart } = useAddToCart();
+    const { addToCart, showAlert, setShowAlert } = useAddToCart();
 
     useEffect(() => {
         fetch(`/api/products/${id}`)
@@ -40,8 +40,8 @@ function Products() {
                 )}
                 {error && <div>{error}</div>}
                 {product && (
-                    <div className={'container'}>
-                        <div className={'row'}>
+                    <Container>
+                        <Row>
                             <h2 className={'h1'}>{product.product_name}</h2>
                             <div className={'col-xl-8 col-lg-8 col-md-12 col-sm-12 col-12 break'}>
                                 <div id="carouselExampleCaptions" className="carousel car carousel-dark slide ">
@@ -84,8 +84,8 @@ function Products() {
                                     <h2>Leírás</h2>
                                     <p className={"paragraph"}>{product.description}</p></div>
                                 </div>
-                            </div>
-                    </div>
+                        </Row>
+                    </Container>
                 )}
             </div>
         </>

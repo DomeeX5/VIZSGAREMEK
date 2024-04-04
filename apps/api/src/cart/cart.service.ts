@@ -1,11 +1,47 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {PrismaService} from "../prisma/prisma.service";
 import {Product} from "@prisma/client";
+import {ExtendedProduct} from "client/src/interfaces";
 
 @Injectable()
 export class CartService {
 
     constructor(private prisma: PrismaService) {}
+
+    async removeFromCart(userid: { user: {id: number, name: string }, email: string }, productid: number, quantity: number) {
+        await this.prisma.cartItem.deleteMany({
+            where: {
+                User_user_id: userid.user.id,
+                Product_product_id: productid,
+                quantity: quantity
+            },
+
+        })
+    }
+
+    async getCartItems(userid: { user: {id: number, name: string }, email: string }) {
+        const cartItems = await this.prisma.cartItem.findMany({
+            where: {
+                User_user_id: userid.user.id,
+            },
+            include: {
+                Product: {
+                    include: {
+                        ProductPictures: true
+                    }
+                }
+            }
+        });
+        return cartItems.map((item) => ({
+            product: item.Product,
+            quantity: item.quantity
+        }))
+    }
+
+    async calculateTotalPrice(userid: { user: {id: number, name: string }, email: string }) {
+        const cartItems = await this.getCartItems(userid);
+        return cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0)
+    }
 
     async addToCart(userid: { user: {id: number, name: string }, email: string }, productId: number, quantity: number) {
         const user = await this.prisma.user.findUnique({
@@ -53,38 +89,12 @@ export class CartService {
                 },
             });
         }
-    }
 
-    async removeFromCart(userid: { user: {id: number, name: string }, email: string }, productid: number) {
-        await this.prisma.cartItem.deleteMany({
-            where: {
-                User_user_id: userid.user.id,
-                Product_product_id: productid,
-            }
-        })
-    }
-
-    async getCartItems(userid: { user: {id: number, name: string }, email: string }) {
-        const cartItems = await this.prisma.cartItem.findMany({
-            where: {
-                User_user_id: userid.user.id,
-            },
-            include: {
-                Product: {
-                    include: {
-                        ProductPictures: true
-                    }
-                }
-            }
-        });
-        return cartItems.map((item) => ({
-            product: item.Product,
-            quantity: item.quantity
-        }))
-    }
-
-    async calculateTotalPrice(userid: { user: {id: number, name: string }, email: string }) {
-        const cartItems = await this.getCartItems(userid);
-        return cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0)
+        const updatedCartItems = await this.getCartItems(userid);
+        const totalPrice = await this.calculateTotalPrice(userid);
+        return {
+            cartItems: updatedCartItems,
+            totalPrice: totalPrice
+        };
     }
 }

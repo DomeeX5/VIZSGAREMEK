@@ -1,41 +1,101 @@
-import {Component} from "react";
-import {ExtendedProduct} from "../interfaces.ts";
-import {Card, Button, CardActions, CardContent, IconButton, Stack} from "@mui/material";
+import { ExtendedProduct } from "../interfaces.ts";
+import {Card, CardActions, CardContent, IconButton, Stack, Alert, TextField, Button} from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import {Link} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import "../styles/mainDesign.css"
+import "../styles/mainDesign.css";
+import useAddToCart from "./AddCart.tsx";
+import {Button as ButtonReact} from "react-bootstrap";
+import {useState} from "react";
 
-export class CardComponent extends Component<{ product: ExtendedProduct, onClick: () => void }> {
-    render() {
-        return (
-            <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
-                <Card className={"card"}>
-                    <img
-                        src={this.props.product.ProductPictures && this.props.product.ProductPictures.length > 0 ? this.props.product.ProductPictures[0].image : ''}
-                        alt={this.props.product.product_name} className="card-img-top"/>
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="div">
-                            {this.props.product.product_name}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                            {this.props.product.price}Ft
-                        </Typography>
-                    </CardContent>
-                    <CardActions disableSpacing>
-                        <Stack direction="row" spacing={1} alignItems="center">
-                            <IconButton color="primary" aria-label="add to shopping cart" onClick={this.props.onClick}>
-                                <AddShoppingCartIcon/>
-                            </IconButton>
-                            <Link to={`/products/${this.props.product.product_id}`} style={{textDecoration: 'none'}}>
-                                <Button variant="contained" size="small">
-                                    Áru megtekintése
-                                </Button>
-                            </Link>
-                        </Stack>
-                    </CardActions>
-                </Card>
-            </div>
-        )
-    }
+export default function CardComponent({ product }: { product: ExtendedProduct }) {
+    const navigate = useNavigate();
+    const { addToCart, showAlert, setShowAlert } = useAddToCart();
+
+    const [count, setCount] = useState(1);
+    const handleIncrement = () => {
+        setCount(prevCount => prevCount + 1);
+    };
+    const handleDecrement = () => {
+        if (count > 1) {
+            setCount(prevCount => prevCount - 1);
+        }
+    };
+    const handleClick = () => {
+        navigate(`/products/${product.product_id}`);
+    };
+
+    const handleAddToCart = () => {
+        if (!showAlert) {
+            addToCart(product.product_id);
+        }
+    };
+
+    return (
+        <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
+            <Card className={"card"}>
+                <img
+                    src={product.ProductPictures && product.ProductPictures.length > 0 ? product.ProductPictures[0].image : ''}
+                    alt={product.product_name} className="card-img-top"/>
+                <CardContent>
+                    <Typography gutterBottom variant="h5" component="div">
+                        {product.product_name}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                        {product.price}Ft
+                    </Typography>
+                </CardContent>
+                <CardActions disableSpacing>
+                    <Stack direction="row" spacing={1} alignItems="center">
+                        <ButtonReact
+                            variant="outline-primary"
+                            style={{
+                                borderRadius: 25,
+                                width: 25,
+                                height: 25,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                            onClick={handleDecrement}
+                        >
+                            -
+                        </ButtonReact>
+                        <TextField
+                            value={count}
+                            disabled
+                            style={{ marginRight: '0 0 0px', width: 50, boxSizing: 'border-box', padding: 0, justifyContent: 'center', alignItems: "center" }}
+                        />
+                        <ButtonReact
+                            variant="outline-primary"
+                            style={{
+                                borderRadius: 25,
+                                width: 25,
+                                height: 25,
+                                display: 'flex',
+                                justifyContent: 'center',
+                                alignItems: 'center',
+                            }}
+                            onClick={handleIncrement}
+                        >
+                            +
+                        </ButtonReact>
+                        <IconButton color="primary" aria-label="add to shopping cart" onClick={handleAddToCart}>
+                            <AddShoppingCartIcon/>
+                        </IconButton>
+                        <Link to={`/products/${product.product_id}`} style={{textDecoration: 'none'}}>
+                            <Button variant="contained" size="small" onClick={handleClick}>
+                                Áru megtekintése
+                            </Button>
+                        </Link>
+                    </Stack>
+                </CardActions>
+            </Card>
+            {showAlert && (
+                <Alert severity="error" className={"Alert"} onClose={() => setShowAlert(false)}>
+                    Ahhoz, hogy a kosárba tudd a terméket rakni, be kell jelentkezned.
+                </Alert>
+            )}
+        </div>
+    );
 }

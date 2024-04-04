@@ -1,21 +1,20 @@
 import { useState } from 'react';
 import { CartItem } from '@prisma/client';
+import {useAuth} from "./Login/AuthContextProvider.tsx";
 
 function useAddToCart() {
-
+    const {isLoggedIn} = useAuth();
     const [addCart, setAddCart] = useState<CartItem[]>();
     const [showAlert, setShowAlert] = useState(false);
     const [errors, setErrors] = useState<string[]>([]);
-
     const addToCart = (productId: number) => {
-        const accessToken = sessionStorage.getItem('token');
-        if (!accessToken) {
+        if (!isLoggedIn) {
             console.log('Nincs accessToken a sessionStorage-ben');
             setShowAlert(true);
             return;
         }
-        const data = { addCart, productId, quantity: 1 };
-
+        const data = { productId, quantity: 1 };
+        const accessToken = sessionStorage.getItem("token")
         fetch(`/api/cart/add`, {
             method: 'POST',
             body: JSON.stringify(data),
