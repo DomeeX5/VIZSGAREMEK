@@ -1,6 +1,7 @@
 import {Body, Controller, Get, Param, ParseIntPipe, Query} from '@nestjs/common';
 import { ProductService } from './product.service';
 import {Product} from "@prisma/client";
+import {ExtendedProduct} from "client/src/interfaces";
 
 @Controller('products')
 export class ProductController {
@@ -23,7 +24,7 @@ export class ProductController {
   }
 
   @Get('search')
-  async search(@Query('query') query: string): Promise<Product[]> {
+  async search(@Query('query') query: string): Promise<ExtendedProduct[]> {
     return this.productService.productFindMany(query);
   }
 

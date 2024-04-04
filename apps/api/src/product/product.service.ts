@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {PrismaService} from "../prisma/prisma.service";
 import {Product} from "@prisma/client";
 import {take} from "rxjs";
+import {ExtendedProduct} from "client/src/interfaces";
 
 @Injectable()
 export class ProductService {
@@ -13,7 +14,7 @@ export class ProductService {
         return products.length;
     }
 
-    async productFindMany(query: string): Promise<Product[]> {
+    async productFindMany(query: string): Promise<ExtendedProduct[]> {
         return this.prisma.product.findMany({
             where: {
                 product_name: {
@@ -21,6 +22,9 @@ export class ProductService {
 
                 },
             },
+            include: {
+                ProductPictures: true
+            }
         });
     }
     async getAllProductsWithLimit(page: number, limit: number) {
