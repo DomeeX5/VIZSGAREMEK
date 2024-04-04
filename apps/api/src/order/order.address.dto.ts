@@ -1,4 +1,4 @@
-import {IsInt, IsNumberString, IsString} from "class-validator";
+import {IsString} from "class-validator";
 
 export class AddressDto {
     @IsString()

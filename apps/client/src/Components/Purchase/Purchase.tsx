@@ -7,12 +7,11 @@ import Step from "@mui/material/Step";
 import Typography from "@mui/material/Typography";
 import {Button, MenuItem, Select, SelectChangeEvent} from "@mui/material";
 import {useNavigate} from "react-router-dom";
-import {AddressDto} from "api/dist/src/order/order.address.dto.ts"
 
 function Purchase() {
 
     const [paymentType, setPaymentType] = useState<"" | { value: unknown } | undefined>("");
-    const [address, setAddress] = useState<AddressDto>({
+    const [address, setAddress] = useState({
         country: '',
         state: '',
         city: '',
