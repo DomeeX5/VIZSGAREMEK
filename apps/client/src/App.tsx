@@ -7,15 +7,18 @@ import Cart from "./Components/Cart/Cart.tsx";
 import Purchase from "./Components/Purchase/Purchase.tsx";
 import Navbars from "./Components/Navbar.tsx";
 import Footer from "./Components/Footer.tsx";
+import {useState} from "react";
 
 function App() {
 
-  return (
-    <>
-        <BrowserRouter>
-            <Navbars/>
-            <Routes>
-                <Route path={"/"} element={<Main/>}/>
+    const [currentPage, setCurrentPage] = useState<number>(1);
+
+    return (
+        <>
+            <BrowserRouter>
+                <Navbars currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                <Routes>
+                <Route path="/" element={<Main currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
                 <Route path={"/register"} element={<Register/>}/>
                 <Route path={"/login"} element={<Login/>}/>
                 <Route path={`/products/:id`} element={<Products/>}/>

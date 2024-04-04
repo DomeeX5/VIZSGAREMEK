@@ -31,3 +31,28 @@ p{
  margin: 0;
 }
 
+.search-container {
+    position: fixed;
+    top: 5%;
+    bottom: 0;
+    left: 0;
+    right: 1.9%;
+    overflow-y: auto;
+    z-index: 9999;
+    width: fit-content;
+    height: 300px;
+}
+
+.search-container.active {
+    display: block;
+}
+
+.search-container.inactive {
+    display: none;
+}
+
+.search-container::-webkit-scrollbar {
+    width: 0;
+    display: none;
+}
+

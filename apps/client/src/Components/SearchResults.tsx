@@ -11,7 +11,7 @@ export default function SearchResult(props: Props) {
     return (
         <ListGroup className="mt-2 search-options col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
             {props.results.map((product, index) => (
-                <ListGroupItem key={index} className="d-flex align-items-center">
+                <ListGroupItem key={index} className="d-flex align-items-center" style={{borderRadius:'0'}}>
                     {product.ProductPictures && product.ProductPictures.map((picture, pictureIndex) => (
                         <Image key={pictureIndex} src={picture.image} alt={product.product_name} thumbnail />
                     ))}

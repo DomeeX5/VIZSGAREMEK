@@ -10,11 +10,20 @@ import { ExtendedProduct } from "../interfaces.ts";
 import SearchResults from './SearchResults.tsx';
 import { useAuth } from "./Login/AuthContextProvider.tsx";
 
-function Navbars() {
+interface NavbarProps {
+    currentPage: number;
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const Navbars: React.FC<NavbarProps> = ({ setCurrentPage }) => {
+    function handleGoToHomePage() {
+        setCurrentPage(1);
+    }
     const { isLoggedIn, logout } = useAuth();
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<ExtendedProduct[]>([]);
     const [showResults, setShowResults] = useState<boolean>(false);
+    const [searching, setSearching] = useState<boolean>(false);
     const [showOffcanvas, setShowOffcanvas] = useState<boolean>(false);
     const navigate = useNavigate();
 
@@ -58,18 +67,19 @@ function Navbars() {
         <>
             <Navbar expand={false} className="bg-body-tertiary mb-3" sticky="top" bg="dark" data-bs-theme="dark">
                 <Container fluid>
-                    <Link to={"/"}>
-                        <Navbar.Brand>Webshop</Navbar.Brand>
+                    <Link to="/" onClick={handleGoToHomePage}>
+                        <label style={{color:'white', fontSize: '20px'}}>Weboldal</label>
                     </Link>
                     <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
                         <Form.Control
                             type="search"
                             placeholder="Search"
-                            className="me-2"
+                            className={`me-2 ${searching ? 'focused' : ''}`}
                             aria-label="Search"
                             value={query}
                             onChange={handleSearch}
-                        />
+                        onFocus={() => setSearching(true)}
+                        onBlur={() => setSearching(false)}/>
                         <Button type={'submit'} variant="contained" size="sm" color="success">
                             Send
                         </Button>
@@ -85,7 +95,7 @@ function Navbars() {
                         <Offcanvas.Header closeButton>
                             <Offcanvas.Title id="offcanvasNavbarLabel">
                                 Menu
-                            </Offcanvas.Title>
+                            </Offcanvas.Title>x
                         </Offcanvas.Header>
                         <Offcanvas.Body>
                             <Nav className="justify-content-end flex-grow-1 pe-3">
@@ -134,7 +144,7 @@ function Navbars() {
                 </Container>
 
             </Navbar>
-            <Container fluid="md">
+            <Container fluid="md" className={`search-container ${showResults && searching ? 'active' : 'inactive'}`}>
                 <Row>
                     <Col></Col>
                     <Col>{showResults && <SearchResults results={results} />}</Col>
