@@ -25,6 +25,35 @@
     margin-bottom: 20px;
 }
 
+.quantity-button {
+    border-radius: 50%;
+    border: 1px solid #0d6efd;
+    color: #0d6efd;
+    background: white;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s ease;
+}
+
+.quantity-button:hover {
+    background: #0d6efd;
+    color: white;
+}
+
+.quantity-number {
+    margin-right: 0;
+    width: 10px;
+    box-sizing: border-box;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    border: 1px solid white;
+}
+
 .card{
     margin: 20px 0 20px 0;
     border-radius: 0;

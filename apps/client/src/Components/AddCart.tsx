@@ -7,13 +7,13 @@ function useAddToCart() {
     const [addCart, setAddCart] = useState<CartItem[]>();
     const [showAlert, setShowAlert] = useState(false);
     const [errors, setErrors] = useState<string[]>([]);
-    const addToCart = (productId: number) => {
+    const addToCart = (productId: number, quantity: number) => {
         if (!isLoggedIn) {
             console.log('Nincs accessToken a sessionStorage-ben');
             setShowAlert(true);
             return;
         }
-        const data = { productId, quantity: 1 };
+        const data = { productId, quantity };
         const accessToken = sessionStorage.getItem("token")
         fetch(`/api/cart/add`, {
             method: 'POST',

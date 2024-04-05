@@ -1,18 +1,18 @@
 import { ExtendedProduct } from "../interfaces.ts";
-import {Card, CardActions, CardContent, IconButton, Stack, Alert, TextField, Button} from "@mui/material";
+import {Card, CardActions, CardContent, IconButton, Stack, Alert, Button} from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Link, useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import "../styles/mainDesign.css";
 import useAddToCart from "./AddCart.tsx";
-import {Button as ButtonReact} from "react-bootstrap";
+//import {Button as ButtonReact} from "react-bootstrap";
 import {useState} from "react";
 
 export default function CardComponent({ product }: { product: ExtendedProduct }) {
     const navigate = useNavigate();
     const { addToCart, showAlert, setShowAlert } = useAddToCart();
-
     const [count, setCount] = useState(1);
+
     const handleIncrement = () => {
         setCount(prevCount => prevCount + 1);
     };
@@ -24,12 +24,12 @@ export default function CardComponent({ product }: { product: ExtendedProduct })
     const handleClick = () => {
         navigate(`/products/${product.product_id}`);
     };
-
     const handleAddToCart = () => {
         if (!showAlert) {
-            addToCart(product.product_id);
+            addToCart(product.product_id, count);
         }
     };
+
 
     return (
         <div className="col-xl-3 col-lg-4 col-md-6 col-sm-6 col-12">
@@ -47,39 +47,21 @@ export default function CardComponent({ product }: { product: ExtendedProduct })
                 </CardContent>
                 <CardActions disableSpacing>
                     <Stack direction="row" spacing={1} alignItems="center">
-                        <ButtonReact
-                            variant="outline-primary"
-                            style={{
-                                borderRadius: 25,
-                                width: 25,
-                                height: 25,
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
+                        <button
+                            className='quantity-button'
                             onClick={handleDecrement}
-                        >
-                            -
-                        </ButtonReact>
-                        <TextField
+                        >-</button>
+                        <input
                             value={count}
                             disabled
-                            style={{ marginRight: '0 0 0px', width: 50, boxSizing: 'border-box', padding: 0, justifyContent: 'center', alignItems: "center" }}
+                            className='quantity-number'
                         />
-                        <ButtonReact
-                            variant="outline-primary"
-                            style={{
-                                borderRadius: 25,
-                                width: 25,
-                                height: 25,
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}
+                        <button
+                            className='quantity-button'
                             onClick={handleIncrement}
                         >
                             +
-                        </ButtonReact>
+                        </button>
                         <IconButton color="primary" aria-label="add to shopping cart" onClick={handleAddToCart}>
                             <AddShoppingCartIcon/>
                         </IconButton>
