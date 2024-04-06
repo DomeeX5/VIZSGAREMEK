@@ -1,154 +1,131 @@
-import { useState, useEffect } from "react";
-import { ExtendedCartItem } from "../../interfaces.ts";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Button, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row, Card as ReactCard, ListGroup } from "react-bootstrap";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import "../../styles/cartDesign.css";
 import DeleteIcon from '@mui/icons-material/Delete';
-import {CardActions, CardContent, IconButton, Card} from "@mui/material";
+import { CardActions, IconButton } from "@mui/material";
+import {useAddToCart} from "../AddCart.tsx";
+import {useCart} from "./CartContext.tsx";
 
 function Cart() {
-    const [getCart, setGetCart] = useState<ExtendedCartItem[]>([]);
-    const [totalPrice, setTotalPrice] = useState("");
-    const [_, setErrors] = useState<string[]>([]);
     const navigate = useNavigate();
+    const { addToCart } = useAddToCart();
+    const { cartItems, totalPrice, fetchCartData, removeFromCart } = useCart();
 
     useEffect(() => {
-        const accessToken = sessionStorage.getItem("token");
-        if (!accessToken) {
-            console.log("Nincs accessToken a localStorage-ban");
-            return;
-        }
-
-        fetch(`/api/cart/items`, {
-            headers: {
-                'Content-type': 'application/json',
-                Authorization: `Bearer ${accessToken}`
-            }
-        })
-            .then(async (res) => {
-                if (!res.ok) {
-                    const error = await res.json();
-                    setErrors([error.message]);
-                } else {
-                    const data = await res.json();
-                    setGetCart(data);
-                }
-            })
-            .catch(error => {
-                console.error('Error fetching cart items:', error);
-                setErrors(['Error fetching cart items']);
-            });
-
-        fetch('/api/cart/total', {
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${accessToken}`
-            }
-        })
-            .then(async res => {
-                if (!res.ok) {
-                    const error = await res.json();
-                    setErrors([error.message]);
-                } else {
-                    const data = await res.json();
-                    setTotalPrice(data);
-                }
-            })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
-
+        fetchCartData();
     }, []);
-
-    function remove(productId: number) {
-        const accessToken = sessionStorage.getItem("token");
-        if (!accessToken) {
-            console.log("Nincs accessToken a localStorage-ban");
-            return;
-        }
-        const data = { productId, quantity: 1 };
-
-        fetch("/api/cart/remove", {
-            method: "DELETE",
-            body: JSON.stringify(data),
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${accessToken}`
-            }
-        })
-            .then(async res => {
-                if (!res.ok) {
-                    const error = await res.json();
-                    setErrors([error.message]);
-                } else {
-                    const index = getCart.findIndex(item => item.product.product_id === productId);
-                    if (index !== -1) {
-                        const updatedCart = [...getCart.slice(0, index), ...getCart.slice(index + 1)];
-                        setGetCart(updatedCart);
-                    }
-                }
-            })
-            .catch(error => {
-                setErrors(error.message);
-            });
-    }
-    useEffect(() => { }, [remove]);
 
     const handlePaymentClick = () => {
         navigate("/purchase");
     };
 
+    const handleNavigation = (destination: string) => {
+        navigate(destination);
+    }
+
     return (
         <Container>
             <Row>
                 <Col xl={8} lg={8} md={12} sm={12} xs={12}>
-                    <ul className={"ul"}>
-                        {getCart.map((item) => (
-                            <li key={item.product.product_id}>
-                                <div className="card cards mb-3">
-                                    <div className="row g-0">
-                                        <div className="col-xxl-3 col-xl-3 col-lg-3 col-md-3 col-sm-5 col-5 ">
-                                            <img src={item.product.ProductPictures[0].image} alt={item.product.product_name} className={"img-fluid card-image centered"} />
-                                        </div>
-                                        <div className="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-7 col-7">
-                                            <div className="card-body card-bodys">
-                                                <h5 className="card-title">{item.product.product_name}</h5>
-                                                <p className={"card-text"}>{item.product.price} Ft</p>
-                                                <p className="card-text">Darabszam: {item.quantity}</p>
-                                                <div className="delete-link">
-                                                    <IconButton aria-label="delete" size="small" onClick={() => remove(item.product.product_id)}>
-                                                        <DeleteIcon fontSize="small" />
-                                                    </IconButton>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                    <ListGroup>
+                        {cartItems.map((item) => (
+                            <ListGroup.Item
+                                key={item.product.product_id}
+                                style={
+                                        {
+                                            borderLeft: 'none',
+                                            borderRight: 'none',
+                                            borderTop: 'none',
+                                            borderBottomLeftRadius: 0,
+                                            borderBottomRightRadius: 0,
+                                        }
+                                }>
+                                <Row>
+                                    <Col sm={5}>
+                                        <img src={item.product.ProductPictures[0].image} alt={item.product.product_name}
+                                             className="img-fluid card-image centered"/>
+                                    </Col>
+                                    <Col sm={7}>
+                                        <ReactCard style={{border: 'none'}}>
+                                            {/* TODO: Quantity gombok designolása*/}
+                                            <ReactCard.Body>
+                                                <Row>
+                                                    <Col xl={7} lg={6} md={6} sm={6} xs={6}
+                                                         onClick={() => handleNavigation(`/products/${item.product.product_id}`)}
+                                                    style={{cursor: "pointer"}}>
+                                                        <ReactCard.Title>
+                                                            {item.product.product_name}</ReactCard.Title>
+                                                        <ReactCard.Text>{item.product.price} Ft</ReactCard.Text>
+                                                        <ReactCard.Text>Darabszám: {item.quantity}</ReactCard.Text>
+                                                    </Col>
+                                                    <Col xl={5} lg={6} md={6} sm={6} xs={6}>
+                                                        <div className="delete-link">
+                                                            <button
+                                                                className='quantity-button'
+                                                                onClick={() => removeFromCart(item.product.product_id)}
+                                                            >-
+                                                            </button>
+                                                            <input
+                                                                value={item.quantity}
+                                                                disabled
+                                                                className='quantity-number'
+                                                            />
+                                                            <button
+                                                                className='quantity-button'
+                                                                onClick={() => {
+                                                                    addToCart(item.product.product_id, 1);
+                                                                }}
+                                                            >+
+                                                            </button>
+                                                            <IconButton aria-label="delete" size="small"
+                                                                        onClick={() => removeFromCart(item.product.product_id)}>
+                                                                <DeleteIcon fontSize="medium"/>
+                                                            </IconButton>
+                                                        </div>
+                                                    </Col>
+                                                </Row>
+                                            </ReactCard.Body>
+                                        </ReactCard>
+                                    </Col>
+                                </Row>
+                            </ListGroup.Item>
                         ))}
-                    </ul>
+                    </ListGroup>
                 </Col>
                 <Col xl={4} lg={4} md={6} sm={6} xs={6}>
-                    <Box sx={{ width: "100%" }}>
-                        <Card variant="outlined">
-                            <CardContent>
+                    <Box sx={{width: "100%", height: '100%'}}>
+                        <ReactCard style={
+                            {
+                                borderRight: 'none',
+                                borderTop: 'none',
+                                borderBottom: 'none',
+                                borderTopLeftRadius: 0,
+                                borderBottomLeftRadius: 0,
+                                height: '100%'
+                            }
+                        }>
+                            <ReactCard.Body>
                                 <Typography variant="h3" component="div">
-                                    Vasarlas
+                                    Vásárlás
                                 </Typography>
-                                <Typography variant="body2" >
-                                    {getCart.map((item) => (
-                                        <span key={item.product.product_id}>{item.product.product_name} {item.quantity}x{item.product.price} Ft</span>
+                                <Typography variant="body2">
+                                    {cartItems.map((item) => (
+                                        <span key={item.product.product_id}>
+                                            {item.product.product_name} {item.quantity}x{item.product.price} Ft<br/>
+                                        </span>
                                     ))}
-                                    <br />
-                                    Total Price: {totalPrice !== null ? totalPrice : 'Loading...'} Ft
+                                    <br/>
+
                                 </Typography>
-                            </CardContent>
+                            </ReactCard.Body>
+                            <span>Total Price: {totalPrice !== null ? totalPrice : 'Loading...'} Ft</span>
                             <CardActions>
-                                <Button size="sm" onClick={handlePaymentClick}>Fizetes</Button>
+                                <Button size="sm" onClick={handlePaymentClick}>Fizetés</Button>
                             </CardActions>
-                        </Card>
+                        </ReactCard>
                     </Box>
                 </Col>
             </Row>
