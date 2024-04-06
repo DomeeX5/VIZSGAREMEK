@@ -16,7 +16,7 @@ function App() {
     return (
         <>
             <BrowserRouter>
-                <Navbars currentPage={currentPage} setCurrentPage={setCurrentPage} />
+                <Navbars currentPage={currentPage} setCurrentPage={setCurrentPage}/>
                 <Routes>
                 <Route path="/" element={<Main currentPage={currentPage} setCurrentPage={setCurrentPage} />} />
                 <Route path={"/register"} element={<Register/>}/>
