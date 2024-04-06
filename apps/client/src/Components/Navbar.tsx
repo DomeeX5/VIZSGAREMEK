@@ -9,6 +9,7 @@ import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
 import { ExtendedProduct } from "../interfaces.ts";
 import SearchResults from './SearchResults.tsx';
 import { useAuth } from "./Login/AuthContextProvider.tsx";
+import {useCart} from "./Cart/CartContext.tsx";
 
 interface NavbarProps {
     currentPage: number;
@@ -16,9 +17,6 @@ interface NavbarProps {
 }
 
 const Navbars: React.FC<NavbarProps> = ({ setCurrentPage }) => {
-    function handleGoToHomePage() {
-        setCurrentPage(1);
-    }
     const { isLoggedIn, logout } = useAuth();
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<ExtendedProduct[]>([]);
@@ -26,6 +24,7 @@ const Navbars: React.FC<NavbarProps> = ({ setCurrentPage }) => {
     const [searching, setSearching] = useState<boolean>(false);
     const [showOffcanvas, setShowOffcanvas] = useState<boolean>(false);
     const navigate = useNavigate();
+    const {cartCount} = useCart();
 
     useEffect(() => {
         setQuery('');
@@ -35,6 +34,10 @@ const Navbars: React.FC<NavbarProps> = ({ setCurrentPage }) => {
 
     const handleLogout = () => {
         logout();
+    }
+
+    const handleGoToHomePage = () => {
+        setCurrentPage(1);
     }
 
     const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,7 +107,7 @@ const Navbars: React.FC<NavbarProps> = ({ setCurrentPage }) => {
                                         <ListItem disablePadding className="nav-item">
                                             <ListItemButton onClick={() => handleNavigation('/cart')} className="nav-link active">
                                                 <ListItemIcon>
-                                                    <ShoppingCartIcon />
+                                                    <ShoppingCartIcon /><sup>{cartCount}</sup>
                                                 </ListItemIcon>
                                                 <ListItemText primary="Kosár" />
                                             </ListItemButton>

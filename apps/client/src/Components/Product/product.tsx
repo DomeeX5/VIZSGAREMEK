@@ -4,7 +4,7 @@ import { ExtendedProduct } from '../../interfaces.ts';
 import '../../styles/productDesign.css';
 import { Alert, Button } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import useAddToCart from "../AddCart.tsx";
+import {useAddToCart} from "../AddCart.tsx";
 import {Container, Row} from "react-bootstrap";
 
 function Products() {
@@ -75,7 +75,7 @@ function Products() {
                                         <div>
                                             <p className={"product"}>Price: {product.price}Ft</p>
                                         </div>
-                                        <Button onClick={() => {addToCart(product.product_id);}} variant={'outlined'} startIcon={<AddShoppingCartIcon />}>
+                                        <Button onClick={() => {addToCart(product.product_id, 1);}} variant={'outlined'} startIcon={<AddShoppingCartIcon />}>
                                             Kosárba
                                         </Button>
                                     </div>
