@@ -17,14 +17,23 @@ export class CartController {
     return await this.cartService.addToCart(userId, productId, quantity);
   }
 
-  @Delete('remove')
-  async removeFromCart(
+  @Post('remove')
+  async removeOneFromCart(
       @Req() req: Request,
       @Body('productId') productId: number,
       @Body('quantity') quantity: number,
   ) {
     const userId = req['user'];
-    await this.cartService.removeFromCart(userId, productId, quantity);
+    await this.cartService.removeOneFromCart(userId, productId, quantity);
+  }
+
+  @Post('remove-item')
+  async removeFromCart(
+      @Req() req: Request,
+      @Body('productId') productId: number
+  ) {
+    const userId = req['user'];
+    await this.cartService.removeItemFromCart(userId, productId);
   }
 
   @Get('items')
@@ -37,5 +46,11 @@ export class CartController {
   async calculateTotalPrice(@Req() req: Request) {
     const userId = req['user'];
     return await this.cartService.calculateTotalPrice(userId);
+  }
+
+  @Get('item-count')
+  async getCountCart(@Req() req: Request) {
+    const userId = req['user'];
+    return await this.cartService.getCountCart(userId);
   }
 }

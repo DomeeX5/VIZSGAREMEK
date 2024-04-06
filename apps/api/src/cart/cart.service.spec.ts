@@ -116,7 +116,7 @@ describe('CartService', () => {
             const userId = { user: { id: 1, name: 'Test User' }, email: 'test@example.com' };
             const productId = 1;
 
-            await service.removeFromCart(userId, productId);
+            await service.removeOneFromCart(userId, productId);
 
             expect(prismaService.cartItem.deleteMany).toHaveBeenCalledWith({
                 where: {
