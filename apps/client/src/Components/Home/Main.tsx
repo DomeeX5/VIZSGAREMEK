@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {Alert, Pagination, Skeleton} from "@mui/material";
 import { Col, Container, Row } from "react-bootstrap";
 import { ExtendedProduct } from "../../interfaces.ts";
 import { useNavigate } from "react-router-dom";
 import CardComponent from '../CardComponent.tsx';
-import useAddToCart from "../AddCart.tsx";
+import {useAddToCart} from "../AddCart.tsx";
 
 interface MainProps {
     currentPage: number;
@@ -107,7 +107,7 @@ const Main: React.FC<MainProps> = ({ currentPage, setCurrentPage }) => {
                     )}
                     {loading ? (
                         Array.from({length: productsPerPage}).map((_, index) => (
-                            <Col key={index} xl={3} lg={4} md={6} sm={6} xs={6}>
+                            <Col key={index} xl={3} lg={4} md={6} sm={6} xs={12}>
                                 <div className="skeleton-card">
                                     <Skeleton variant="rectangular" width={1300} height={200}/>
                                     <div className="skeleton-text">
