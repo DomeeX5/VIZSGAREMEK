@@ -33,13 +33,12 @@ p{
 
 .search-container {
     position: fixed;
-    top: 5%;
+    top: 4.9%;
     bottom: 0;
     left: 0;
     right: 1.9%;
     overflow-y: auto;
     z-index: 9999;
-    width: fit-content;
     height: 300px;
 }
 
