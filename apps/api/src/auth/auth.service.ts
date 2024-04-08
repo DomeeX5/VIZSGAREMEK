@@ -25,6 +25,7 @@ export class AuthService {
 
             return {
                 accessToken: this.jwtService.sign(payload),
+                username: userFromDb.username
             }
         } else {
             return {
