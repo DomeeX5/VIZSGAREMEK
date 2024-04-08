@@ -3,6 +3,7 @@ import { FormEvent } from "react";
 import {Link, useNavigate} from "react-router-dom";
 import { Button, TextField } from "@mui/material";
 import "../../styles/Register-login.css";
+import {fetchApiEndpoints} from "../getFetchApi.tsx";
 
 function Register() {
     const navigate = useNavigate();
@@ -18,14 +19,8 @@ function Register() {
             setError(["A jelszavak nem egyeznek."]);
             return;
         }
-        fetch("/api/auth/register", {
-            method: "POST",
-            body: JSON.stringify({ username, email, password }),
-            headers: {
-                "Content-type": "application/json",
-            },
-        })
-            .then((response) => response.json())
+
+        fetchApiEndpoints('/api/auth/register', null, 'POST', { username, email, password })
             .then(async (data) => {
                 if (data.message) {
                     setError([data.message]);

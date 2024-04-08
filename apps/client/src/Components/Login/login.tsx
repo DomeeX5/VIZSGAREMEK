@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { FormEvent, useState } from "react";
 import { Button, TextField, Typography, Alert } from "@mui/material";
 import { useAuth } from './AuthContextProvider.tsx';
+import {fetchApiEndpoints} from "../getFetchApi.tsx";
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -13,27 +14,18 @@ function Login() {
     function getData(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setError('');
-        fetch('/api/auth/login', {
-            method: 'POST',
-            body: JSON.stringify({ email, password }),
-            headers: {
-                'Content-type': 'application/json'
-            }
-        })
-            .then(response => response.json())
+        fetchApiEndpoints('/api/auth/login', null, 'POST', { email, password })
             .then(async data => {
                 if (data.errorMessage) {
-                    setError(data.errorMessage);
+                    setError(data.errorMessage)
                 } else {
-                    const accessToken = await data.accessToken;
-                    login(accessToken); // Set the access token after successful login
+                    login(data.accessToken);
                     setError('');
-                    navigate("/");
+                    navigate('/');
                 }
-            })
-            .catch(_ => {
-                setError('Hiba történt a kérés során.');
-            });
+            }).catch(error => {
+                setError(error);
+        });
     }
 
     return (

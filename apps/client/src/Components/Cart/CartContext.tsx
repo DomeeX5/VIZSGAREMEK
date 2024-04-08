@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, PropsWithChildren } from 'react';
 import { ExtendedCartItem } from '../../interfaces.ts';
-import { fetchCartItems, fetchRemoveCartItem, fetchTotalPrice } from './CartFetch.tsx';
+import {fetchApiEndpoints} from "../getFetchApi.tsx";
+//import {fetchTotalPrice} from "./CartApi.tsx";
 
 interface CartContextType {
     cartItems: ExtendedCartItem[];
@@ -17,20 +18,16 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
     const [cartItems, setCartItems] = useState<ExtendedCartItem[]>([]);
     const [totalPrice, setTotalPrice] = useState("");
     const [cartCount, setCartCount] = useState<number>(0);
-
+    const accessToken = sessionStorage.getItem("token");
     const fetchCartData = async () => {
         try {
-            const accessToken = sessionStorage.getItem("token");
             if (!accessToken) {
-                throw new Error("Nincs accessToken a localStorage-ban");
+                throw new Error('Nincs accessToken a localStorage-ban');
             }
-
-            const cartItems = await fetchCartItems(accessToken);
+            const cartItems = await fetchApiEndpoints('/api/cart/items', accessToken);
+            const totalPrice = await fetchApiEndpoints('/api/cart/total', accessToken);
             setCartItems(cartItems);
-
-            const total = await fetchTotalPrice(accessToken);
-            setTotalPrice(total);
-
+            setTotalPrice(totalPrice);
             await updateCartCount();
         } catch (error: any) {
             console.error('Error fetching cart data:', error);
@@ -39,24 +36,8 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
 
     const updateCartCount = async () => {
         try {
-            const accessToken = sessionStorage.getItem('token');
-            if (!accessToken) {
-                throw new Error('Nincs accessToken a localStorage-ban');
-            }
-
-            const response = await fetch(`/api/cart/item-count`, {
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': `Bearer ${accessToken}`
-                },
-            });
-
-            if (!response.ok) {
-                throw new Error('Failed to fetch cart count');
-            }
-
-            const data = await response.json();
-            setCartCount(data.count);
+            const cartCount = await fetchApiEndpoints('/api/cart/item-count', accessToken);
+            setCartCount(cartCount.count);
         } catch (error) {
             console.error('Error fetching cart count:', error);
         }
@@ -64,15 +45,10 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
 
     const removeFromCart = async (productId: number) => {
         try {
-            const accessToken = sessionStorage.getItem("token");
-            if (!accessToken) {
-                throw new Error("Nincs accessToken a localStorage-ban");
-            }
-
-            await fetchRemoveCartItem(accessToken, productId);
+            await fetchApiEndpoints('api/cart/remove', accessToken, 'POST', {productId, quantity: 1})
             const updatedCart = cartItems.filter(item => item.product.product_id !== productId);
             setCartItems(updatedCart);
-            await fetchCartData();
+            await fetchCartData()
         } catch (error: any) {
             console.error('Error fetching cart data: ', error)
         }

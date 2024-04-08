@@ -2,6 +2,7 @@ import React, {createContext, PropsWithChildren, useContext, useState} from 'rea
 import { CartItem } from '@prisma/client';
 import { useAuth } from './Login/AuthContextProvider.tsx';
 import { useCart } from './Cart/CartContext.tsx';
+import {fetchApiEndpoints} from "./getFetchApi.tsx";
 
 interface AddToCartContextType {
     addCart?: CartItem[];
@@ -36,28 +37,17 @@ export const AddToCartProvider= ({ children }: PropsWithChildren) => {
         }
         const data = { productId, quantity };
         const accessToken = sessionStorage.getItem('token');
-        await fetch(`/api/cart/add`, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-type': 'application/json',
-                Authorization: `Bearer ${accessToken}`,
-            },
-        })
+
+        await fetchApiEndpoints('api/cart/add', accessToken, 'POST', data)
             .then(async (res) => {
-                if (!res.ok) {
-                    const error = await res.json();
-                    setErrors([error.message]);
-                } else {
-                    const data = await res.json();
-                    setAddCart(data);
-                    fetchCartData()
-                }
-            })
-            .catch((error) => {
-                console.error('Error adding to cart:', error);
-                setErrors(['Error adding to cart']);
-            });
+                        const data = await res.json();
+                        setAddCart(data);
+                        fetchCartData()
+                })
+                .catch((error) => {
+                    console.error('Error adding to cart:', error);
+                    setErrors(error);
+                });
     };
 
 

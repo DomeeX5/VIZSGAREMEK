@@ -18,14 +18,6 @@ function Cart() {
         fetchCartData();
     }, []);
 
-    const handlePaymentClick = () => {
-        navigate("/purchase");
-    };
-
-    const handleNavigation = (destination: string) => {
-        navigate(destination);
-    }
-
     return (
         <Container>
             <Row>
@@ -54,7 +46,7 @@ function Cart() {
                                             <ReactCard.Body>
                                                 <Row>
                                                     <Col xl={7} lg={6} md={6} sm={6} xs={6}
-                                                         onClick={() => handleNavigation(`/products/${item.product.product_id}`)}
+                                                         onClick={() => navigate(`/products/${item.product.product_id}`)}
                                                     style={{cursor: "pointer"}}>
                                                         <ReactCard.Title>
                                                             {item.product.product_name}</ReactCard.Title>
@@ -123,7 +115,7 @@ function Cart() {
                             </ReactCard.Body>
                             <span>Total Price: {totalPrice !== null ? totalPrice : 'Loading...'} Ft</span>
                             <CardActions>
-                                <Button size="sm" onClick={handlePaymentClick}>Fizetés</Button>
+                                <Button size="sm" onClick={() => navigate('/purchase')}>Fizetés</Button>
                             </CardActions>
                         </ReactCard>
                     </Box>

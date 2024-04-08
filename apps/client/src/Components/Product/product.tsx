@@ -6,6 +6,7 @@ import { Alert, Button } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import {useAddToCart} from "../AddCart.tsx";
 import {Container, Row} from "react-bootstrap";
+import {fetchApiEndpoints} from "../getFetchApi.tsx";
 
 function Products() {
     const { id } = useParams<{ id: string }>();
@@ -14,20 +15,12 @@ function Products() {
     const { addToCart, showAlert, setShowAlert } = useAddToCart();
 
     useEffect(() => {
-        fetch(`/api/products/${id}`)
-            .then(async (res) => {
-                if (!res.ok) {
-                    const error = await res.json();
-                    setError(error.message);
-                } else {
-                    const data = await res.json();
-                    setProduct(data);
-                }
-            })
-            .catch((error) => {
-                console.error('Error fetching product details:', error);
-                setError('Error fetching product details');
-            });
+        const data = async () => {
+            const response = await fetchApiEndpoints(`/api/products/${id}`)
+                .catch((error) => {setError('Error fetching product details: ' + error)});
+            setProduct(response)
+        }
+        data();
     }, [id]);
 
     return (

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Nav, Navbar, Offcanvas, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Nav, Navbar as ReactNavbar, Offcanvas, Row } from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -10,13 +10,9 @@ import { ExtendedProduct } from "../interfaces.ts";
 import SearchResults from './SearchResults.tsx';
 import { useAuth } from "./Login/AuthContextProvider.tsx";
 import {useCart} from "./Cart/CartContext.tsx";
+import {fetchApiEndpoints} from "./getFetchApi.tsx";
 
-interface NavbarProps {
-    currentPage: number;
-    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const Navbars: React.FC<NavbarProps> = ({ setCurrentPage }) => {
+function Navbar() {
     const { isLoggedIn, logout } = useAuth();
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<ExtendedProduct[]>([]);
@@ -36,10 +32,6 @@ const Navbars: React.FC<NavbarProps> = ({ setCurrentPage }) => {
         logout();
     }
 
-    const handleGoToHomePage = () => {
-        setCurrentPage(1);
-    }
-
     const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setQuery(value);
@@ -49,12 +41,8 @@ const Navbars: React.FC<NavbarProps> = ({ setCurrentPage }) => {
             return;
         }
         try {
-            const response = await fetch(`/api/products/search?query=${value}`);
-            if (!response.ok) {
-                throw new Error('Failed to fetch search results');
-            }
-            const data: ExtendedProduct[] = await response.json();
-            setResults(data);
+            const response = await fetchApiEndpoints(`/api/products/search?query=${value}`, null, 'GET')
+            setResults(response);
             setShowResults(true);
         } catch (error) {
             console.error('Error searching:', error);
@@ -68,9 +56,9 @@ const Navbars: React.FC<NavbarProps> = ({ setCurrentPage }) => {
 
     return (
         <>
-            <Navbar expand={false} className="bg-body-tertiary mb-3" sticky="top" bg="dark" data-bs-theme="dark">
+            <ReactNavbar expand={false} className="bg-body-tertiary mb-3" sticky="top" bg="dark" data-bs-theme="dark">
                 <Container fluid>
-                    <Link to="/" onClick={handleGoToHomePage}>
+                    <Link to="/">
                         <label style={{color:'white', fontSize: '20px'}}>Weboldal</label>
                     </Link>
                     <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
@@ -87,8 +75,8 @@ const Navbars: React.FC<NavbarProps> = ({ setCurrentPage }) => {
                             Send
                         </Button>
                     </Form>
-                    <Navbar.Toggle onClick={() => setShowOffcanvas(!showOffcanvas)} aria-controls="offcanvasNavbar" />
-                    <Navbar.Offcanvas
+                    <ReactNavbar.Toggle onClick={() => setShowOffcanvas(!showOffcanvas)} aria-controls="offcanvasNavbar" />
+                    <ReactNavbar.Offcanvas
                         show={showOffcanvas}
                         onHide={() => setShowOffcanvas(false)}
                         id="offcanvasNavbar"
@@ -98,7 +86,7 @@ const Navbars: React.FC<NavbarProps> = ({ setCurrentPage }) => {
                         <Offcanvas.Header closeButton>
                             <Offcanvas.Title id="offcanvasNavbarLabel">
                                 Menu
-                            </Offcanvas.Title>x
+                            </Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
                             <Nav className="justify-content-end flex-grow-1 pe-3">
@@ -143,10 +131,10 @@ const Navbars: React.FC<NavbarProps> = ({ setCurrentPage }) => {
                                 )}
                             </Nav>
                         </Offcanvas.Body>
-                    </Navbar.Offcanvas>
+                    </ReactNavbar.Offcanvas>
                 </Container>
 
-            </Navbar>
+            </ReactNavbar>
             <Container fluid="md" className={`search-container ${showResults && searching ? 'active' : 'inactive'}`}>
                 <Row>
                     <Col></Col>
@@ -158,4 +146,4 @@ const Navbars: React.FC<NavbarProps> = ({ setCurrentPage }) => {
     );
 }
 
-export default Navbars;
+export default Navbar;

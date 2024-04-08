@@ -1,53 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import {Alert, Pagination, Skeleton} from "@mui/material";
 import { Col, Container, Row } from "react-bootstrap";
 import { ExtendedProduct } from "../../interfaces.ts";
 import { useNavigate } from "react-router-dom";
 import CardComponent from '../CardComponent.tsx';
 import {useAddToCart} from "../AddCart.tsx";
+import {fetchProductCount, fetchProductsPerPage, productsPerPage} from "./MainApi.tsx";
 
-interface MainProps {
-    currentPage: number;
-    setCurrentPage: React.Dispatch<React.SetStateAction<number>>;
-}
-
-const Main: React.FC<MainProps> = ({ currentPage, setCurrentPage }) => {
+function Main() {
     const [products, setProducts] = useState<ExtendedProduct[] | null>(null);
-    const productsPerPage = 16;
     const [loading, setLoading] = useState(true);
     const [totalPages, setTotalPages] = useState(1);
     const navigate = useNavigate();
     const [_, setErrors] = useState<string[]>([]);
     const {showAlert, setShowAlert} = useAddToCart();
+    const [currentPage, setCurrentPage] = useState(1)
 
     useEffect(() => {
-        fetch('/api/products/count')
-            .then(async (res) => {
-                const data = await res.json();
-                setTotalPages(Math.round(data.totalCount / productsPerPage))
-            })
-            .catch(error => {
-                console.error('Error fetching products:', error);
-                setErrors(['Error fetching products']);
-            });
-}, []);
+
+        fetchProductCount()
+            .then(totalCount => setTotalPages(totalCount))
+            .catch(error => setErrors(['Error fetching product count', error]));
+    }, []);
 
     useEffect(() => {
         const delay = setTimeout(() => {
-            fetch(`/api/products/all?page=${currentPage}&limit=${productsPerPage}`)
-                .then(async (res) => {
-                    if (!res.ok) {
-                        const error = await res.json();
-                        setErrors([error.message]);
-                    } else {
-                        const data = await res.json();
-                        setProducts(data);
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching products:', error);
-                    setErrors(['Error fetching products']);
-                })
+            fetchProductsPerPage(currentPage, productsPerPage)
+                .then(data => setProducts(data))
+                .catch(error => setErrors(['Error fetching products', error]))
                 .finally(() => setLoading(false));
         }, 1000);
 
@@ -55,7 +35,7 @@ const Main: React.FC<MainProps> = ({ currentPage, setCurrentPage }) => {
     }, [currentPage]);
 
     useEffect(() => {
-        window.scrollTo({ top: 0, behavior: 'instant' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [currentPage]);
 
     const handlePageChange = (page: number) => {
