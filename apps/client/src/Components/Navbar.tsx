@@ -11,9 +11,10 @@ import SearchResults from './SearchResults.tsx';
 import { useAuth } from "./Login/AuthContextProvider.tsx";
 import {useCart} from "./Cart/CartContext.tsx";
 import {fetchApiEndpoints} from "./getFetchApi.tsx";
+import '../styles/App.css'
 
 function Navbar() {
-    const { isLoggedIn, logout } = useAuth();
+    const { isLoggedIn, logout, showLogoutPanel } = useAuth();
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<ExtendedProduct[]>([]);
     const [showResults, setShowResults] = useState<boolean>(false);
@@ -21,16 +22,13 @@ function Navbar() {
     const [showOffcanvas, setShowOffcanvas] = useState<boolean>(false);
     const navigate = useNavigate();
     const {cartCount} = useCart();
+    const username = sessionStorage.getItem('username');
 
     useEffect(() => {
         setQuery('');
         setResults([]);
         setShowResults(false);
     }, [isLoggedIn]);
-
-    const handleLogout = () => {
-        logout();
-    }
 
     const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -41,7 +39,7 @@ function Navbar() {
             return;
         }
         try {
-            const response = await fetchApiEndpoints(`/api/products/search?query=${value}`, null, 'GET')
+            const response = await fetchApiEndpoints(`/api/products/search?query=${value}`)
             setResults(response);
             setShowResults(true);
         } catch (error) {
@@ -56,7 +54,7 @@ function Navbar() {
 
     return (
         <>
-            <ReactNavbar expand={false} className="bg-body-tertiary mb-3" sticky="top" bg="dark" data-bs-theme="dark">
+            <ReactNavbar expand={false} className={`bg-body-tertiary mb-3 ${showLogoutPanel ? 'darken' : ''}`} sticky="top" bg="dark" data-bs-theme="dark">
                 <Container fluid>
                     <Link to="/">
                         <label style={{color:'white', fontSize: '20px'}}>Weboldal</label>
@@ -85,7 +83,7 @@ function Navbar() {
                     >
                         <Offcanvas.Header closeButton>
                             <Offcanvas.Title id="offcanvasNavbarLabel">
-                                Menu
+                                {isLoggedIn ? username : "Menu"}
                             </Offcanvas.Title>
                         </Offcanvas.Header>
                         <Offcanvas.Body>
@@ -101,7 +99,7 @@ function Navbar() {
                                             </ListItemButton>
                                         </ListItem>
                                         <ListItem disablePadding className="nav-item">
-                                            <ListItemButton onClick={handleLogout} className="nav-link active">
+                                            <ListItemButton onClick={() => {logout(), handleNavigation('/')}} className="nav-link active">
                                                 <ListItemIcon>
                                                     <LogoutIcon />
                                                 </ListItemIcon>

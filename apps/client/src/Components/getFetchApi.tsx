@@ -1,8 +1,13 @@
-export async function fetchApiEndpoints(
-    fetchURL: string,
+interface Options {
     accessToken?: string | null,
     method?: string,
-    body?: any): Promise<any> {
+    body?: any
+    jsonResponse?: boolean;
+}
+
+export async function fetchApiEndpoints(
+    fetchURL: string,
+    {accessToken, method, body, jsonResponse = true}: Options = {}): Promise<any> {
     try {
         const headers: { [key: string]: string } = {
             'Content-type': 'application/json',
@@ -28,12 +33,11 @@ export async function fetchApiEndpoints(
             throw new Error(error.message);
         }
 
-        const contentLength = response.headers.get('Content-Length');
-        if (contentLength && parseInt(contentLength) === 0) {
-            return null;
-        } else {
+        if (jsonResponse) {
             return await response.json();
         }
+
+        return null;
     } catch (error) {
         console.error('Error fetching data:', error);
         throw new Error('Error fetching data');

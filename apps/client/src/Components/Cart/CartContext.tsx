@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, PropsWithChildren } from 'react';
 import { ExtendedCartItem } from '../../interfaces.ts';
 import {fetchApiEndpoints} from "../getFetchApi.tsx";
+import { useAuth } from '../Login/AuthContextProvider.tsx';
 //import {fetchTotalPrice} from "./CartApi.tsx";
 
 interface CartContextType {
@@ -18,25 +19,29 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
     const [cartItems, setCartItems] = useState<ExtendedCartItem[]>([]);
     const [totalPrice, setTotalPrice] = useState("");
     const [cartCount, setCartCount] = useState<number>(0);
-    const accessToken = sessionStorage.getItem("token");
+    const {isLoggedIn, token: accessToken} = useAuth()
+
     const fetchCartData = async () => {
-        try {
-            if (!accessToken) {
-                throw new Error('Nincs accessToken a localStorage-ban');
+        if (!isLoggedIn) {
+            setCartItems([]);
+            setTotalPrice("");
+            setCartCount(0);
+        } else {
+            try {
+                const cartItems = await fetchApiEndpoints('/api/cart/items', {accessToken: accessToken});
+                const totalPrice = await fetchApiEndpoints('/api/cart/total', {accessToken: accessToken});
+                setCartItems(cartItems);
+                setTotalPrice(totalPrice);
+                await updateCartCount();
+            } catch (error: any) {
+                console.error('Error fetching cart data:', error);
             }
-            const cartItems = await fetchApiEndpoints('/api/cart/items', accessToken);
-            const totalPrice = await fetchApiEndpoints('/api/cart/total', accessToken);
-            setCartItems(cartItems);
-            setTotalPrice(totalPrice);
-            await updateCartCount();
-        } catch (error: any) {
-            console.error('Error fetching cart data:', error);
         }
     };
 
     const updateCartCount = async () => {
         try {
-            const cartCount = await fetchApiEndpoints('/api/cart/item-count', accessToken);
+            const cartCount = await fetchApiEndpoints('/api/cart/item-count', {accessToken: accessToken});
             setCartCount(cartCount.count);
         } catch (error) {
             console.error('Error fetching cart count:', error);
@@ -45,7 +50,7 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
 
     const removeFromCart = async (productId: number) => {
         try {
-            await fetchApiEndpoints('api/cart/remove', accessToken, 'POST', {productId, quantity: 1})
+            await fetchApiEndpoints('api/cart/remove', {accessToken: accessToken, method: 'POST', body: {productId, quantity: 1}, jsonResponse: false})
             const updatedCart = cartItems.filter(item => item.product.product_id !== productId);
             setCartItems(updatedCart);
             await fetchCartData()
@@ -60,7 +65,7 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
         };
 
         fetchData();
-    }, []);
+    }, [accessToken]);
 
     return (
         <CartContext.Provider value={{ cartItems, totalPrice, cartCount, fetchCartData, removeFromCart, updateCartCount }}>

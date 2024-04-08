@@ -10,7 +10,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <AuthProvider>
             <CartProvider>
                 <AddToCartProvider>
-                        <App />
+                    <App />
                 </AddToCartProvider>
             </CartProvider>
         </AuthProvider>

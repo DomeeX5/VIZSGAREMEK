@@ -17,7 +17,6 @@ function Main() {
     const [currentPage, setCurrentPage] = useState(1)
 
     useEffect(() => {
-
         fetchProductCount()
             .then(totalCount => setTotalPages(totalCount))
             .catch(error => setErrors(['Error fetching product count', error]));

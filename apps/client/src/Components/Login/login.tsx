@@ -14,12 +14,13 @@ function Login() {
     function getData(event: FormEvent<HTMLFormElement>) {
         event.preventDefault();
         setError('');
-        fetchApiEndpoints('/api/auth/login', null, 'POST', { email, password })
+        fetchApiEndpoints('/api/auth/login', {method: 'POST', body: { email, password }})
             .then(async data => {
                 if (data.errorMessage) {
                     setError(data.errorMessage)
                 } else {
                     login(data.accessToken);
+                    sessionStorage.setItem('username', data.username);
                     setError('');
                     navigate('/');
                 }
