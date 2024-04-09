@@ -103,7 +103,7 @@ function Main() {
                     ))
                 )}
             </Row>
-            <div className={'pag'}>
+            <div className={'pag'} style={{marginBottom:'50px'}}>
                     <Pagination
                         count={totalPages}
                         variant="outlined"

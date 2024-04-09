@@ -6,8 +6,8 @@ import Products from "./Components/Product/product.tsx";
 import Cart from "./Components/Cart/Cart.tsx";
 import Purchase from "./Components/Purchase/Purchase.tsx";
 import Navbar from "./Components/Navbar.tsx";
-import Footer from "./Components/Footer.tsx";
 import UserSettings from "./Components/Settings/UserSettings.tsx";
+import 'bootstrap/dist/css/bootstrap.css'
 
 function App() {
 
@@ -25,8 +25,7 @@ function App() {
                     <Route path={"/settings/:option"} element={<UserSettings/>}/>
                     <Route path={"*"} element={<Navigate to={"/"} />}/>
                 </Routes>
-                <Footer/>
-            </BrowserRouter>
+                </BrowserRouter>
     </>
   )
 }
