@@ -1,5 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Button, Col, Container, Form, Nav, Navbar as ReactNavbar, Offcanvas, Row } from 'react-bootstrap';
+import {
+    Button,
+    Col,
+    Container,
+    Form,
+    Nav,
+    Navbar as ReactNavbar,
+    Offcanvas,
+    Row
+} from 'react-bootstrap';
 import { Link, useNavigate } from "react-router-dom";
 import { ListItem, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
@@ -10,11 +19,12 @@ import { ExtendedProduct } from "../interfaces.ts";
 import SearchResults from './SearchResults.tsx';
 import { useAuth } from "./Login/AuthContextProvider.tsx";
 import {useCart} from "./Cart/CartContext.tsx";
+import SettingsIcon from '@mui/icons-material/Settings';
 import {fetchApiEndpoints} from "./getFetchApi.tsx";
 import '../styles/App.css'
 
 function Navbar() {
-    const { isLoggedIn, logout, showLogoutPanel } = useAuth();
+    const { isLoggedIn, logout } = useAuth();
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<ExtendedProduct[]>([]);
     const [showResults, setShowResults] = useState<boolean>(false);
@@ -54,7 +64,7 @@ function Navbar() {
 
     return (
         <>
-            <ReactNavbar expand={false} className={`bg-body-tertiary mb-3 ${showLogoutPanel ? 'darken' : ''}`} sticky="top" bg="dark" data-bs-theme="dark">
+            <ReactNavbar expand={false} className={`bg-body-tertiary mb-3`} sticky="top" bg="dark" data-bs-theme="dark">
                 <Container fluid>
                     <Link to="/">
                         <label style={{color:'white', fontSize: '20px'}}>Weboldal</label>
@@ -96,6 +106,14 @@ function Navbar() {
                                                     <ShoppingCartIcon /><sup>{cartCount}</sup>
                                                 </ListItemIcon>
                                                 <ListItemText primary="Kosár" />
+                                            </ListItemButton>
+                                        </ListItem>
+                                        <ListItem disablePadding className="nav-item">
+                                            <ListItemButton onClick={() => handleNavigation('/settings')} className="nav-link active">
+                                                <ListItemIcon>
+                                                    <SettingsIcon />
+                                                </ListItemIcon>
+                                                <ListItemText primary={"Beállítások"}/>
                                             </ListItemButton>
                                         </ListItem>
                                         <ListItem disablePadding className="nav-item">

@@ -6,9 +6,11 @@ import StepLabel from "@mui/material/StepLabel";
 import Step from "@mui/material/Step";
 import {Button, MenuItem, Select, SelectChangeEvent, TextField} from "@mui/material";
 import { fetchApiEndpoints } from "../getFetchApi.tsx";
+import {useAuth} from "../Login/AuthContextProvider.tsx";
 
 function Purchase() {
     const [paymentType, setPaymentType] = useState("");
+    const {token} = useAuth();
     const [address, setAddress] = useState({
         country: '',
         state: '',
@@ -55,7 +57,7 @@ function Purchase() {
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
 
-        fetchApiEndpoints('/api/order/new', sessionStorage.getItem('token'), 'POST', { paymentType, address })
+        fetchApiEndpoints('/api/order/new', {accessToken: token, method: 'POST', body: {paymentType, address}})
             .then(async res => {
                 if (!res.ok) {
                     setErrors([res.errorMessage]);
@@ -117,7 +119,7 @@ function Purchase() {
                                         style={{ margin: '0 0 0 10px' }}
                                         onFocus={() => setHelperTextVisible({ ...helperTextVisible, country: true })}
                                         onBlur={() => setHelperTextVisible({ ...helperTextVisible, country: false })}
-                                        onChange={handlePaymentTypeChange}
+                                        onChange={() => handlePaymentTypeChange}
                                         displayEmpty
                                         required
                                         fullWidth

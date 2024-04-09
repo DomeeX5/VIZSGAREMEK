@@ -1,6 +1,6 @@
 import {createContext, ReactNode, useContext, useState} from "react";
 import '../../styles/LogoutDesign.css'
-import {LogoutPanel} from "./LogoutPanel.tsx";
+import { LogoutPanel2 } from "./LogoutPanel.tsx";
 
 interface AuthContextProvider {
     isLoggedIn: boolean;
@@ -26,6 +26,7 @@ export const AuthProvider = ({ children }: Props) => {
     };
     const logout = () => {
         setShowLogoutPanel(true);
+        console.log(showLogoutPanel);
     };
 
     const handleLogoutConfirm = () => {
@@ -45,7 +46,7 @@ export const AuthProvider = ({ children }: Props) => {
                 {children}
             </AuthContext.Provider>
             {showLogoutPanel && (
-                <LogoutPanel onConfirm={handleLogoutConfirm} onCancel={handleLogoutCancel} />
+                <LogoutPanel2 show={showLogoutPanel} onConfirm={() => handleLogoutConfirm()} onCancel={() => handleLogoutCancel()} />
             )}
         </>
     );

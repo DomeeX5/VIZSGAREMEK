@@ -23,9 +23,6 @@
     clear: both;
 }
 
-.darken {
-    background-color: rgba(0, 0, 0, 0.3) !important;
-}
 
 body {
     margin-bottom: 60px;
