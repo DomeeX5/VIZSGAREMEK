@@ -1,9 +1,9 @@
 import {HttpStatus, Module, ValidationPipe} from '@nestjs/common';
-import { UsersService } from './users.service';
+import { UsersService } from './service/users.service';
 import {PrismaService} from "../prisma/prisma.service";
 import {APP_PIPE} from "@nestjs/core";
 import {AuthModule} from "../auth/auth.module";
-import {AuthService} from "../auth/auth.service";
+import {AuthService} from "../auth/service/auth.service";
 import {JwtService} from "@nestjs/jwt";
 import PrismaModule from "../prisma/prisma.module";
 

@@ -1,6 +1,6 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
-import {PrismaService} from "../prisma/prisma.service";
-import {UserRegisterDto, UpdatePasswordDto} from "./users.dto";
+import {PrismaService} from "../../prisma/prisma.service";
+import {UserRegisterDto, UpdatePasswordDto} from "../users.dto";
 import {compare, genSalt, hash} from "bcrypt"
 import {User} from "@prisma/client";
 
@@ -15,7 +15,7 @@ export class UsersService {
             },
         });
     }
-    async createUser(registerDto: UserRegisterDto): Promise<any> {
+    async createUser(registerDto: UserRegisterDto): Promise<User | { errorMessage: string }> {
         const userInDb = await this.prisma.user.findFirst({
             where: {email: registerDto.email}
         });
@@ -34,7 +34,7 @@ export class UsersService {
         }
     }
 
-    /*async updatePassword(payload: UpdatePasswordDto, id: number): Promise<User> {
+    async updatePassword(payload: UpdatePasswordDto, id: number): Promise<User> {
         const user = await this.prisma.user.findUnique({
             where: {user_id: id}
         });
@@ -42,7 +42,6 @@ export class UsersService {
             throw new HttpException("invalid_credentials",
                 HttpStatus.UNAUTHORIZED);
         }
-        // compare passwords
         const areEqual = await compare(payload.old_password,
             user.password);
         if (!areEqual) {
@@ -53,5 +52,5 @@ export class UsersService {
             where: {user_id: id},
             data: {password:  await hash(payload.new_password, 10)}
         });
-    }*/
+    }
 }
