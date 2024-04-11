@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { CartService } from './cart.service';
-import { PrismaService } from '../prisma/prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 import { HttpException } from '@nestjs/common';
 import {CartItem, Product} from "@prisma/client";
 
@@ -116,7 +116,7 @@ describe('CartService', () => {
             const userId = { user: { id: 1, name: 'Test User' }, email: 'test@example.com' };
             const productId = 1;
 
-            await service.removeOneFromCart(userId, productId);
+            await service.removeOneFromCart(userId, productId, 1);
 
             expect(prismaService.cartItem.deleteMany).toHaveBeenCalledWith({
                 where: {
@@ -132,7 +132,6 @@ describe('CartService', () => {
             const userId = { user: { id: 1, name: 'Test User' }, email: 'test@example.com' };
             const product: Product = { product_id: 1, product_name: 'test', price: 100, product_type: 'asd', product_spectype: 'asd2', description: 'desc' };
             const cartItems: CartItem[] = [{ cart_item_id: 1, User_user_id: userId.user.id, quantity: 2, Product_product_id: product.product_id }];
-            // Mock the Product object returned by the CartService
             jest.spyOn(prismaService.cartItem, 'findMany').mockResolvedValue(cartItems.map(item => ({ ...item, Product: product })));
 
             const result = await service.getCartItems(userId);
