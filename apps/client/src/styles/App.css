@@ -7,7 +7,11 @@
 }
 
 .form-control{
-    width: 70vh;
+    width: 70vh ;
+}
+
+.searchbar {
+    width: 70vh !important;
 }
 
 .footer {
@@ -26,6 +30,7 @@
 
 body {
     margin-bottom: 60px;
+    min-height: 100vh;
 }
 
 p{

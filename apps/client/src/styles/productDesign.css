@@ -40,3 +40,12 @@
     text-align: justify;
     text-justify: inter-word;
 }
+
+body {
+    margin-bottom: 60px;
+    min-height: 100vh;
+}
+
+.main-container {
+    min-height: 100vh;
+}

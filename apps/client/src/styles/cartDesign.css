@@ -41,3 +41,12 @@
     align-items: center;
     justify-content: flex-start;
 }
+
+body {
+    margin-bottom: 60px;
+    min-height: 100vh;
+}
+
+.main-container {
+    min-height: 100vh;
+}
