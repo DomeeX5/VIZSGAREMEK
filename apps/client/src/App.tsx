@@ -22,12 +22,12 @@ function App() {
                     <Route path={`/products/:id`} element={<Products/>}/>
                     <Route path={"/cart"} element={<Cart/>}/>
                     <Route path={"/purchase"} element={<Purchase/>}/>
-                    <Route path={"/settings/:option"} element={<UserSettings/>}/>
+                    <Route path={"/settings"} element={<UserSettings/>}/>
                     <Route path={"*"} element={<Navigate to={"/"} />}/>
                 </Routes>
                 <Footer/>
             </BrowserRouter>
-    </>
+        </>
   )
 }
 
