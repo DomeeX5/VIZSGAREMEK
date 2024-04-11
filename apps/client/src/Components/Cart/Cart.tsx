@@ -20,7 +20,7 @@ function Cart() {
 
     return (
         <>
-            <Container>
+            <Container className={'main-container'}>
                 <Row>
                     <Col xl={8} lg={8} md={12} sm={12} xs={12}>
                         <ListGroup>

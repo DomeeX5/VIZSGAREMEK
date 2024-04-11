@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-    Button,
     Col,
     Container,
     Form,
@@ -73,15 +72,12 @@ function Navbar() {
                         <Form.Control
                             type="search"
                             placeholder="Search"
-                            className={`me-2 ${searching ? 'focused' : ''}`}
+                            className={`me-2 ${searching ? 'focused' : ''} searchbar`}
                             aria-label="Search"
                             value={query}
                             onChange={handleSearch}
                         onFocus={() => setSearching(true)}
                         onBlur={() => setSearching(false)}/>
-                        <Button type={'submit'} variant="contained" size="sm" color="success">
-                            Send
-                        </Button>
                     </Form>
                     <ReactNavbar.Toggle onClick={() => setShowOffcanvas(!showOffcanvas)} aria-controls="offcanvasNavbar" />
                     <ReactNavbar.Offcanvas

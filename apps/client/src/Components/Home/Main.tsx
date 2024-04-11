@@ -43,7 +43,7 @@ function Main() {
     };
 
     return (
-        <Container>
+        <Container className={'main-container'}>
             {showAlert && (
                 <Alert severity="error" className={"Alert"} onClose={() => setShowAlert(false)}>
                     Ahhoz, hogy a kosárba tudd a terméket rakni, be kell jelentkezned.
