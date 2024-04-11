@@ -22,26 +22,13 @@
     left: 50%;
     transform: translate(-50%, -50%);
 }
-.h1-nek{
+.for-h1{
     color: #222831;
     font-size: 50px;
 }
 
-.labelnek{
-    margin: 5px;
-    color: #222831;
-}
-
 .textInput{
     border-radius: 10px;
-}
-
-.gomb{
-    border: 3px black;
-    box-shadow: 2px 2px 2px black;
-    margin: auto;
-    transition-duration: 1s;
-    cursor: pointer;
 }
 
 .Alert{
@@ -53,7 +40,7 @@
     z-index: 1030;
 }
 
-.linkel{
+.for-link{
     padding-top: 10px;
     margin: auto;
     color: #222831;

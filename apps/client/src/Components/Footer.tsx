@@ -1,4 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.css'
 import '../styles/App.css'
 import {useAuth} from "./Login/AuthContextProvider.tsx";
 

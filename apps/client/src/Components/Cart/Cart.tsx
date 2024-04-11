@@ -34,7 +34,7 @@ function Cart() {
                                                 borderTop: 'none',
                                                 borderBottomLeftRadius: 0,
                                                 borderBottomRightRadius: 0,
-                                            }
+                                            marginBottom:'50px'}
                                     }>
                                     <Row>
                                         <Col sm={5}>
@@ -43,7 +43,6 @@ function Cart() {
                                         </Col>
                                         <Col sm={7}>
                                             <ReactCard style={{border: 'none'}}>
-                                                {/* TODO: Quantity gombok designolása*/}
                                                 <ReactCard.Body>
                                                     <Row>
                                                         <Col xl={7} lg={6} md={6} sm={6} xs={6}
