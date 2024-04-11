@@ -1,5 +1,5 @@
 import {Body, Controller, Get, Param, ParseIntPipe, Query} from '@nestjs/common';
-import { ProductService } from './product.service';
+import { ProductService } from '../service/product.service';
 import {Product} from "@prisma/client";
 import {ExtendedProduct} from "client/src/interfaces";
 
