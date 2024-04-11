@@ -1,5 +1,5 @@
 import {Injectable, NestMiddleware, UnauthorizedException} from "@nestjs/common";
-import {AuthService} from "./auth.service";
+import {AuthService} from "./service/auth.service";
 import {NextFunction} from "express";
 
 

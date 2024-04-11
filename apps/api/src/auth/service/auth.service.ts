@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import {UsersService} from "../users/users.service";
+import {UsersService} from "../../users/service/users.service";
 import {compare} from "bcrypt";
 import {User} from "@prisma/client";
 import {JwtService} from "@nestjs/jwt";
-import {UserLoginDto, UserRegisterDto} from "../users/users.dto";
+import {UserLoginDto, UserRegisterDto} from "../../users/users.dto";
 import {validate} from "class-validator";
 
 @Injectable()
@@ -25,7 +25,7 @@ export class AuthService {
 
             return {
                 accessToken: this.jwtService.sign(payload),
-                username: userFromDb.username
+                payload
             }
         } else {
             return {
