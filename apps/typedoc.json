@@ -1,0 +1,12 @@
+{
+  "out": "docs",
+  "entryPoints": [
+    "./apps/api/src",
+    "./apps/client/src"
+  ],
+  "exclude": ["node_modules", "**/*.spec.ts"],
+  "mode": "file",
+  "excludePrivate": true,
+  "excludeProtected": true,
+  "excludeExternals": true
+}
