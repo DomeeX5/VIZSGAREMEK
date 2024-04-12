@@ -3,8 +3,8 @@ import {Alert, Pagination, Skeleton} from "@mui/material";
 import { Col, Container, Row } from "react-bootstrap";
 import { ExtendedProduct } from "../../interfaces.ts";
 import { useNavigate } from "react-router-dom";
-import CardComponent from '../CardComponent.tsx';
-import {useAddToCart} from "../AddCart.tsx";
+import CardComponent from '../Hooks/CardComponent.tsx';
+import {useAddToCart} from "../Hooks/AddCart.tsx";
 import {fetchProductCount, fetchProductsPerPage, productsPerPage} from "./MainApi.tsx";
 
 function Main() {

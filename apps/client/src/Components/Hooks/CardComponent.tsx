@@ -1,12 +1,12 @@
-import { ExtendedProduct } from "../interfaces.ts";
+import { ExtendedProduct } from "../../interfaces.ts";
 import { Card, CardActions, CardContent, IconButton, Stack, Alert, Button } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Link, useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
-import "../styles/mainDesign.css";
-import { useCart } from "./Cart/CartContext.tsx";
+import "../Home/Style/mainDesign.css";
+import { useCart } from "../Cart/CartContext.tsx";
 import {useAddToCart} from "./AddCart.tsx";
-import {useAuth} from "./Login/AuthContextProvider.tsx";
+import {useAuth} from "../Login/AuthContextProvider.tsx";
 
 export default function CardComponent({ product }: { product: ExtendedProduct }) {
     const navigate = useNavigate();

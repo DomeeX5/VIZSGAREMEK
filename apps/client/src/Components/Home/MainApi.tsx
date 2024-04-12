@@ -1,4 +1,4 @@
-import {fetchApiEndpoints} from "../getFetchApi.tsx";
+import {fetchApiEndpoints} from "../Hooks/getFetchApi.tsx";
 
 export const productsPerPage = 16;
 

@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { FormEvent } from "react";
 import {Link, useNavigate} from "react-router-dom";
 import {Button, IconButton, InputAdornment, OutlinedInput, TextField} from "@mui/material";
-import "../../styles/Register-login.css";
-import {fetchApiEndpoints} from "../getFetchApi.tsx";
+import "./Style/Register-login.css";
+import {fetchApiEndpoints} from "../Hooks/getFetchApi.tsx";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 function Register() {

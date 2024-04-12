@@ -5,9 +5,10 @@ import Login from "./Components/Login/login.tsx";
 import Products from "./Components/Product/product.tsx";
 import Cart from "./Components/Cart/Cart.tsx";
 import Purchase from "./Components/Purchase/Purchase.tsx";
-import Navbar from "./Components/Navbar.tsx";
-import Footer from "./Components/Footer.tsx";
+import Navbar from "./Components/mainElements/Navbar.tsx";
+import Footer from "./Components/mainElements/Footer.tsx";
 import UserSettings from "./Components/Settings/UserSettings.tsx";
+import 'bootstrap/dist/css/bootstrap.css'
 
 function App() {
 

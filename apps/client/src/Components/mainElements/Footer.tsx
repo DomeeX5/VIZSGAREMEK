@@ -1,5 +1,5 @@
-import '../styles/App.css'
-import {useAuth} from "./Login/AuthContextProvider.tsx";
+import './Style/App.css'
+import {useAuth} from "../Login/AuthContextProvider.tsx";
 
 function Footer(){
     const {showLogoutPanel} = useAuth()

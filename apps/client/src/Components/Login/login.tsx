@@ -10,7 +10,7 @@ import {
     IconButton
 } from "@mui/material";
 import { useAuth } from './AuthContextProvider.tsx';
-import {fetchApiEndpoints} from "../getFetchApi.tsx";
+import {fetchApiEndpoints} from "../Hooks/getFetchApi.tsx";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 
 function Login() {

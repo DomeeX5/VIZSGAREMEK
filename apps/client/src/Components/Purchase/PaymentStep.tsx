@@ -26,9 +26,15 @@ function PaymentStep({ paymentType, handlePaymentTypeChange, helperTextVisible, 
                         helperText={helperTextVisible.card_Number ? "Adja meg a kártyaszámát. PL: 1234 1234 1234 1234" : ""}
                         required
                         value={cardDetails.cardNumber}
-                        onChange={(e) => handleCardDetailsChange(e, 'cardNumber')}
+                        onChange={(e) => {
+                            const re = /^[0-9\b]+$/;
+                            if ((e.target.value === '' || re.test(e.target.value)) && e.target.value.length <= 16) {
+                                handleCardDetailsChange(e, 'cardNumber');
+                            }
+                        }}
                         onFocus={() => handleFocus('cardNumber')}
                         onBlur={handleBlur}
+                        disabled={paymentType === "30"}
                     />
                     <TextField
                         label="Lejárati idő"
@@ -40,6 +46,7 @@ function PaymentStep({ paymentType, handlePaymentTypeChange, helperTextVisible, 
                         onChange={(e) => handleCardDetailsChange(e, 'expirationDate')}
                         onFocus={() => handleFocus('expirationDate')}
                         onBlur={handleBlur}
+                        disabled={paymentType === "30"}
                     />
                     <TextField
                         label="Tulajdonos neve"
@@ -51,24 +58,31 @@ function PaymentStep({ paymentType, handlePaymentTypeChange, helperTextVisible, 
                         onChange={(e) => handleCardDetailsChange(e, 'cardholderName')}
                         onFocus={() => handleFocus('cardholderName')}
                         onBlur={handleBlur}
+                        disabled={paymentType === "30"}
                     />
                 </div>
                 <div style={{flex: 1, display: 'flex', flexDirection: 'column'}}>
                     <TextField
-                        label="CVV"
+                        label="CVC"
                         type="text"
                         style={{margin: '10px'}}
                         helperText={helperTextVisible.CVV ? "Fordítsa meg a kártyáját és látni fog egy háromjegyű számot azt adja meg. Pl:123" : ""}
                         required
                         value={cardDetails.cvv}
-                        onChange={(e) => handleCardDetailsChange(e, 'cvv')}
+                        onChange={(e) => {
+                            const re = /^[0-9\b]+$/;
+                            if ((e.target.value === '' || re.test(e.target.value)) && e.target.value.length <= 3) {
+                                handleCardDetailsChange(e, 'cvv');
+                            }
+                        }}
                         onFocus={() => handleFocus('cvv')}
                         onBlur={handleBlur}
+                        disabled={paymentType === "30"}
                     />
                     <Select
                         value={paymentType}
                         style={{margin: '10px'}}
-                        onChange={() => handlePaymentTypeChange}
+                        onChange={handlePaymentTypeChange}
                         displayEmpty
                         required
                         variant="outlined"

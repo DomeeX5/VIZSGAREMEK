@@ -1,6 +1,6 @@
 import React, {createContext, PropsWithChildren, useContext, useState} from 'react';
-import { useAuth } from './Login/AuthContextProvider.tsx';
-import { useCart } from './Cart/CartContext.tsx';
+import { useAuth } from '../Login/AuthContextProvider.tsx';
+import { useCart } from '../Cart/CartContext.tsx';
 import {fetchApiEndpoints} from "./getFetchApi.tsx";
 
 interface AddToCartContextType {

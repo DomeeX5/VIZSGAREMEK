@@ -14,13 +14,13 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import PersonAddRoundedIcon from '@mui/icons-material/PersonAddRounded';
-import { ExtendedProduct } from "../interfaces.ts";
+import { ExtendedProduct } from "../../interfaces.ts";
 import SearchResults from './SearchResults.tsx';
-import { useAuth } from "./Login/AuthContextProvider.tsx";
-import {useCart} from "./Cart/CartContext.tsx";
+import { useAuth } from "../Login/AuthContextProvider.tsx";
+import {useCart} from "../Cart/CartContext.tsx";
 import SettingsIcon from '@mui/icons-material/Settings';
-import {fetchApiEndpoints} from "./getFetchApi.tsx";
-import '../styles/App.css'
+import {fetchApiEndpoints} from "../Hooks/getFetchApi.tsx";
+import './Style/App.css'
 
 function Navbar() {
     const { isLoggedIn, logout } = useAuth();

@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { Button, Col, Container, Row, Card as ReactCard, ListGroup } from "react-bootstrap";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import "../../styles/cartDesign.css";
+import "./Style/cartDesign.css";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CardActions, IconButton } from "@mui/material";
-import {useAddToCart} from "../AddCart.tsx";
+import {useAddToCart} from "../Hooks/AddCart.tsx";
 import {useCart} from "./CartContext.tsx";
 
 function Cart() {

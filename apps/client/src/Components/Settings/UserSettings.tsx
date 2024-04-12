@@ -1,5 +1,5 @@
 import {Button, Col, Container, ListGroup, ListGroupItem, Row} from "react-bootstrap";
-import '../../styles/usersettings.css'
+import './Style/usersettings.css'
 import {Link} from "react-router-dom";
 function UserSettings() {
     return (

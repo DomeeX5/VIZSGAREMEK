@@ -1,7 +1,7 @@
 import { ListGroup, ListGroupItem, Image, Button } from 'react-bootstrap';
-import { ExtendedProduct } from '../interfaces';
+import { ExtendedProduct } from '../../interfaces.ts';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import '../styles/searchbar.css';
+import './Style/searchbar.css';
 
 interface Props {
     results: ExtendedProduct[];

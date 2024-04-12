@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { ExtendedProduct } from '../../interfaces.ts';
-import '../../styles/productDesign.css';
+import './Style/productDesign.css';
 import { Alert, Button } from '@mui/material';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import {useAddToCart} from "../AddCart.tsx";
+import {useAddToCart} from "../Hooks/AddCart.tsx";
 import {Container, Row} from "react-bootstrap";
-import {fetchApiEndpoints} from "../getFetchApi.tsx";
+import {fetchApiEndpoints} from "../Hooks/getFetchApi.tsx";
 
 function Products() {
     const { id } = useParams<{ id: string }>();

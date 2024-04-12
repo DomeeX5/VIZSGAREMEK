@@ -1,6 +1,6 @@
-import React, { useState, ChangeEvent, FormEvent } from "react";
+import React, { useState, ChangeEvent } from "react";
 import { useAuth } from "../Login/AuthContextProvider.tsx";
-import { fetchApiEndpoints } from "../getFetchApi.tsx";
+import { fetchApiEndpoints } from "../Hooks/getFetchApi.tsx";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import StepLabel from "@mui/material/StepLabel";
@@ -10,6 +10,7 @@ import AddressStep from "./AddressStep";
 import PaymentStep from "./PaymentStep";
 import ConfirmationStep from "./ConfirmationStep";
 import { Address, CardDetails } from "./types";
+import {useNavigate} from "react-router-dom";
 
 function Purchase() {
     const { token } = useAuth();
@@ -22,18 +23,7 @@ function Purchase() {
         house_number: ''
     });
     const [activeStep, setActiveStep] = useState<number>(0);
-    const [helperTextVisible, setHelperTextVisible] = useState<{
-        country: boolean;
-        state: boolean;
-        city: boolean;
-        street: boolean;
-        house_number: boolean;
-        card_Number: boolean;
-        expiration_Date: boolean;
-        card_Owner: boolean;
-        CVV: boolean;
-        purchase_Type: boolean;
-    }>({
+    const [helperTextVisible, setHelperTextVisible] = useState({
         country: false,
         state: false,
         city: false,
@@ -54,14 +44,19 @@ function Purchase() {
 
     const steps: string[] = ['Szállítás helye', 'Fizetés', 'Adatok ellenőrzése'];
     const [_, setErrors] = useState<string[]>([]);
+    const navigate = useNavigate();
 
     const handleFocus = (field: keyof Address) => {
         setHelperTextVisible({ ...helperTextVisible, [field]: true });
     };
 
     const handleFocus2 = (field: keyof CardDetails) => {
-        setHelperTextVisible({ ...helperTextVisible, [field]: true });
+        console.log("Focused on:", field);
+        const updatedHelperTextVisible = { ...helperTextVisible, [field]: true };
+        console.log("helperTextVisible:", updatedHelperTextVisible);
+        setHelperTextVisible(updatedHelperTextVisible);
     };
+
 
     const handleBlur = () => {
         setHelperTextVisible({
@@ -82,12 +77,49 @@ function Purchase() {
         setPaymentType(event.target.value as string);
     };
 
-    const handleSubmit = (event: FormEvent) => {
-        event.preventDefault();
+    const handleNext = () => {
+        let isValidAddress = true;
+        let isPayment=true;
 
+
+        if (activeStep === 0) {
+            Object.values(address).forEach(value => {
+                if (!value.trim()) {
+                    isValidAddress = false;
+                }
+            });
+        }
+
+        if (activeStep === 1) {
+            if (paymentType=== "30"){
+                isPayment=true
+            } else if (!paymentType || !cardDetails.cardNumber || !cardDetails.expirationDate || !cardDetails.cardholderName || !cardDetails.cvv) {
+                isPayment = false;
+            }
+        }
+
+
+        if (activeStep === 0 && !isValidAddress) {
+            return;
+        }
+
+        if (activeStep === 1 && !isPayment) {
+            return;
+        }
+
+        setActiveStep(prevActiveStep => prevActiveStep + 1);
+    };
+
+    const handleBack = () => {
+        setActiveStep(prevActiveStep => prevActiveStep - 1);
+    };
+
+    const handleFinish = () => {
         fetchApiEndpoints('/api/order/new', { accessToken: token, method: 'POST', body: { paymentType, address, cardDetails } })
             .then(async res => {
-                if (!res.ok) {
+                if (res.ok) {
+                    navigate("/");
+                } else {
                     setErrors([res.errorMessage]);
                 }
             })
@@ -96,17 +128,9 @@ function Purchase() {
             });
     };
 
-    const handleNext = () => {
-        setActiveStep(prevActiveStep => prevActiveStep + 1);
-    };
-
-    const handleBack = () => {
-        setActiveStep(prevActiveStep => prevActiveStep - 1);
-    };
-
     return (
-        <div className={"container"}>
-            <Box sx={{ width: '75%', height: '50%', padding: '0', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', position: 'fixed' }}>
+        <div className={"container main-container"}>
+            <Box sx={{ width: '75%', height: '400px', padding: '0', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', position: 'fixed' }}>
                 <Stepper activeStep={activeStep}>
                     {steps.map((label) => (
                         <Step key={label}>
@@ -137,7 +161,9 @@ function Purchase() {
                     )}
                     {activeStep === 2 && (
                         <ConfirmationStep
-                            handleSubmit={handleSubmit}
+                            address={address}
+                            paymentType={paymentType}
+                            cardDetails={cardDetails}
                         />
                     )}
                 </div>
@@ -145,7 +171,9 @@ function Purchase() {
                     <Box sx={{ display: 'flex', flexDirection: 'row', pt: 2 }}>
                         <Button color="inherit" disabled={activeStep === 0} onClick={handleBack} sx={{ mr: 1 }}>Vissza</Button>
                         <Box sx={{ flex: '1 1 auto' }} />
-                        <Button onClick={handleNext}>{activeStep === steps.length - 1 ? 'Vásárlás' : 'Következő'}</Button>
+                        <Button onClick={activeStep === steps.length - 1 ? handleFinish : handleNext}>
+                            {activeStep === steps.length - 1 ? 'Vásárlás' : 'Következő'}
+                        </Button>
                     </Box>
                 </React.Fragment>
             </Box>

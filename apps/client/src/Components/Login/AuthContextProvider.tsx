@@ -1,5 +1,5 @@
 import {createContext, ReactNode, useContext, useState} from "react";
-import '../../styles/LogoutDesign.css'
+import '../mainElements/Style/LogoutDesign.css'
 import { LogoutPanel2 } from "./LogoutPanel.tsx";
 
 interface AuthContextProvider {

@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, PropsWithChildren } from 'react';
 import { ExtendedCartItem } from '../../interfaces.ts';
-import {fetchApiEndpoints} from "../getFetchApi.tsx";
+import {fetchApiEndpoints} from "../Hooks/getFetchApi.tsx";
 import { useAuth } from '../Login/AuthContextProvider.tsx';
 //import {fetchTotalPrice} from "./CartApi.tsx";
 
