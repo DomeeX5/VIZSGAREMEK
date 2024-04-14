@@ -12,7 +12,7 @@ import {useCart} from "./CartContext.tsx";
 function Cart() {
     const navigate = useNavigate();
     const { addToCart } = useAddToCart();
-    const { cartItems, totalPrice, fetchCartData, removeFromCart } = useCart();
+    const { cartItems, totalPrice, fetchCartData, removeOneFromCart, removeItemFromCart } = useCart();
 
     useEffect(() => {
         fetchCartData();
@@ -57,7 +57,7 @@ function Cart() {
                                                             <div className="delete-link">
                                                                 <button
                                                                     className='quantity-button'
-                                                                    onClick={() => removeFromCart(item.product.product_id)}
+                                                                    onClick={() => removeOneFromCart(item.product.product_id)}
                                                                 >-
                                                                 </button>
                                                                 <input
@@ -73,7 +73,7 @@ function Cart() {
                                                                 >+
                                                                 </button>
                                                                 <IconButton aria-label="delete" size="small"
-                                                                            onClick={() => removeFromCart(item.product.product_id)}>
+                                                                            onClick={() => removeItemFromCart(item.product.product_id)}>
                                                                     <DeleteIcon fontSize="medium"/>
                                                                 </IconButton>
                                                             </div>

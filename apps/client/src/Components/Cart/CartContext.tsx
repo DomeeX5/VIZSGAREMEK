@@ -9,7 +9,8 @@ interface CartContextType {
     totalPrice: string;
     cartCount: number;
     fetchCartData: () => void;
-    removeFromCart: (productId: number) => void;
+    removeOneFromCart: (productId: number) => void;
+    removeItemFromCart: (productId: number) => void;
     updateCartCount: () => Promise<void>;
 }
 
@@ -48,9 +49,20 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
         }
     };
 
-    const removeFromCart = async (productId: number) => {
+    const removeOneFromCart = async (productId: number) => {
         try {
             await fetchApiEndpoints('api/cart/remove', {accessToken: accessToken, method: 'POST', body: {productId, quantity: 1}, jsonResponse: false})
+            const updatedCart = cartItems.filter(item => item.product.product_id !== productId);
+            setCartItems(updatedCart);
+            await fetchCartData()
+        } catch (error: any) {
+            console.error('Error fetching cart data: ', error)
+        }
+    };
+
+    const removeItemFromCart = async (productId: number) => {
+        try {
+            await fetchApiEndpoints('api/cart/remove-item', {accessToken: accessToken, method: 'POST', body: {productId}, jsonResponse: false})
             const updatedCart = cartItems.filter(item => item.product.product_id !== productId);
             setCartItems(updatedCart);
             await fetchCartData()
@@ -68,7 +80,7 @@ export const CartProvider = ({ children }: PropsWithChildren) => {
     }, [accessToken]);
 
     return (
-        <CartContext.Provider value={{ cartItems, totalPrice, cartCount, fetchCartData, removeFromCart, updateCartCount }}>
+        <CartContext.Provider value={{ cartItems, totalPrice, cartCount, fetchCartData, removeItemFromCart, removeOneFromCart, updateCartCount }}>
             {children}
         </CartContext.Provider>
     );

@@ -67,6 +67,7 @@ function Login() {
                         color={'primary'}
                         id="outlined-adornment-password"
                         type={showPassword ? 'text' : 'password'}
+                        placeholder={'Jelszó'}
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton

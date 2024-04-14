@@ -43,46 +43,47 @@ function Main() {
     };
 
     return (
-        <Container className={'main-container'}>
-            {showAlert && (
-                <Alert severity="error" className={"Alert"} onClose={() => setShowAlert(false)}>
-                    Ahhoz, hogy a kosárba tudd a terméket rakni, be kell jelentkezned.
-                </Alert>
-            )}
-            <Row>
-                {currentPage === 1 && (
-                    <Col xl={12} lg={12} md={12} sm={12} xs={12}>
-                        <div id="carouselExampleInterval " className="carousel slide"
-                             data-bs-ride="carousel">
-                            <div className="carousel-inner">
-                                <div className="carousel-item active" data-bs-interval="1000">
-                                    <img
-                                        src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3FzMHVjNXEwMjI0cWNma3NicHF4a3JsZDVzM2c0NXlyaHZveXk0aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dmvodzjX8wU7icE3TL/giphy.gif"
-                                        className="d-block w-100 c-img" alt="..." />
+        <>
+            <Container className={'main-container'}>
+                {showAlert && (
+                    <Alert severity="error" className={"Alert"} onClose={() => setShowAlert(false)}>
+                        Ahhoz, hogy a kosárba tudd a terméket rakni, be kell jelentkezned.
+                    </Alert>
+                )}
+                <Row>
+                    {currentPage === 1 && (
+                        <Col xl={12} lg={12} md={12} sm={12} xs={12}>
+                            <div id="carouselExampleInterval " className="carousel slide"
+                                 data-bs-ride="carousel">
+                                <div className="carousel-inner">
+                                    <div className="carousel-item active" data-bs-interval="1000">
+                                        <img
+                                            src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3FzMHVjNXEwMjI0cWNma3NicHF4a3JsZDVzM2c0NXlyaHZveXk0aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dmvodzjX8wU7icE3TL/giphy.gif"
+                                            className="d-block w-100 c-img" alt="..." />
+                                    </div>
+                                    <div className="carousel-item" data-bs-interval="2000">
+                                        <img
+                                            src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3FzMHVjNXEwMjI0cWNma3NicHF4a3JsZDVzM2c0NXlyaHZveXk0aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dmvodzjX8wU7icE3TL/giphy.gif"
+                                            className="d-block w-100 c-img" alt="..." />
+                                    </div>
+                                    <div className="carousel-item">
+                                        <img
+                                            src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3FzMHVjNXEwMjI0cWNma3NicHF4a3JsZDVzM2c0NXlyaHZveXk0aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dmvodzjX8wU7icE3TL/giphy.gif"
+                                            className="d-block w-100 c-img" alt="..." />
+                                    </div>
                                 </div>
-                                <div className="carousel-item" data-bs-interval="2000">
-                                    <img
-                                        src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3FzMHVjNXEwMjI0cWNma3NicHF4a3JsZDVzM2c0NXlyaHZveXk0aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dmvodzjX8wU7icE3TL/giphy.gif"
-                                        className="d-block w-100 c-img" alt="..." />
-                                </div>
-                                <div className="carousel-item">
-                                    <img
-                                        src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3FzMHVjNXEwMjI0cWNma3NicHF4a3JsZDVzM2c0NXlyaHZveXk0aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dmvodzjX8wU7icE3TL/giphy.gif"
-                                        className="d-block w-100 c-img" alt="..." />
-                                </div>
+                                <button className="carousel-control-prev" type="button"
+                                        data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
+                                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span className="visually-hidden">Previous</span>
+                                </button>
+                                <button className="carousel-control-next" type="button"
+                                        data-bs-target="#carouselExampleInterval" data-bs-slide="next">
+                                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span className="visually-hidden">Next</span>
+                                </button>
                             </div>
-                            <button className="carousel-control-prev" type="button"
-                                    data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
-                                <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span className="visually-hidden">Previous</span>
-                            </button>
-                            <button className="carousel-control-next" type="button"
-                                    data-bs-target="#carouselExampleInterval" data-bs-slide="next">
-                                <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span className="visually-hidden">Next</span>
-                            </button>
-                        </div>
-                    </Col>
+                        </Col>
                     )}
                     {loading ? (
                         Array.from({length: productsPerPage}).map((_, index) => (
@@ -95,23 +96,24 @@ function Main() {
                                         <Skeleton variant="text" width={230} height={50}/>
                                     </div>
                                 </div>
-                        </Col>
-                    ))
-                ) : (
-                    products && products.map((product) => (
-                        <CardComponent key={product.product_id} product={product} />
-                    ))
-                )}
-            </Row>
-            <div className={'pag'} style={{marginBottom:'50px'}}>
+                            </Col>
+                        ))
+                    ) : (
+                        products && products.map((product) => (
+                            <CardComponent key={product.product_id} product={product} />
+                        ))
+                    )}
+                </Row>
+                <div className={'pag'} style={{marginBottom:'50px'}}>
                     <Pagination
                         count={totalPages}
                         variant="outlined"
                         color="primary"
                         onChange={(_, page) => handlePageChange(page)}
                     />
-            </div>
-        </Container>
+                </div>
+            </Container>
+        </>
     )
 }
 
