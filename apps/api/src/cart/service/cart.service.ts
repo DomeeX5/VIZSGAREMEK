@@ -89,26 +89,6 @@ export class CartService {
     }
 
     async addToCart(userid: { user: {id: number, name: string }, email: string }, productId: number, quantity: number) {
-        const user = await this.prisma.user.findUnique({
-            where: {
-                user_id: userid.user.id,
-            }
-        })
-
-        if (!user) {
-            throw new HttpException("A kosárba helyezéshez be kell jelentkezned!", HttpStatus.BAD_REQUEST)
-        }
-
-        const product = await this.prisma.product.findUnique({
-            where: {
-                product_id: productId,
-            }
-        })
-
-        if (!product) {
-            throw new HttpException("A termék amit a kosárhoz szeretnél adni, nem létezik.", HttpStatus.BAD_REQUEST)
-        }
-
         const existingCart = await this.prisma.cartItem.findFirst({
             where: {
                 User_user_id: userid.user.id,

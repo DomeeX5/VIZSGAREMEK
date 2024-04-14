@@ -1,8 +1,10 @@
 import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
 import {PrismaService} from "../../prisma/prisma.service";
-import {UserRegisterDto, UpdatePasswordDto} from "../users.dto";
 import {compare, genSalt, hash} from "bcrypt"
 import {User} from "@prisma/client";
+import {UserRegisterDto} from "../../auth/dtos/user.register.dto";
+import {UpdatePasswordDto} from "../../auth/dtos/update.password.dto";
+import {UpdateEmailDto} from "../../auth/dtos/update.email.dto";
 
 @Injectable()
 export class UsersService {
@@ -34,23 +36,37 @@ export class UsersService {
         }
     }
 
-    async updatePassword(payload: UpdatePasswordDto, id: number): Promise<User> {
+    async updatePassword(payload: UpdatePasswordDto, userid: { user: {id: number, name: string }, email: string }): Promise<User> {
         const user = await this.prisma.user.findUnique({
-            where: {user_id: id}
+            where: {user_id: userid.user.id}
         });
-        if (!user) {
-            throw new HttpException("invalid_credentials",
-                HttpStatus.UNAUTHORIZED);
-        }
         const areEqual = await compare(payload.old_password,
             user.password);
-        if (!areEqual) {
+        if (!user || !areEqual) {
             throw new HttpException("invalid_credentials",
                 HttpStatus.UNAUTHORIZED);
         }
+
         return this.prisma.user.update({
-            where: {user_id: id},
+            where: {user_id: userid.user.id},
             data: {password:  await hash(payload.new_password, 10)}
         });
+    }
+
+    async updateEmail(payload: UpdateEmailDto, userid: { user: {id: number, name: string }, email: string }):Promise<User> {
+        const user = await this.prisma.user.findUnique({
+            where: {user_id: userid.user.id}
+        });
+
+        if (!user || user.email !== payload.old_email) {
+            throw new HttpException("invalid_credentials",
+                HttpStatus.UNAUTHORIZED);
+        }
+
+        return this.prisma.user.update({
+            where: {user_id: userid.user.id},
+            data: {email: payload.new_email}
+        });
+
     }
 }

@@ -1,55 +1,145 @@
-import { Body, Controller, Post, Req } from '@nestjs/common';
+import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
 import { AuthService } from '../service/auth.service';
 import { UsersService } from '../../users/service/users.service';
-import { UpdatePasswordDto, UserLoginDto, UserRegisterDto } from '../../users/users.dto';
+import { JwtAuthGuard } from "../guards/jwt-auth.guard";
+import {ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
+import {UserLoginDto} from "../dtos/user.login.dto";
+import {UserRegisterDto} from "../dtos/user.register.dto";
+import {UpdatePasswordDto} from "../dtos/update.password.dto";
+import {UpdateEmailDto} from "../dtos/update.email.dto";
 
-/**
- * Controller responsible for handling authentication-related endpoints.
- */
+@ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService, private userService: UsersService) {
     }
 
-    /**
-     * Endpoint for user login.
-     * @param req The request object containing user email and password.
-     * @returns A Promise resolving to the result of the login operation.
-     */
     @Post('login')
+    @ApiOperation({
+        summary: 'Logs in a user',
+        description: 'Authenticates a user with provided credentials and returns an access token.',
+    })
+    @ApiBody({
+        type: UserLoginDto,
+        description: 'User credentials (email and password) for authentication.',
+        examples: {
+            userLoginExample: {
+                summary: 'Example of login request',
+                value: {
+                    email: 'testUser@test2.com',
+                    password: 'Password123_'
+                }
+            }
+        }
+    })
+    @ApiResponse({
+        status: 201,
+        description: 'User authenticated successfully.',
+    })
+    @ApiResponse({
+        status: 401,
+        description: 'Unauthorized. Invalid credentials.',
+    })
+    @ApiBearerAuth()
     async login(@Req() req: any): Promise<any> {
-        // Extract user credentials from the request body
         const user = new UserLoginDto();
         user.email = req.body.email;
         user.password = req.body.password;
 
-        // Perform login operation
         return await this.authService.login(user);
     }
 
-    /**
-     * Endpoint for user registration.
-     * @param createUserDto DTO containing user registration data.
-     * @returns A Promise resolving to the result of the user registration operation.
-     */
     @Post('register')
+    @ApiOperation({
+        summary: 'Registers a new user',
+        description: 'Creates a new user account with the provided details.',
+    })
+    @ApiBody({
+        type: UserRegisterDto,
+        description: 'User details for registration.',
+        examples: {
+            userRegisterExample: {
+                summary: 'Example of register request',
+                value: {
+                    username: 'exampleUser',
+                    email: 'example@example.com',
+                    password: 'Password123_'
+                }
+            }
+        }
+    })
+    @ApiResponse({
+        status: 201,
+        description: 'User registered successfully.',
+    })
     async register(@Body() createUserDto: UserRegisterDto): Promise<any> {
-        // Register the user
         return await this.userService.createUser(createUserDto);
     }
 
-    /**
-     * Endpoint for updating user password.
-     * @param payload DTO containing update password data.
-     * @param req The request object containing user ID.
-     * @returns A Promise resolving to the result of the password update operation.
-     */
+    @UseGuards(JwtAuthGuard)
     @Post('settings/update-password')
-    async updatePassword(@Body() payload: UpdatePasswordDto, @Req() req: any): Promise<any> {
-        // Extract user ID from the request
-        const userId = req.user;
+    @ApiOperation({
+        summary: 'Updates user password',
+        description: 'Updates the password of the currently authenticated user.',
+    })
+    @ApiBody({
+        type: UpdatePasswordDto,
+        description: 'New password details.',
+        examples: {
+            passwordUpdateExample: {
+                summary: 'Example of updating password',
+                value: {
+                    old_password: 'example',
+                    new_password: 'example2'
+                }
+            }
+        }
 
-        // Update user password
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Password updated successfully.',
+    })
+    @ApiResponse({
+        status: 400,
+        description: 'Invalid credentials',
+    })
+    @ApiBearerAuth()
+    async updatePassword(@Body() payload: UpdatePasswordDto, @Req() req: any): Promise<any> {
+        const userId = req.user;
         return await this.userService.updatePassword(payload, userId);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Post('settings/update-email')
+    @ApiOperation({
+        summary: 'Updates user email',
+        description: 'Updates the email address of the currently authenticated user.',
+    })
+    @ApiBody({
+        type: UpdateEmailDto,
+        description: 'New email address.',
+        examples: {
+            emailUpdateExample: {
+                summary: 'Example of updating email',
+                value: {
+                    old_email: 'example@example.com',
+                    new_email: 'example2@example.com'
+                }
+            }
+        }
+    })
+    @ApiResponse({
+        status: 200,
+        description: 'Email updated successfully.',
+    })
+    @ApiResponse({
+        status: 400,
+        description: 'Invalid credentials.'
+    })
+    @ApiBearerAuth()
+    async updateEmail(@Body() payload: UpdateEmailDto, @Req() req: any): Promise<any> {
+        const userId = req.user;
+        return await this.userService.updateEmail(payload, userId);
     }
 }

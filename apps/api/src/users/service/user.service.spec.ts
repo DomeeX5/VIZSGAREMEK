@@ -1,10 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsersService } from './users.service';
 import { PrismaService } from '../../prisma/prisma.service';
-import { UserRegisterDto, UpdatePasswordDto } from '../users.dto';
 import { User } from '@prisma/client';
 import { HttpException, HttpStatus } from '@nestjs/common';
 import * as bcrypt from 'bcrypt';
+import {UserRegisterDto} from "../../auth/dtos/user.register.dto";
+import {UpdatePasswordDto} from "../../auth/dtos/update.password.dto";
 
 jest.mock('../../prisma/prisma.service');
 jest.mock('bcrypt', () => ({
