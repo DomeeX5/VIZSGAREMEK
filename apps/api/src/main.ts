@@ -1,12 +1,15 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import {DocumentBuilder, SwaggerModule} from '@nestjs/swagger'
-import {SecuritySchemeObject} from "@nestjs/swagger/dist/interfaces/open-api-spec.interface";
 
+/**
+ * Bootstrap function to start the NestJS application.
+ */
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api')
 
+  // Swagger configuration
   const config = new DocumentBuilder()
       .setTitle('Webshop')
       .setDescription('Webshop made with NestJS and React')
@@ -16,6 +19,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
+  // Start listening to the specified port
   await app.listen(3000);
 }
 
