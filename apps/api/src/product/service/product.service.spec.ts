@@ -181,7 +181,7 @@ describe('ProductService', () => {
             const mockSkip = (mockPage - 1) * mockLimit;
             jest.spyOn(prismaService.product, 'findMany').mockResolvedValue(mockProducts);
 
-            const result = await service.getProductByType(mockType, mockPage, mockLimit);
+            const result = await service.getProductByType(mockType);
 
             expect(result).toEqual(mockProducts);
             expect(prismaService.product.findMany).toHaveBeenCalledWith({
@@ -209,7 +209,7 @@ describe('ProductService', () => {
             const mockSkip = (mockPage - 1) * mockLimit;
             jest.spyOn(prismaService.product, 'findMany').mockResolvedValue(mockProducts);
 
-            const result = await service.getProductBySpecType(mockType, mockPage, mockLimit);
+            const result = await service.getProductBySpecType(mockType);
 
             expect(result).toEqual(mockProducts);
             expect(prismaService.product.findMany).toHaveBeenCalledWith({

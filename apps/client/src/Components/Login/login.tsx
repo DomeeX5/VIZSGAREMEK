@@ -13,36 +13,51 @@ import { useAuth } from './AuthContextProvider.tsx';
 import {fetchApiEndpoints} from "../Hooks/getFetchApi.tsx";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 
-function Login() {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+/**
+ * Component for user login.
+ * @returns JSX.Element
+ */
+function Login(): JSX.Element {
+    const [email, setEmail] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
     const navigate = useNavigate();
-    const [showPassword, setShowPassword] = React.useState(false);
+    const [showPassword, setShowPassword] = useState<boolean>(false);
     const { login } = useAuth();
 
-    function getData(event: FormEvent<HTMLFormElement>) {
+    /**
+     * Handles form submission to log in the user.
+     * @param event - Form submit event.
+     */
+    function getData(event: FormEvent<HTMLFormElement>): void {
         event.preventDefault();
         setError('');
-        fetchApiEndpoints('/api/auth/login', {method: 'POST', body:{ email, password }})
-            .then(async data => {
+        fetchApiEndpoints('/api/auth/login', { method: 'POST', body: { email, password } })
+            .then(async (data) => {
                 if (data.errorMessage) {
-                    setError(data.errorMessage)
+                    setError(data.errorMessage);
                 } else {
                     login(data.accessToken);
                     setError('');
                     navigate('/');
                 }
-            }).catch(error => {
+            }).catch((error) => {
             setError(error);
         });
     }
 
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    /**
+     * Toggles password visibility.
+     */
+    const handleClickShowPassword = (): void => setShowPassword((show) => !show);
 
-    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    /**
+     * Prevents default event behavior.
+     * @param event - Mouse event.
+     */
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>): void => {
         event.preventDefault();
-    }
+    };
 
     return (
         <>

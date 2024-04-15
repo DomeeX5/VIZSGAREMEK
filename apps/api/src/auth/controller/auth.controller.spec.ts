@@ -4,6 +4,7 @@ import { AuthService } from '../service/auth.service';
 import { UsersService } from '../../users/service/users.service';
 import {UserLoginDto} from "../dtos/user.login.dto";
 import {UserRegisterDto} from "../dtos/user.register.dto";
+import {User} from "@prisma/client";
 
 jest.mock('../service/auth.service');
 jest.mock('../../users/service/users.service');
@@ -71,10 +72,13 @@ describe('AuthController', () => {
                 password: 'password123',
             };
 
-            const newUser = {
-                id: 1,
+            const newUser: User = {
+                user_id: 1,
                 username: 'TestUser',
                 email: 'test@example.com',
+                password: 'password',
+                Privilages_priv_id: 10
+
             };
 
             usersService.createUser.mockResolvedValue(newUser);

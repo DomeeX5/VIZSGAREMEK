@@ -21,24 +21,52 @@ import PersonIcon from '@mui/icons-material/Person'
 import {fetchApiEndpoints} from "../Hooks/getFetchApi.tsx";
 import './Style/App.css'
 
-function Navbar() {
+/**
+ * Navbar component for navigating the application and performing user actions.
+ * @returns JSX.Element
+ */
+function Navbar(): JSX.Element {
+    /**
+     * Accesses the authentication context to determine user authentication status.
+     */
     const { isLoggedIn, logout } = useAuth();
+
+    /**
+     * Manages the search functionality.
+     */
     const [query, setQuery] = useState('');
     const [results, setResults] = useState<ExtendedProduct[]>([]);
     const [showResults, setShowResults] = useState<boolean>(false);
     const [searching, setSearching] = useState<boolean>(false);
+
+    /**
+     * Manages the offcanvas state for smaller screens.
+     */
     const [showOffcanvas, setShowOffcanvas] = useState<boolean>(false);
+
+    /**
+     * Manages the state for medium-sized screens.
+     */
     const [isMediumScreen, setIsMediumScreen] = useState<boolean>(false);
+
+    /**
+     * Manages navigation between different pages.
+     */
     const navigate = useNavigate();
-    const {cartCount} = useCart();
+
+    /**
+     * Accesses the cart context to retrieve cart count.
+     */
+    const { cartCount } = useCart();
+
+    /**
+     * Retrieves the username from sessionStorage.
+     */
     const username = sessionStorage.getItem('username');
 
-    useEffect(() => {
-        setQuery('');
-        setResults([]);
-        setShowResults(false);
-    }, [isLoggedIn]);
-
+    /**
+     * Handles the resizing of the screen to determine if it's a medium-sized screen.
+     */
     useEffect(() => {
         const handleResize = () => {
             setIsMediumScreen(window.innerWidth <= 857);
@@ -50,7 +78,9 @@ function Navbar() {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
-
+    /**
+     * Handles the search functionality.
+     */
     const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
         setQuery(value);
@@ -68,6 +98,9 @@ function Navbar() {
         }
     }
 
+    /**
+     * Handles navigation to different pages.
+     */
     const handleNavigation = (destination: string) => {
         navigate(destination);
         setShowOffcanvas(false);

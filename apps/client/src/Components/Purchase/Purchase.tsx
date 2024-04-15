@@ -1,17 +1,22 @@
-import React, { useState, ChangeEvent } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../Login/AuthContextProvider.tsx";
 import { fetchApiEndpoints } from "../Hooks/getFetchApi.tsx";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import StepLabel from "@mui/material/StepLabel";
 import Step from "@mui/material/Step";
-import { Button } from "@mui/material";
+import {Button, SelectChangeEvent} from "@mui/material";
 import AddressStep from "./AddressStep";
 import PaymentStep from "./PaymentStep";
 import ConfirmationStep from "./ConfirmationStep";
 import { Address, CardDetails } from "./types";
 import {useNavigate} from "react-router-dom";
 
+/**
+ * Purchase component for managing the purchase workflow.
+ *
+ * @returns JSX element representing the Purchase component.
+ */
 function Purchase() {
     const { token } = useAuth();
     const [paymentType, setPaymentType] = useState<string>("");
@@ -46,10 +51,20 @@ function Purchase() {
     const [_, setErrors] = useState<string[]>([]);
     const navigate = useNavigate();
 
+    /**
+     * Handles focus on a specific field in the address.
+     *
+     * @param field - Field to focus on.
+     */
     const handleFocus = (field: keyof Address) => {
         setHelperTextVisible({ ...helperTextVisible, [field]: true });
     };
 
+    /**
+     * Handles focus on a specific field in the card details.
+     *
+     * @param field - Field to focus on.
+     */
     const handleFocus2 = (field: keyof CardDetails) => {
         console.log("Focused on:", field);
         const updatedHelperTextVisible = { ...helperTextVisible, [field]: true };
@@ -58,6 +73,9 @@ function Purchase() {
     };
 
 
+    /**
+     * Handles blur event on the fields.
+     */
     const handleBlur = () => {
         setHelperTextVisible({
             country: false,
@@ -73,10 +91,18 @@ function Purchase() {
         });
     };
 
-    const handlePaymentTypeChange = (event: ChangeEvent<{ value: unknown }>) => {
+    /**
+     * Handles change in payment type.
+     *
+     * @param event - Change event.
+     */
+    const handlePaymentTypeChange = (event: SelectChangeEvent<string>, _: React.ReactNode) => {
         setPaymentType(event.target.value as string);
     };
 
+    /**
+     * Handles next step in the purchase workflow.
+     */
     const handleNext = () => {
         let isValidAddress = true;
         let isPayment=true;
@@ -110,10 +136,16 @@ function Purchase() {
         setActiveStep(prevActiveStep => prevActiveStep + 1);
     };
 
+    /**
+     * Handles going back to the previous step in the purchase workflow.
+     */
     const handleBack = () => {
         setActiveStep(prevActiveStep => prevActiveStep - 1);
     };
 
+    /**
+     * Handles finishing the purchase.
+     */
     const handleFinish = () => {
         fetchApiEndpoints('/api/order/new', { accessToken: token, method: 'POST', body: { paymentType, address, cardDetails } })
             .then(async res => {

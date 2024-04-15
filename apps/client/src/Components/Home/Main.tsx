@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, JSX } from 'react';
 import {Alert, Pagination, Skeleton} from "@mui/material";
 import { Col, Container, Row } from "react-bootstrap";
 import { ExtendedProduct } from "../../interfaces.ts";
@@ -7,14 +7,19 @@ import CardComponent from '../Hooks/CardComponent.tsx';
 import {useAddToCart} from "../Hooks/AddCart.tsx";
 import {fetchProductCount, fetchProductsPerPage, productsPerPage} from "./MainApi.tsx";
 
-function Main() {
+/**
+ * Represents the main page component.
+ * Displays a list of products and provides pagination functionality.
+ * @returns JSX.Element
+ */
+function Main(): JSX.Element {
     const [products, setProducts] = useState<ExtendedProduct[] | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [totalPages, setTotalPages] = useState(1);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [totalPages, setTotalPages] = useState<number>(1);
     const navigate = useNavigate();
     const [_, setErrors] = useState<string[]>([]);
-    const {showAlert, setShowAlert} = useAddToCart();
-    const [currentPage, setCurrentPage] = useState(1)
+    const { showAlert, setShowAlert } = useAddToCart();
+    const [currentPage, setCurrentPage] = useState<number>(1)
 
     useEffect(() => {
         fetchProductCount()
@@ -37,7 +42,11 @@ function Main() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }, [currentPage]);
 
-    const handlePageChange = (page: number) => {
+    /**
+     * Handles page change event.
+     * @param page - The selected page number.
+     */
+    const handlePageChange = (page: number): void => {
         setCurrentPage(page);
         navigate(`?page=${page}`);
     };

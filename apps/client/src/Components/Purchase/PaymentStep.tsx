@@ -1,10 +1,13 @@
 import React from "react";
-import { MenuItem, Select, TextField } from "@mui/material";
+import {MenuItem, Select, SelectChangeEvent, TextField} from "@mui/material";
 import { CardDetails } from "./types";
 
+/**
+ * Props interface for the PaymentStep component.
+ */
 interface PaymentStepProps {
     paymentType: string;
-    handlePaymentTypeChange: (event: React.ChangeEvent<{ value: unknown }>) => void;
+    handlePaymentTypeChange: (event: SelectChangeEvent<string>, child: React.ReactNode) => void;
     helperTextVisible: any;
     handleFocus: (field: keyof CardDetails) => void;
     handleBlur: () => void;
@@ -12,6 +15,34 @@ interface PaymentStepProps {
     handleCardDetailsChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: keyof CardDetails) => void;
 }
 
+/**
+ * PaymentStep component for entering payment details.
+ *
+ * @remarks
+ * This component is used to render and input payment details, including card number, expiration date, cardholder name, and CVV.
+ *
+ * @param paymentType - Type of payment selected for the order.
+ * @param handlePaymentTypeChange - Function to handle payment type change.
+ * @param helperTextVisible - Object containing visibility status of helper text for each field.
+ * @param handleFocus - Function to handle field focus.
+ * @param handleBlur - Function to handle field blur.
+ * @param cardDetails - CardDetails object containing card payment details.
+ * @param handleCardDetailsChange - Function to handle card details change.
+ * @returns JSX element representing the PaymentStep component.
+ *
+ * @example
+ * ```tsx
+ * <PaymentStep
+ *   paymentType="20"
+ *   handlePaymentTypeChange={handlePaymentTypeChange}
+ *   helperTextVisible={helperTextVisible}
+ *   handleFocus={handleFocus}
+ *   handleBlur={handleBlur}
+ *   cardDetails={cardDetails}
+ *   handleCardDetailsChange={handleCardDetailsChange}
+ * />
+ * ```
+ */
 function PaymentStep({ paymentType, handlePaymentTypeChange, helperTextVisible, handleFocus, handleBlur, cardDetails, handleCardDetailsChange }: PaymentStepProps) {
     return (
         <>

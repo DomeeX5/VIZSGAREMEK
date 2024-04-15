@@ -18,7 +18,7 @@ import { OrderModule } from './order/order.module';
         CartModule,
         OrderModule,
         ServeStaticModule.forRoot({
-            rootPath: join(__dirname, '../../../', 'client', 'dist'),
+            rootPath: join(__dirname, '../../', 'client', 'dist'),
         }),
     ],
 })

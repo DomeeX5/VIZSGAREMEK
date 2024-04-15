@@ -135,7 +135,7 @@ describe('UsersService', () => {
             (bcrypt.genSalt as jest.Mock).mockResolvedValue('salt');
             (bcrypt.hash as jest.Mock).mockResolvedValue('hashedPassword');
 
-            const result = await service.updatePassword(payload, user.user_id);
+            const result = await service.updatePassword(payload, {user: {id: user.user_id, name: 'test'}, email: 'test@test.com' });
 
             expect(result).toEqual({
                 ...user,
@@ -157,7 +157,7 @@ describe('UsersService', () => {
             jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(user);
             jest.spyOn(global as any, 'compare').mockResolvedValue(false);
 
-            await expect(service.updatePassword(payload, id)).rejects.toThrowError(
+            await expect(service.updatePassword(payload, {user: {id: user.user_id, name: 'test'}, email: 'test@test.com' })).rejects.toThrowError(
                 new HttpException('invalid_credentials', HttpStatus.UNAUTHORIZED)
             );
             expect(prismaService.user.update).not.toHaveBeenCalled();
@@ -172,7 +172,7 @@ describe('UsersService', () => {
 
             jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(undefined);
 
-            await expect(service.updatePassword(payload, id)).rejects.toThrowError(
+            await expect(service.updatePassword(payload, {user: {id: user.user_id, name: 'test'}, email: 'test@test.com' })).rejects.toThrowError(
                 new HttpException('invalid_credentials', HttpStatus.UNAUTHORIZED)
             );
             expect(prismaService.user.update).not.toHaveBeenCalled();

@@ -1,8 +1,15 @@
 import './Style/App.css'
 import {useAuth} from "../Login/AuthContextProvider.tsx";
 
-function Footer(){
-    const {showLogoutPanel} = useAuth()
+/**
+ * Footer component displaying a quote and applying a dark overlay if the logout panel is shown.
+ * @returns JSX.Element
+ */
+function Footer(): JSX.Element {
+    /**
+     * Accesses the authentication context to determine whether the logout panel is shown.
+     */
+    const { showLogoutPanel } = useAuth();
 
     return(
         <>

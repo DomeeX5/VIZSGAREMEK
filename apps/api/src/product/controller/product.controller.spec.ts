@@ -92,7 +92,7 @@ describe('ProductController', () => {
             const selectedType = 'type';
             jest.spyOn(productService, 'getProductByType').mockResolvedValue(products);
 
-            const result = await controller.getProductsByType(selectedType, page, limit);
+            const result = await controller.getProductsByType(selectedType);
 
             expect(result).toEqual(products);
         });
@@ -104,7 +104,7 @@ describe('ProductController', () => {
             const selected = 'selected';
             jest.spyOn(productService, 'getProductBySpecType').mockResolvedValue(products);
 
-            const result = await controller.getProductsBySpecType(selected, selectedType, page, limit);
+            const result = await controller.getProductsBySpecType(selected, selectedType);
 
             expect(result).toEqual(products);
         });

@@ -6,6 +6,9 @@ import "./Style/Register-login.css";
 import {fetchApiEndpoints} from "../Hooks/getFetchApi.tsx";
 import {Visibility, VisibilityOff} from "@mui/icons-material";
 
+/**
+ * Represents the registration form component.
+ */
 function Register() {
     const navigate = useNavigate();
     const [username, setUsername] = useState("");
@@ -16,13 +19,27 @@ function Register() {
     const [showPassword1, setShowPassword1] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
 
+    /**
+     * Toggles the visibility of the first password input.
+     */
     const handleClickShowPassword1 = () => setShowPassword1((show) => !show);
+
+    /**
+     * Toggles the visibility of the second password input.
+     */
     const handleClickShowPassword2 = () => setShowPassword2((show) => !show);
 
+    /**
+     * Prevents the default action of the mouse down event.
+     */
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
 
+    /**
+     * Sends registration data to the server.
+     * @param event - The form event.
+     */
     const sendData = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (password !== passwordAgain) {

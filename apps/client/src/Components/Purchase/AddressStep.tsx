@@ -2,6 +2,9 @@ import React from "react";
 import { TextField } from "@mui/material";
 import { Address } from "./types";
 
+/**
+ * Props interface for the AddressStep component.
+ */
 interface AddressStepProps {
     address: Address;
     handleAddressChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: keyof Address) => void;
@@ -10,6 +13,31 @@ interface AddressStepProps {
     handleBlur: () => void;
 }
 
+
+/**
+ * AddressStep component to display and manage address information.
+ *
+ * @remarks
+ * This component is used to render and handle changes to address details.
+ *
+ * @param address - Address object containing address details.
+ * @param handleAddressChange - Function to handle address field changes.
+ * @param helperTextVisible - Helper text visibility object.
+ * @param handleFocus - Function to handle field focus.
+ * @param handleBlur - Function to handle field blur.
+ * @returns JSX element representing the AddressStep component.
+ *
+ * @example
+ * ```tsx
+ * <AddressStep
+ *   address={addressData}
+ *   handleAddressChange={handleAddressChange}
+ *   helperTextVisible={helperTextVisibility}
+ *   handleFocus={handleFieldFocus}
+ *   handleBlur={handleFieldBlur}
+ * />
+ * ```
+ */
 function AddressStep({ address, handleAddressChange, helperTextVisible, handleFocus, handleBlur }: AddressStepProps) {
     const isError = Object.values(address).some(value => !value.trim());
 

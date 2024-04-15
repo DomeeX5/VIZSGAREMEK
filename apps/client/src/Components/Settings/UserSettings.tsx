@@ -2,21 +2,52 @@ import {Button, Col, Container, Row} from "react-bootstrap";
 import Settings from "./Settings.tsx";
 import {TextField, Typography} from "@mui/material";
 import {useState} from "react";
-import {fetchApiEndpoints} from "../Hooks/getFetchApi.tsx";
-import {useAuth} from "../Login/AuthContextProvider.tsx";
+import {fetchApiEndpoints} from "../Hooks/getFetchApi";
+import {useAuth} from "../Login/AuthContextProvider";
 import './Style/usersettings.css'
 
+/**
+ * Represents the user settings page component.
+ */
 function UserSettings() {
+    /**
+     * State variable for the old email.
+     */
     const [oldEmail, setOldEmail] = useState('');
-    const [newEmail, setNewEmail] = useState('');
-    const [oldPassword, setOldPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const {token} = useAuth();
 
+    /**
+     * State variable for the new email.
+     */
+    const [newEmail, setNewEmail] = useState('');
+
+    /**
+     * State variable for the old password.
+     */
+    const [oldPassword, setOldPassword] = useState('');
+
+    /**
+     * State variable for the new password.
+     */
+    const [newPassword, setNewPassword] = useState('');
+
+    /**
+     * Authentication token.
+     */
+    const { token } = useAuth();
+
+    /**
+     * Regular expression for validating email format.
+     */
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+    /**
+     * Regular expression for validating password format.
+     */
     const passwordRegex = /^(?=.*[!@#$%^&*])(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$/;
 
+    /**
+     * Function to send a request to update the password.
+     */
     async function postNewPassword() {
         if (oldPassword.length === 0 || newPassword.length === 0) {
             return;
@@ -26,38 +57,38 @@ function UserSettings() {
             return;
         }
 
-        await fetchApiEndpoints('/api/auth/settings/update-password',
-            {
-                accessToken: token,
-                body: {
-                    old_password: oldPassword,
-                    new_password: newPassword
-                },
-                jsonResponse: false,
-                method: 'POST'
-        })
+        await fetchApiEndpoints('/api/auth/settings/update-password', {
+            accessToken: token,
+            body: {
+                old_password: oldPassword,
+                new_password: newPassword
+            },
+            jsonResponse: false,
+            method: 'POST'
+        });
     }
 
-    async function postNewEmail(){
+    /**
+     * Function to send a request to update the email.
+     */
+    async function postNewEmail() {
         if (oldEmail.length === 0 || newEmail.length === 0) {
             return;
         }
-
 
         if (!emailRegex.test(newEmail)) {
             return;
         }
 
-        await fetchApiEndpoints('/api/auth/settings/update-email',
-            {
-                accessToken: token,
-                body: {
-                    old_email: oldEmail,
-                    new_email: newEmail
-                },
-                jsonResponse: false,
-                method: 'POST'
-            })
+        await fetchApiEndpoints('/api/auth/settings/update-email', {
+            accessToken: token,
+            body: {
+                old_email: oldEmail,
+                new_email: newEmail
+            },
+            jsonResponse: false,
+            method: 'POST'
+        });
     }
 
     return (

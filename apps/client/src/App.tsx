@@ -1,15 +1,19 @@
 import {BrowserRouter, Navigate, Route, Routes} from "react-router-dom";
-import Register from "./Components/Register/Register.tsx";
-import Main from "./Components/Home/Main.tsx";
-import Login from "./Components/Login/login.tsx";
-import Products from "./Components/Product/product.tsx";
-import Cart from "./Components/Cart/Cart.tsx";
-import Purchase from "./Components/Purchase/Purchase.tsx";
-import Navbar from "./Components/mainElements/Navbar.tsx";
-import Footer from "./Components/mainElements/Footer.tsx";
-import UserSettings from "./Components/Settings/UserSettings.tsx";
+import Register from "./Components/Register/Register";
+import Main from "./Components/Home/Main";
+import Login from "./Components/Login/login";
+import Products from "./Components/Product/product";
+import Cart from "./Components/Cart/Cart";
+import Purchase from "./Components/Purchase/Purchase";
+import Navbar from "./Components/mainElements/Navbar";
+import Footer from "./Components/mainElements/Footer";
+import UserSettings from "./Components/Settings/UserSettings";
 import 'bootstrap/dist/css/bootstrap.css'
 
+
+/**
+ * Represents the main application component.
+ */
 function App() {
 
     return (

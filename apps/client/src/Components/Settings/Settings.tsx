@@ -3,7 +3,14 @@ import {ListItem, ListItemButton, ListItemIcon, ListItemText} from "@mui/materia
 import {LocalShipping, ManageAccounts} from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 
+
+/**
+ * Represents the settings page component.
+ */
 function Settings() {
+    /**
+     * Navigation hook for redirecting users.
+     */
     const navigate = useNavigate();
 
     return (
