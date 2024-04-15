@@ -41,11 +41,13 @@ p{
     position: fixed;
     top: 4.9%;
     bottom: 0;
-    left: 0;
-    right: 1.9%;
+    left: 1%;
+    right: 0;
+    width: 600px;
     overflow-y: auto;
-    z-index: 9999;
-    height: 300px;
+    z-index: 999;
+    height: 580px;
+    border: black solid 1px;
 }
 
 .search-container.active {
