@@ -1,44 +1,69 @@
-import {createContext, ReactNode, useContext, useState} from "react";
-import '../mainElements/Style/LogoutDesign.css'
-import { LogoutPanel2 } from "./LogoutPanel.tsx";
+import { createContext, ReactNode, useContext, useState } from "react";
+import { LogoutPanel } from "./LogoutPanel";
 
+/**
+ * Represents the shape of the authentication context.
+ */
 interface AuthContextProvider {
-    isLoggedIn: boolean;
-    token: string | null;
-    login: (accessToken: string) => void;
-    logout: () => void;
-    showLogoutPanel: boolean;
+    isLoggedIn: boolean; // Indicates whether the user is logged in.
+    token: string | null; // The authentication token.
+    login: (accessToken: string) => void; // Function to log in a user with an access token.
+    logout: () => void; // Function to log out the current user.
+    showLogoutPanel: boolean; // Indicates whether the logout confirmation panel is visible.
 }
 
+/**
+ * Represents the props for the AuthProvider component.
+ */
 interface Props {
-    children: ReactNode
+    children: ReactNode; // Child components.
 }
 
-
+/**
+ * Context for managing authentication state.
+ */
 const AuthContext = createContext<AuthContextProvider | undefined>(undefined);
 
-export const AuthProvider = ({ children }: Props) => {
-    const [token, setToken] = useState(sessionStorage.getItem("token"));
-    const [showLogoutPanel, setShowLogoutPanel] = useState(false);
-    const login = (accessToken: string) => {
+/**
+ * Provider component for managing authentication state.
+ * @param children - Child components.
+ * @returns JSX.Element
+ */
+export const AuthProvider = ({ children }: Props): JSX.Element => {
+    const [token, setToken] = useState<string | null>(sessionStorage.getItem("token"));
+    const [showLogoutPanel, setShowLogoutPanel] = useState<boolean>(false);
+
+    /**
+     * Logs in a user with the provided access token.
+     * @param accessToken - The access token used for authentication.
+     */
+    const login = (accessToken: string): void => {
         sessionStorage.setItem("token", accessToken);
         setToken(accessToken);
     };
-    const logout = () => {
+
+    /**
+     * Logs out the current user.
+     */
+    const logout = (): void => {
         setShowLogoutPanel(true);
-        console.log(showLogoutPanel);
     };
 
-    const handleLogoutConfirm = () => {
+    /**
+     * Handles confirmation of logout.
+     */
+    const handleLogoutConfirm = (): void => {
         sessionStorage.removeItem("token");
         setToken(null);
         setShowLogoutPanel(false);
     };
 
-    const handleLogoutCancel = () => {
+    /**
+     * Handles cancellation of logout.
+     */
+    const handleLogoutCancel = (): void => {
         setShowLogoutPanel(false);
     };
-
 
     return (
         <>
@@ -46,12 +71,16 @@ export const AuthProvider = ({ children }: Props) => {
                 {children}
             </AuthContext.Provider>
             {showLogoutPanel && (
-                <LogoutPanel2 show={showLogoutPanel} onConfirm={() => handleLogoutConfirm()} onCancel={() => handleLogoutCancel()} />
+                <LogoutPanel show={showLogoutPanel} onConfirm={handleLogoutConfirm} onCancel={handleLogoutCancel} />
             )}
         </>
     );
 };
 
+/**
+ * Custom hook for accessing authentication context.
+ * @returns The authentication context.
+ */
 export const useAuth = (): AuthContextProvider => {
     const context = useContext(AuthContext);
     if (!context) {

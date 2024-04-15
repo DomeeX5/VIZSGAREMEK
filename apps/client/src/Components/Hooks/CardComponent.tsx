@@ -1,24 +1,35 @@
-import { ExtendedProduct } from "../../interfaces.ts";
+import { ExtendedProduct } from "../../interfaces";
 import { Card, CardActions, CardContent, IconButton, Stack, Alert, Button } from "@mui/material";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Link, useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import "../Home/Style/mainDesign.css";
-import { useCart } from "../Cart/CartContext.tsx";
-import {useAddToCart} from "./AddCart.tsx";
-import {useAuth} from "../Login/AuthContextProvider.tsx";
+import { useCart } from "../Cart/CartContext";
+import { useAddToCart } from "./AddCart";
+import { useAuth } from "../Login/AuthContextProvider";
 
-export default function CardComponent({ product }: { product: ExtendedProduct }) {
+/**
+ * Component representing a card displaying product information.
+ * @param product - The product information to display.
+ * @returns JSX.Element
+ */
+export default function CardComponent({ product }: { product: ExtendedProduct }): JSX.Element {
     const navigate = useNavigate();
     const { updateCartCount } = useCart();
-    const {addToCart, setShowAlert, showAlert} = useAddToCart();
-    const {isLoggedIn} = useAuth();
+    const { addToCart, setShowAlert, showAlert } = useAddToCart();
+    const { isLoggedIn } = useAuth();
 
-    const handleClick = () => {
+    /**
+     * Handles clicking on the card to navigate to the product details page.
+     */
+    const handleClick = (): void => {
         navigate(`/products/${product.product_id}`);
     };
 
-    const handleAddToCart = async () => {
+    /**
+     * Handles adding the product to the cart.
+     */
+    const handleAddToCart = async (): Promise<void> => {
         if (!isLoggedIn) {
             setShowAlert(true);
             return;
