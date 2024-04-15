@@ -45,7 +45,7 @@ export default function CardComponent({ product }: { product: ExtendedProduct })
                     src={product.ProductPictures && product.ProductPictures.length > 0 ? product.ProductPictures[0].image : ''}
                     alt={product.product_name} className="card-img-top"/>
                 <CardContent>
-                    <Typography gutterBottom variant="h5" component="div">
+                    <Typography gutterBottom component="div">
                         {product.product_name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">

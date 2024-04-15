@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import CardComponent from '../Hooks/CardComponent.tsx';
 import {useAddToCart} from "../Hooks/AddCart.tsx";
 import {fetchProductCount, fetchProductsPerPage, productsPerPage} from "./MainApi.tsx";
+import './Style/mainDesign.css'
 
 /**
  * Represents the main page component.
@@ -67,8 +68,8 @@ function Main(): JSX.Element {
                                 <div className="carousel-inner">
                                     <div className="carousel-item active" data-bs-interval="1000">
                                         <img
-                                            src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3FzMHVjNXEwMjI0cWNma3NicHF4a3JsZDVzM2c0NXlyaHZveXk0aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dmvodzjX8wU7icE3TL/giphy.gif"
-                                            className="d-block w-100 c-img" alt="..." />
+                                            src="https://p1.akcdn.net/full/740645046.microsoft-surface-laptop-go-thj-00046.jpg"
+                                            className="c-img" alt="..." />
                                     </div>
                                     <div className="carousel-item" data-bs-interval="2000">
                                         <img

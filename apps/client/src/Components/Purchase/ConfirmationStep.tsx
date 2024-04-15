@@ -49,22 +49,22 @@ function ConfirmationStep({ address, paymentType, cardDetails }: ConfirmationSte
             <h1>Ellenőrzés</h1>
             <div style={{ display: "flex", margin: '2px' }}>
                 <div style={{ flex: 1 }}>
-                    <p>Ország: {address.country}</p>
-                    <p>Megye: {address.state}</p>
-                    <p>Város: {address.city}</p>
-                    <p>Utca: {address.street}</p>
-                    <p>Házszám: {address.house_number}</p>
+                    <p><b>Ország</b>: {address.country}</p>
+                    <p><b>Megye</b>: {address.state}</p>
+                    <p><b>Város</b>: {address.city}</p>
+                    <p><b>Utca</b>: {address.street}</p>
+                    <p><b>Házszám</b>: {address.house_number}</p>
                 </div>
                 <div style={{ flex: 1 }}>
                     {paymentType !== "30" && (
                         <>
-                            <p>Kártyaszám: {cardDetails.cardNumber}</p>
-                            <p>Lejárati idő: {cardDetails.expirationDate}</p>
-                            <p>Tulajdonos neve: {cardDetails.cardholderName}</p>
-                            <p>CVC: {cardDetails.cvv}</p>
+                            <p><b>Kártyaszám</b>: {cardDetails.cardNumber}</p>
+                            <p><b>Lejárati idő</b>: {cardDetails.expirationDate}</p>
+                            <p><b>Tulajdonos neve</b>: {cardDetails.cardholderName}</p>
+                            <p><b>CVC</b>: {cardDetails.cvv}</p>
                         </>
                     )}
-                    <p>Fizetés típusa: {paymentTypeMap[paymentType]}</p>
+                    <p><b>Fizetés típusa</b>: {paymentTypeMap[paymentType]}</p>
                 </div>
             </div>
         </>

@@ -108,6 +108,7 @@ function Register() {
                         fullWidth
                         style={{marginTop:'10px',marginBottom:'10px',color:'black'}}
                         id="outlined-adornment-password1"
+                        placeholder={'Jelszó'}
                         type={showPassword1 ? 'text' : 'password'}
                         endAdornment={
                             <InputAdornment position="end">
@@ -129,6 +130,7 @@ function Register() {
                         style={{marginTop:'10px',marginBottom:'10px',color:'black'}}
                         id="outlined-adornment-password2"
                         type={showPassword2 ? 'text' : 'password'}
+                        placeholder={'Jelszó megerősítése'}
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton

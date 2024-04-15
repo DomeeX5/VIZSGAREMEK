@@ -115,7 +115,7 @@ function Cart(): JSX.Element {
                             }>
                                 <ReactCard.Body>
                                     <Typography variant="h3" component="div">
-                                        Vásárlás
+                                        Kosár
                                     </Typography>
                                     <Typography variant="body2">
                                         {cartItems.map((item) => (
@@ -129,7 +129,7 @@ function Cart(): JSX.Element {
                                 </ReactCard.Body>
                                 <span>Total Price: {totalPrice !== null ? totalPrice : 'Loading...'} Ft</span>
                                 <CardActions>
-                                    <Button size="sm" onClick={() => navigate('/purchase')}>Fizetés</Button>
+                                    <Button size="sm" onClick={() => navigate('/purchase')}>Tovább a Fizetéshez</Button>
                                 </CardActions>
                             </ReactCard>
                         </Box>

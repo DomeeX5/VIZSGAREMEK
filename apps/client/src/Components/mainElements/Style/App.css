@@ -23,11 +23,11 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 50px;
+    height: fit-content;
     font-size: 10px;
     clear: both;
+    text-align: center;
 }
-
 
 body {
     margin-bottom: 60px;
@@ -48,7 +48,6 @@ p{
     overflow-y: auto;
     z-index: 999;
     height: 580px;
-    border: black solid 1px;
 }
 
 .search-container.active {
@@ -64,3 +63,30 @@ p{
     display: none;
 }
 
+.footer-content {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.footer-section {
+    flex: 1;
+    padding: 0 20px;
+}
+
+.footer-section h3 {
+    margin-bottom: 10px;
+}
+
+.social-icons a {
+    color: #fff;
+    margin: 0 5px;
+}
+
+.social-icons a:hover {
+    color: #00f; /* Change color on hover as desired */
+}
+
+.copyright {
+    margin-top: 20px;
+}
