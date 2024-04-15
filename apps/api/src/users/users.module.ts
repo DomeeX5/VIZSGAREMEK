@@ -8,6 +8,9 @@ import {JwtService} from "@nestjs/jwt";
 import PrismaModule from "../prisma/prisma.module";
 
 
+/**
+ * Module for managing users.
+ */
 @Module({
   imports: [PrismaModule],
   controllers: [],
