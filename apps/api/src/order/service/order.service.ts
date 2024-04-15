@@ -1,12 +1,20 @@
-import {Injectable, NotFoundException} from '@nestjs/common';
-import {AddressDto} from "../order.address.dto";
-import {PrismaService} from "../../prisma/prisma.service";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { AddressDto } from "../order.address.dto";
+import { PrismaService } from "../../prisma/prisma.service";
 
 @Injectable()
 export class OrderService {
     constructor(private prisma: PrismaService) {}
 
-    async createOrder( userid: { user: {id: number, name: string }, email: string }, payid: string, address: AddressDto) {
+    /**
+     * Creates a new order based on the cart items.
+     * @param userid - The user ID and name.
+     * @param payid - The ID of the payment type.
+     * @param address - The address information for the order.
+     * @returns A promise resolving to the created order.
+     * @throws NotFoundException if the user does not exist or the cart is empty.
+     */
+    async createOrder(userid: { user: {id: number, name: string }, email: string }, payid: string, address: AddressDto) {
         const user = await this.prisma.user.findUnique({
             where: { user_id: userid.user.id },
             include: {

@@ -11,6 +11,13 @@ export class OrderController {
     constructor(private orderService: OrderService) {
     }
 
+    /**
+     * Creates a new order based on the cart items.
+     * @param req - The HTTP request object.
+     * @param payid - The ID of the payment type.
+     * @param address - The address information for the order.
+     * @returns A promise resolving to the created order.
+     */
     @Post('new')
     @ApiBearerAuth()
     @ApiBody(
