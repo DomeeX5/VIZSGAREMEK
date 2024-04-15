@@ -3,7 +3,6 @@ import {
     Col,
     Container,
     Form,
-    Nav,
     Navbar as ReactNavbar,
     Offcanvas,
     Row
@@ -18,7 +17,7 @@ import { ExtendedProduct } from "../../interfaces.ts";
 import SearchResults from './SearchResults.tsx';
 import { useAuth } from "../Login/AuthContextProvider.tsx";
 import {useCart} from "../Cart/CartContext.tsx";
-import SettingsIcon from '@mui/icons-material/Settings';
+import PersonIcon from '@mui/icons-material/Person'
 import {fetchApiEndpoints} from "../Hooks/getFetchApi.tsx";
 import './Style/App.css'
 
@@ -29,6 +28,7 @@ function Navbar() {
     const [showResults, setShowResults] = useState<boolean>(false);
     const [searching, setSearching] = useState<boolean>(false);
     const [showOffcanvas, setShowOffcanvas] = useState<boolean>(false);
+    const [isMediumScreen, setIsMediumScreen] = useState<boolean>(false);
     const navigate = useNavigate();
     const {cartCount} = useCart();
     const username = sessionStorage.getItem('username');
@@ -38,6 +38,18 @@ function Navbar() {
         setResults([]);
         setShowResults(false);
     }, [isLoggedIn]);
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsMediumScreen(window.innerWidth <= 857);
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
 
     const handleSearch = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value;
@@ -68,52 +80,55 @@ function Navbar() {
                     <Link to="/">
                         <label style={{color:'white', fontSize: '20px'}}>Weboldal</label>
                     </Link>
-                    <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
-                        <Form.Control
-                            type="search"
-                            placeholder="Search"
-                            className={`me-2 ${searching ? 'focused' : ''} searchbar`}
-                            aria-label="Search"
-                            value={query}
-                            onChange={handleSearch}
-                        onFocus={() => setSearching(true)}
-                        onBlur={() => setSearching(false)}/>
-                    </Form>
+                    {isMediumScreen ? null : (
+                        <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
+                            <Form.Control
+                                type="search"
+                                placeholder="Search"
+                                className={`me-2 searchbar ${searching ? 'focused' : ''}`}
+                                aria-label="Search"
+                                value={query}
+                                onChange={handleSearch}
+                                onFocus={() => setSearching(true)}
+                                onBlur={() => setSearching(false)}
+                            />
+                        </Form>
+                    )}
                     <ReactNavbar.Toggle onClick={() => setShowOffcanvas(!showOffcanvas)} aria-controls="offcanvasNavbar" />
                     <ReactNavbar.Offcanvas
                         show={showOffcanvas}
                         onHide={() => setShowOffcanvas(false)}
                         id="offcanvasNavbar"
                         aria-labelledby="offcanvasNavbarLabel"
-                        placement="end"
-                    >
+                        placement="end">
+
                         <Offcanvas.Header closeButton>
                             <Offcanvas.Title id="offcanvasNavbarLabel">
                                 {isLoggedIn ? username : "Menu"}
                             </Offcanvas.Title>
                         </Offcanvas.Header>
+
                         <Offcanvas.Body>
-                            <Nav className="justify-content-end flex-grow-1 pe-3">
                                 {isLoggedIn ? (
                                     <>
-                                        <ListItem disablePadding className="nav-item">
-                                            <ListItemButton onClick={() => handleNavigation('/cart')} className="nav-link active">
+                                        <ListItem disablePadding >
+                                            <ListItemButton onClick={() => handleNavigation('/cart')}>
                                                 <ListItemIcon>
                                                     <ShoppingCartIcon /><sup>{cartCount}</sup>
                                                 </ListItemIcon>
                                                 <ListItemText primary="Kosár" />
                                             </ListItemButton>
                                         </ListItem>
-                                        <ListItem disablePadding className="nav-item">
-                                            <ListItemButton onClick={() => handleNavigation('/settings')} className="nav-link active">
+                                        <ListItem disablePadding>
+                                            <ListItemButton onClick={() => handleNavigation('/settings')}>
                                                 <ListItemIcon>
-                                                    <SettingsIcon />
+                                                    <PersonIcon />
                                                 </ListItemIcon>
-                                                <ListItemText primary={"Beállítások"}/>
+                                                <ListItemText primary={"Fiók"}/>
                                             </ListItemButton>
                                         </ListItem>
-                                        <ListItem disablePadding className="nav-item">
-                                            <ListItemButton onClick={() => {logout(), handleNavigation('/')}} className="nav-link active">
+                                        <ListItem disablePadding>
+                                            <ListItemButton onClick={() => {logout(), handleNavigation('/')}}>
                                                 <ListItemIcon>
                                                     <LogoutIcon />
                                                 </ListItemIcon>
@@ -123,16 +138,16 @@ function Navbar() {
                                     </>
                                 ) : (
                                     <>
-                                        <ListItem disablePadding className="nav-item">
-                                            <ListItemButton onClick={() => handleNavigation('/login')} className="nav-link active">
+                                        <ListItem disablePadding >
+                                            <ListItemButton onClick={() => handleNavigation('/login')}>
                                                 <ListItemIcon>
                                                     <LoginIcon />
                                                 </ListItemIcon>
                                                 <ListItemText primary="Bejelentkezés" />
                                             </ListItemButton>
                                         </ListItem>
-                                        <ListItem disablePadding className="nav-item">
-                                            <ListItemButton onClick={() => handleNavigation('/register')} className="nav-link active">
+                                        <ListItem disablePadding>
+                                            <ListItemButton onClick={() => handleNavigation('/register')}>
                                                 <ListItemIcon>
                                                     <PersonAddRoundedIcon />
                                                 </ListItemIcon>
@@ -141,7 +156,20 @@ function Navbar() {
                                         </ListItem>
                                     </>
                                 )}
-                            </Nav>
+                            {isMediumScreen ? (
+                                <Form className="d-flex mt-3" onSubmit={(e) => e.preventDefault()}>
+                                    <Form.Control
+                                        type="search"
+                                        placeholder="Search"
+                                        className={`me-2 ${searching ? 'focused' : ''}`}
+                                        aria-label="Search"
+                                        value={query}
+                                        onChange={handleSearch}
+                                        onFocus={() => setSearching(true)}
+                                        onBlur={() => setSearching(false)}
+                                    />
+                                </Form>
+                            ) : null}
                         </Offcanvas.Body>
                     </ReactNavbar.Offcanvas>
                 </Container>

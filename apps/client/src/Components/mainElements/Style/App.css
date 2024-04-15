@@ -18,7 +18,8 @@
     border-top: black solid 0.5px;
     background-color: #A0E9FF;
     color: #222831;
-    position: fixed;
+    z-index: 1046 !important;
+    position: relative;
     left: 0;
     bottom: 0;
     width: 100%;

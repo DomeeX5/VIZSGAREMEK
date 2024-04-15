@@ -1,31 +1,25 @@
-/* Sidebar container */
-.sidebar {
-    height: 100%; /* Full height */
-    width: 250px; /* Set the width of the sidebar */
-    position: fixed; /* Fixed Sidebar (stay in place on scroll) */
-    top: 0; /* Stay at the top */
-    left: 0;
-    background-color: #f3f3f3; /* Grey background */
-    overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 20px; /* Add padding to the top */
+.div-email {
+    padding-bottom: 30px;
+    border-bottom: dimgrey solid 2px;
 }
 
-/* Style links inside the sidebar */
+.div-password {
+    padding-top: 30px;
+}
+
 .sidebar a {
     padding: 10px 15px;
     text-decoration: none;
     font-size: 18px;
     color: black;
-    display: block; /* Make the links appear below each other */
+    display: block;
 }
 
-/* Change color on hover */
 .sidebar a:hover {
     background-color: #ddd;
 }
 
-/* Main content container */
 .main-content {
-    margin-left: 250px; /* Same as the width of the sidebar */
+    margin-left: 450px;
     padding: 20px;
 }

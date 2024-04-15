@@ -130,7 +130,7 @@ function Purchase() {
 
     return (
         <div className={"container main-container"}>
-            <Box sx={{ width: '75%', height: '400px', padding: '0', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', position: 'fixed' }}>
+            <Box sx={{ width: '75%', height: '50%', padding: '0', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', top: '40%', left: '50%', transform: 'translate(-50%, -50%)', position: 'fixed' }}>
                 <Stepper activeStep={activeStep}>
                     {steps.map((label) => (
                         <Step key={label}>

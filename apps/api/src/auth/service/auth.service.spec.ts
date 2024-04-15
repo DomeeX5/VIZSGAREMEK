@@ -2,11 +2,11 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UsersService } from '../../users/service/users.service';
 import { JwtService } from '@nestjs/jwt';
-import { UserLoginDto } from '../../users/users.dto';
 import { User } from '@prisma/client';
 import { getModelToken } from '@nestjs/sequelize';
 import { PrismaService } from '../../prisma/prisma.service';
 import { JwtModule } from '@nestjs/jwt';
+import {UserLoginDto} from "../dtos/user.login.dto";
 
 describe('AuthService', () => {
     let service: AuthService;
