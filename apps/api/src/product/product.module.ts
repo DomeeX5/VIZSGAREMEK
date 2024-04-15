@@ -4,6 +4,9 @@ import { ProductController } from './controller/product.controller';
 import {PrismaService} from "../prisma/prisma.service";
 import PrismaModule from "../prisma/prisma.module";
 
+/**
+ * Module for handling product-related functionalities.
+ */
 @Module({
   imports: [PrismaModule],
   controllers: [ProductController],
