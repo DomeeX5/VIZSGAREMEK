@@ -16,7 +16,6 @@ import swaggerUi from 'swagger-ui-dist';
         CartModule,
         OrderModule,
         ServeStaticModule.forRoot({
-            serveRoot: '/client',
             rootPath: join(__dirname, '../../../', 'client', 'dist'),
         }),
     ],

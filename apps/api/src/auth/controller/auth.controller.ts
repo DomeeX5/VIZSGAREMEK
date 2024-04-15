@@ -8,12 +8,26 @@ import {UserRegisterDto} from "../dtos/user.register.dto";
 import {UpdatePasswordDto} from "../dtos/update.password.dto";
 import {UpdateEmailDto} from "../dtos/update.email.dto";
 
+
+/**
+ * Controller responsible for authentication-related endpoints.
+ */
 @ApiTags('Auth')
 @Controller('auth')
 export class AuthController {
+    /**
+     * Creates an instance of AuthController.
+     * @param authService - The authentication service.
+     * @param userService - The users service.
+     */
     constructor(private authService: AuthService, private userService: UsersService) {
     }
 
+    /**
+     * Logs in a user.
+     * @param req - The HTTP request object.
+     * @returns A promise resolving to the authentication result.
+     */
     @Post('login')
     @ApiOperation({
         summary: 'Logs in a user',
@@ -49,6 +63,11 @@ export class AuthController {
         return await this.authService.login(user);
     }
 
+    /**
+     * Registers a new user.
+     * @param createUserDto - The DTO containing user registration data.
+     * @returns A promise resolving to the result of user creation.
+     */
     @Post('register')
     @ApiOperation({
         summary: 'Registers a new user',
@@ -76,6 +95,12 @@ export class AuthController {
         return await this.userService.createUser(createUserDto);
     }
 
+    /**
+     * Updates user password.
+     * @param payload - The DTO containing password update data.
+     * @param req - The HTTP request object.
+     * @returns A promise resolving to the result of password update.
+     */
     @UseGuards(JwtAuthGuard)
     @Post('settings/update-password')
     @ApiOperation({
@@ -110,6 +135,13 @@ export class AuthController {
         return await this.userService.updatePassword(payload, userId);
     }
 
+
+    /**
+     * Updates user email.
+     * @param payload - The DTO containing email update data.
+     * @param req - The HTTP request object.
+     * @returns A promise resolving to the result of email update.
+     */
     @UseGuards(JwtAuthGuard)
     @Post('settings/update-email')
     @ApiOperation({
@@ -138,6 +170,7 @@ export class AuthController {
         description: 'Invalid credentials.'
     })
     @ApiBearerAuth()
+
     async updateEmail(@Body() payload: UpdateEmailDto, @Req() req: any): Promise<any> {
         const userId = req.user;
         return await this.userService.updateEmail(payload, userId);

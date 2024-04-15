@@ -7,6 +7,9 @@ import {PrismaService} from "../prisma/prisma.service";
 import {JwtStrategy} from "./strategies/jwt-strategy";
 import PrismaModule from "../prisma/prisma.module";
 
+/**
+ * Module for authentication-related features.
+ */
 @Module({
   providers: [
       AuthService,
