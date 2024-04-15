@@ -4,6 +4,9 @@ import { CartController } from './controller/cart.controller';
 import {PrismaService} from "../prisma/prisma.service";
 import PrismaModule from "../prisma/prisma.module";
 
+/**
+ * Module for cart-related features.
+ */
 @Module({
   imports: [PrismaModule],
   controllers: [CartController],

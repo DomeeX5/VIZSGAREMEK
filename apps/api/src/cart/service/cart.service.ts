@@ -8,6 +8,12 @@ export class CartService {
 
     constructor(private prisma: PrismaService) {}
 
+    /**
+     * Removes a specific quantity of a product from the user's cart.
+     * @param userid - The ID and name of the user along with their email.
+     * @param productid - The ID of the product to remove.
+     * @param quantity - The quantity of the product to remove.
+     */
     async removeOneFromCart(userid: { user: {id: number, name: string }, email: string }, productid: number, quantity: number) {
         const existingCart = await this.prisma.cartItem.findFirst({
             where: {
@@ -39,6 +45,11 @@ export class CartService {
         }
     }
 
+    /**
+     * Removes an entire item from the user's cart.
+     * @param userid - The ID and name of the user along with their email.
+     * @param productid - The ID of the product to remove.
+     */
     async removeItemFromCart(userid: { user: {id: number, name: string }, email: string }, productid: number) {
             await this.prisma.cartItem.delete({
                 where: {
@@ -50,6 +61,12 @@ export class CartService {
             })
     }
 
+
+    /**
+     * Retrieves the total number of items in the user's cart.
+     * @param userid - The ID and name of the user along with their email.
+     * @returns The total number of items in the cart.
+     */
     async getCountCart(userid: { user: {id: number, name: string }, email: string }) {
         const cartItems = await this.prisma.cartItem.findMany({
             where: {
@@ -64,6 +81,11 @@ export class CartService {
         };
     }
 
+    /**
+     * Retrieves all items in the user's cart.
+     * @param userid - The ID and name of the user along with their email.
+     * @returns All items in the cart along with their quantities.
+     */
     async getCartItems(userid: { user: {id: number, name: string }, email: string }) {
         const cartItems = await this.prisma.cartItem.findMany({
             where: {
@@ -83,11 +105,23 @@ export class CartService {
         }))
     }
 
+    /**
+     * Calculates the total price of all items in the user's cart.
+     * @param userid - The ID and name of the user along with their email.
+     * @returns The total price of all items in the cart.
+     */
     async calculateTotalPrice(userid: { user: {id: number, name: string }, email: string }) {
         const cartItems = await this.getCartItems(userid);
         return cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0)
     }
 
+    /**
+     * Adds a product to the user's cart.
+     * @param userid - The ID and name of the user along with their email.
+     * @param productId - The ID of the product to add to the cart.
+     * @param quantity - The quantity of the product to add.
+     * @returns The updated cart items along with the total price.
+     */
     async addToCart(userid: { user: {id: number, name: string }, email: string }, productId: number, quantity: number) {
         const existingCart = await this.prisma.cartItem.findFirst({
             where: {
