@@ -79,7 +79,7 @@ describe('CartController', () => {
             const req = mockRequest();
             const productId = 1;
 
-            await controller.removeFromCart(req, productId);
+            await controller.removeItemFromCart(req, productId);
 
             expect(cartService.removeItemFromCart).toHaveBeenCalledWith(req.user, productId);
         });

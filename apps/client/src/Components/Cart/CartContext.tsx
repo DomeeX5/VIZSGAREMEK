@@ -72,9 +72,12 @@ export const CartProvider = ({ children }: PropsWithChildren<{}>): JSX.Element =
      */
     const removeOneFromCart = async (productId: number): Promise<void> => {
         try {
-            await fetchApiEndpoints('api/cart/remove', { accessToken: accessToken, method: 'POST', body: { productId, quantity: 1 }, jsonResponse: false })
+            const fetch = await fetchApiEndpoints('api/cart/remove', { accessToken: accessToken, method: 'PUT', body: { productId, quantity: 1 }, jsonResponse: false })
             const updatedCart = cartItems.filter(item => item.product.product_id !== productId);
             setCartItems(updatedCart);
+            if (fetch && updatedCart.filter(item => item.quantity === 1)) {
+
+            }
             await fetchCartData()
         } catch (error: any) {
             console.error('Error fetching cart data: ', error)
@@ -87,7 +90,7 @@ export const CartProvider = ({ children }: PropsWithChildren<{}>): JSX.Element =
      */
     const removeItemFromCart = async (productId: number): Promise<void> => {
         try {
-            await fetchApiEndpoints('api/cart/remove-item', { accessToken: accessToken, method: 'POST', body: { productId }, jsonResponse: false })
+            await fetchApiEndpoints('api/cart/remove-item', { accessToken: accessToken, method: 'DELETE', body: { productId }, jsonResponse: false })
             const updatedCart = cartItems.filter(item => item.product.product_id !== productId);
             setCartItems(updatedCart);
             await fetchCartData()

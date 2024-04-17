@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Req, UseGuards } from '@nestjs/common';
+import {Body, Controller, Patch, Post, Put, Req, UseGuards} from '@nestjs/common';
 import { AuthService } from '../service/auth.service';
 import { UsersService } from '../../users/service/users.service';
 import { JwtAuthGuard } from "../guards/jwt-auth.guard";
@@ -102,7 +102,7 @@ export class AuthController {
      * @returns A promise resolving to the result of password update.
      */
     @UseGuards(JwtAuthGuard)
-    @Post('settings/update-password')
+    @Put('settings/update-password')
     @ApiOperation({
         summary: 'Updates user password',
         description: 'Updates the password of the currently authenticated user.',
@@ -143,7 +143,7 @@ export class AuthController {
      * @returns A promise resolving to the result of email update.
      */
     @UseGuards(JwtAuthGuard)
-    @Post('settings/update-email')
+    @Put('settings/update-email')
     @ApiOperation({
         summary: 'Updates user email',
         description: 'Updates the email address of the currently authenticated user.',

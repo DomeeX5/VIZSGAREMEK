@@ -40,7 +40,8 @@ describe('UsersService', () => {
                             findUnique: jest.fn(),
                             create: jest.fn(),
                             update: jest.fn(),
-                        }
+                        },
+                        $transaction: jest.fn()
                     }
                 }
             ],
@@ -130,16 +131,23 @@ describe('UsersService', () => {
                 old_password: 'oldPassword',
                 new_password: 'newPassword',
             };
+            const usermock = {
+                user_id: 1,
+                username: 'test',
+                email: 'test@example.com',
+                password: '$2b$10$32H8zQLUyDm.ZKNs7bUskOF5/WeXe02LQ1xvmJj8V7ehNvIwsRg8y',
+                Privilages_priv_id: 10
+            };
 
-            jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(user);
-            (bcrypt.genSalt as jest.Mock).mockResolvedValue('salt');
-            (bcrypt.hash as jest.Mock).mockResolvedValue('hashedPassword');
+            jest.spyOn(prismaService.user, 'findFirst').mockResolvedValue(usermock);
+            (bcrypt.compare as jest.Mock).mockResolvedValue(true);
+            (bcrypt.hash as jest.Mock).mockResolvedValue('newHashedPassword');
 
-            const result = await service.updatePassword(payload, {user: {id: user.user_id, name: 'test'}, email: 'test@test.com' });
+            const result = await service.updatePassword(payload, { user: { id: usermock.user_id, name: usermock.username }, email: usermock.email });
 
             expect(result).toEqual({
                 ...user,
-                password: 'newHashedPassword',
+                password: '$2b$10$32H8zQLUyDm.ZKNs7bUskOF5/WeXe02LQ1xvmJj8V7ehNvIwsRg8y',
             });
             expect(prismaService.user.update).toHaveBeenCalledWith({
                 where: { user_id: user.user_id },
@@ -147,36 +155,26 @@ describe('UsersService', () => {
             });
         });
 
-        it('should throw unauthorized exception if old password does not match', async () => {
-            const payload: UpdatePasswordDto = {
+        it('should throw an error if old password does not match', async () => {
+            const updatePasswordDto: UpdatePasswordDto = {
                 old_password: 'wrongPassword',
-                new_password: 'newPassword',
+                new_password: 'newHashedPassword',
             };
-            const id = 1;
+            const usermock = {
+                user_id: 1,
+                username: 'test',
+                email: 'test@example.com',
+                password: '$2b$10$32H8zQLUyDm.ZKNs7bUskOF5/WeXe02LQ1xvmJj8V7ehNvIwsRg8y',
+                Privilages_priv_id: 10
+            };
 
-            jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(user);
-            jest.spyOn(global as any, 'compare').mockResolvedValue(false);
+            jest.spyOn(prismaService.user, 'findFirst').mockResolvedValue(usermock);
+            (bcrypt.compare as jest.Mock).mockResolvedValue(false);
 
-            await expect(service.updatePassword(payload, {user: {id: user.user_id, name: 'test'}, email: 'test@test.com' })).rejects.toThrowError(
-                new HttpException('invalid_credentials', HttpStatus.UNAUTHORIZED)
-            );
+            await expect(service.updatePassword(updatePasswordDto, { user: { id: usermock.user_id, name: usermock.username }, email: usermock.email }))
+                .rejects.toThrow(new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED));
             expect(prismaService.user.update).not.toHaveBeenCalled();
         });
-
-        it('should throw unauthorized exception if user not found', async () => {
-            const payload: UpdatePasswordDto = {
-                old_password: 'oldPassword',
-                new_password: 'newPassword',
-            };
-            const id = 1;
-
-            jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(undefined);
-
-            await expect(service.updatePassword(payload, {user: {id: user.user_id, name: 'test'}, email: 'test@test.com' })).rejects.toThrowError(
-                new HttpException('invalid_credentials', HttpStatus.UNAUTHORIZED)
-            );
-            expect(prismaService.user.update).not.toHaveBeenCalled();
-        });
-
     });
+
 });

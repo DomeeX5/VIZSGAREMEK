@@ -53,6 +53,7 @@ export const AddToCartProvider= ({ children }: PropsWithChildren<{}>): JSX.Eleme
             setShowAlert(true);
             return;
         }
+
         const data = { productId, quantity };
         const accessToken = sessionStorage.getItem('token');
 

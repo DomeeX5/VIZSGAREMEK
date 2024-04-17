@@ -194,9 +194,7 @@ describe('ProductService', () => {
                             image: true,
                         },
                     },
-                },
-                skip: mockSkip,
-                take: mockLimit,
+                }
             });
         });
     });
@@ -222,9 +220,7 @@ describe('ProductService', () => {
                             image: true,
                         },
                     },
-                },
-                skip: mockSkip,
-                take: mockLimit,
+                }
             });
         });
     });

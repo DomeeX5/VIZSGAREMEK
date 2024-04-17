@@ -58,7 +58,16 @@ describe('AuthService', () => {
 
             const result = await service.login(user);
 
-            expect(result).toEqual({ accessToken: 'fakeAccessToken' });
+            expect(result).toEqual({
+                accessToken: 'fakeAccessToken',
+                payload: {
+                    email: 'test@example.com',
+                    sub: {
+                        id: 123,
+                        name: 'testuser'
+                    }
+                }
+            });
             expect(userService.loginUser).toHaveBeenCalledWith(user.email);
             expect(jwtService.sign).toHaveBeenCalledWith({
                 email: userFromDb.email,

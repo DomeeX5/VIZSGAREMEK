@@ -14,7 +14,7 @@ async function bootstrap() {
       .setTitle('Webshop')
       .setDescription('Webshop made with NestJS and React')
       .setVersion('1.0')
-      .addBearerAuth()
+      .addBearerAuth({type: "http", scheme: 'bearer', bearerFormat: 'JWT'})
       .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

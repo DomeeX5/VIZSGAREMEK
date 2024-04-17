@@ -69,6 +69,8 @@ function Cart(): JSX.Element {
                                                         </Col>
                                                         <Col xl={5} lg={6} md={6} sm={6} xs={6}>
                                                             <div className="delete-link">
+
+                                                                {/* TODO: Biztos ki akarod törölni véglegesen?*/}
                                                                 <button
                                                                     className='quantity-button'
                                                                     onClick={() => removeOneFromCart(item.product.product_id)}

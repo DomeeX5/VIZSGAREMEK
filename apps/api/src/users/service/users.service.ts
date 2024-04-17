@@ -52,23 +52,28 @@ export class UsersService {
 
     /**
      * Updates the password of a user.
-     * @param payload Data for updating the password.
-     * @param userid User ID and name.
+     * @param updatePasswordDto Data for updating the password.
+     * @param payload User ID and name.
      * @returns A Promise resolving to the updated user.
      */
-    async updatePassword(payload: UpdatePasswordDto, userid: { user: { id: number; name: string }; email: string }): Promise<User> {
-        const user = await this.prisma.user.findUnique({
-            where: { user_id: userid.user.id },
+    async updatePassword(updatePasswordDto: UpdatePasswordDto, payload: { user: { id: number; name: string }; email: string }) {
+        const user = await this.prisma.user.findFirst({
+            where: { user_id: payload.user.id },
         });
-        const areEqual = await compare(payload.old_password, user.password);
+        const areEqual = await compare(updatePasswordDto.old_password, user.password);
         if (!user || !areEqual) {
             throw new HttpException('Invalid credentials', HttpStatus.UNAUTHORIZED);
         }
 
-        return this.prisma.user.update({
-            where: { user_id: userid.user.id },
-            data: { password: await hash(payload.new_password, 10) },
-        });
+        await this.prisma.user.update({
+            where: { user_id: payload.user.id },
+            data: { password: await hash(updatePasswordDto.new_password, 10) },
+        })
+
+        const updatedUser = await this.prisma.user.findFirst({
+                where: {user_id: payload.user.id }
+        })
+        return updatedUser;
     }
 
     /**

@@ -20,30 +20,24 @@ export class CartService {
                 User_user_id: userid.user.id,
                 Product_product_id: productid,
             }
-        })
+        });
 
         if (existingCart) {
-            await this.prisma.cartItem.update({
-                where: {
-                    cart_item_id: existingCart.cart_item_id,
-                },
-                data: {
-                    quantity: existingCart.quantity - quantity,
-                }
-            })
-        }
-
-        if (existingCart.quantity <= 1) {
-            await this.prisma.cartItem.delete({
-                where: {
-                    User_user_id_Product_product_id: {
-                        User_user_id: userid.user.id,
-                        Product_product_id: productid
-                    }
-                }
-            })
+            if (existingCart.quantity - quantity <= 0) {
+                await this.removeItemFromCart(userid, productid)
+            } else {
+                await this.prisma.cartItem.update({
+                    where: {
+                        cart_item_id: existingCart.cart_item_id,
+                    },
+                    data: {
+                        quantity: existingCart.quantity - quantity,
+                    },
+                });
+            }
         }
     }
+
 
     /**
      * Removes an entire item from the user's cart.
@@ -99,6 +93,11 @@ export class CartService {
                 }
             }
         });
+
+        if (!cartItems || cartItems.length === 0) {
+            return [];
+        }
+
         return cartItems.map((item) => ({
             product: item.Product,
             quantity: item.quantity

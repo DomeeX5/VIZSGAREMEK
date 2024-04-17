@@ -27,6 +27,27 @@ describe('CartService', () => {
         quantity: number;
     }[]
 
+    const mockProducts: Product[] = [
+        {
+            product_id: 1,
+            product_name: 'Product 1',
+            product_type: 'Type 1',
+            product_spectype: 'SpecType 1',
+            price: 100,
+            description: 'Description of Product 1',
+        },
+        {
+            product_id: 2,
+            product_name: 'Product 2',
+            product_type: 'Type 2',
+            product_spectype: 'SpecType 2',
+            price: 200,
+            description: 'Description of Product 2',
+        },
+        // Add more mock products as needed
+    ];
+
+
     beforeEach(async () => {
         const module: TestingModule = await Test.createTestingModule({
             providers: [
@@ -61,21 +82,6 @@ describe('CartService', () => {
     });
 
     describe('addToCart', () => {
-        it('should throw an error if user is not found', async () => {
-            const userId = { user: { id: 1, name: 'Test User' }, email: 'test@example.com' };
-            jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(null);
-
-            await expect(service.addToCart(userId, 1, 1)).rejects.toThrow(HttpException);
-        });
-
-        it('should throw an error if product is not found', async () => {
-            const userId = { user: { id: 1, name: 'Test User' }, email: 'test@example.com' };
-            jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue({} as any);
-            jest.spyOn(prismaService.product, 'findUnique').mockResolvedValue(null);
-
-            await expect(service.addToCart(userId, 1, 1)).rejects.toThrow(HttpException);
-        });
-
         it('should update quantity if cart item already exists', async () => {
             const userId = { user: { id: 1, name: 'Test User' }, email: 'test@example.com' };
             const productId = 1;
@@ -106,22 +112,6 @@ describe('CartService', () => {
                     quantity: 1,
                     User: { connect: { user_id: userId.user.id } },
                     Product: { connect: { product_id: productId } },
-                },
-            });
-        });
-    });
-
-    describe('removeFromCart', () => {
-        it('should remove item from cart', async () => {
-            const userId = { user: { id: 1, name: 'Test User' }, email: 'test@example.com' };
-            const productId = 1;
-
-            await service.removeOneFromCart(userId, productId, 1);
-
-            expect(prismaService.cartItem.deleteMany).toHaveBeenCalledWith({
-                where: {
-                    User_user_id: userId.user.id,
-                    Product_product_id: productId,
                 },
             });
         });

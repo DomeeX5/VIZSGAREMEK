@@ -111,7 +111,7 @@ function Navbar(): JSX.Element {
             <ReactNavbar expand={false} className={`bg-body-tertiary mb-3`} sticky="top" bg="dark" data-bs-theme="dark">
                 <Container fluid>
                     <Link to="/">
-                        <label style={{color:'white', fontSize: '20px'}}>Weboldal</label>
+                        <label style={{color:'white', fontSize: '20px'}}>Techtronics</label>
                     </Link>
                     {isMediumScreen ? null : (
                         <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>
@@ -129,6 +129,7 @@ function Navbar(): JSX.Element {
                     )}
                     <ReactNavbar.Toggle onClick={() => setShowOffcanvas(!showOffcanvas)} aria-controls="offcanvasNavbar" />
                     <ReactNavbar.Offcanvas
+                        style={{zIndex: 1050}}
                         show={showOffcanvas}
                         onHide={() => setShowOffcanvas(false)}
                         id="offcanvasNavbar"

@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Body, UseGuards, Req } from '@nestjs/common';
+import {Controller, Post, Get, Body, UseGuards, Req, Put, Delete} from '@nestjs/common';
 import { CartService } from '../service/cart.service';
 import { JwtAuthGuard } from "../../auth/guards/jwt-auth.guard";
 import {ApiBearerAuth, ApiBody, ApiHeader, ApiHeaders, ApiOperation, ApiResponse, ApiTags} from '@nestjs/swagger';
@@ -51,7 +51,7 @@ export class CartController {
    * @returns A promise resolving to the items in the cart.
    */
   @Get('items')
-  @ApiOperation({ summary: 'Get all items in the cart' })
+  @ApiOperation({ summary: 'Get all items in the cart'})
   @ApiResponse({ status: 200, description: 'Returns all items in the cart' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   async getCartItems(@Req() req: Request) {
@@ -80,7 +80,7 @@ export class CartController {
    * @param quantity - The quantity of the product to remove.
    * @returns A promise resolving when the product is removed from the cart.
    */
-  @Post('remove')
+  @Put('remove')
   @ApiOperation({ summary: 'Remove a specific quantity of a product from the cart' })
   @ApiBody({
     description: 'Product ID and quantity to remove from the cart',
@@ -111,7 +111,7 @@ export class CartController {
    * @param productId - The ID of the product to remove.
    * @returns A promise resolving when the item is removed from the cart.
    */
-  @Post('remove-item')
+  @Delete('remove-item')
   @ApiOperation({ summary: 'Remove an entire item from the cart' })
   @ApiBody({
     description: 'Product ID to remove from the cart',
@@ -126,7 +126,7 @@ export class CartController {
   })
   @ApiResponse({ status: 200, description: 'Item removed from cart successfully' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
-  async removeFromCart(
+  async removeItemFromCart(
       @Req() req: Request,
       @Body('productId') productId: number
   ) {

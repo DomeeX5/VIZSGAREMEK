@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
   "username": "testUser",
-  "email": "testUser@test3.com",
+  "email": "testUser@test4.com",
   "password": "Password123_"
 }
 
@@ -85,10 +85,10 @@ Content-Type: application/json
 
 POST http://localhost:3000/api/order/new
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1ham9yZG9taW5pazNAZ21haWwuY29tIiwic3ViIjp7ImlkIjo0LCJuYW1lIjoiZG9tZWV4NSJ9LCJpYXQiOjE3MTIwNDM4MjQsImV4cCI6MTcxMjY0ODYyNH0.5Uvl3pJKKkeNVOqIpckCY9HZir-wzxm1u-wuCwVxuM0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im1ham9yZG9taW5pazNAZ21haWwuY29tIiwic3ViIjp7ImlkIjo0LCJuYW1lIjoiZG9tZWV4NSJ9LCJpYXQiOjE3MTMwODIyMzgsImV4cCI6MTcxMzY4NzAzOH0.D7fzy_MJeYMkum_hXKrVgd-loBqDBq8dHXC8AOePlpw
 
 {
-  "payment": 30,
+  "paymentType": "30",
   "address": {
     "country": "Magyarország",
     "state": "Fejér",
