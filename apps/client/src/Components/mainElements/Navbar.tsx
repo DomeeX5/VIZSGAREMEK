@@ -111,7 +111,7 @@ function Navbar(): JSX.Element {
             <ReactNavbar expand={false} className={`bg-body-tertiary mb-3`} sticky="top" bg="dark" data-bs-theme="dark">
                 <Container fluid>
                     <Link to="/">
-                        <label style={{color:'white', fontSize: '20px'}}>Techtronics</label>
+                        <label className="button">Techtronics</label>
                     </Link>
                     {isMediumScreen ? null : (
                         <Form className="d-flex" onSubmit={(e) => e.preventDefault()}>

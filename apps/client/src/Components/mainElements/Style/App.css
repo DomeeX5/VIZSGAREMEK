@@ -19,11 +19,11 @@
     background-color: #A0E9FF;
     color: #222831;
     z-index: 1046 !important;
-    position: relative;
     left: 0;
     bottom: 0;
     width: 100%;
-    height: fit-content;
+    height: auto;
+    overflow-y: auto;
     font-size: 10px;
     clear: both;
     text-align: center;
@@ -84,9 +84,23 @@ p{
 }
 
 .social-icons a:hover {
-    color: #00f; /* Change color on hover as desired */
+    color: #00f;
 }
 
 .copyright {
     margin-top: 20px;
+}
+
+.button {
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    transition: color 1s ease;
+}
+
+.button:hover {
+    color: #00f;
 }

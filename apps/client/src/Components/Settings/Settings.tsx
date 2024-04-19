@@ -15,8 +15,8 @@ function Settings() {
 
     return (
         <>
-            <Offcanvas sm={3} className={'bg-secondary border-0'} scroll={true} backdrop={false} show={true} style={{marginTop: 56, zIndex: 1000}} >
-                <Offcanvas.Header closeButton>
+            <Offcanvas sm={4} className={'bg-secondary border-0'} scroll={true} backdrop={false} show={true} style={{marginTop: 56, zIndex: 1000}} >
+                <Offcanvas.Header>
                     <Offcanvas.Title>Fiók</Offcanvas.Title>
                 </Offcanvas.Header>
                 <Offcanvas.Body>

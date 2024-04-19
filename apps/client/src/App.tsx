@@ -9,12 +9,15 @@ import Navbar from "./Components/mainElements/Navbar";
 import Footer from "./Components/mainElements/Footer";
 import UserSettings from "./Components/Settings/UserSettings";
 import 'bootstrap/dist/css/bootstrap.css'
+import {useState} from "react";
 
 
 /**
  * Represents the main application component.
  */
 function App() {
+
+    const [isUserSettingsPage, setIsUserSettingsPage] = useState(false);
 
     return (
         <>
@@ -27,10 +30,10 @@ function App() {
                     <Route path={`/products/:id`} element={<Products/>}/>
                     <Route path={"/cart"} element={<Cart/>}/>
                     <Route path={"/purchase"} element={<Purchase/>}/>
-                    <Route path={"/settings"} element={<UserSettings/>}/>
+                    <Route path="/settings" element={<UserSettings setIsUserSettingsPage={setIsUserSettingsPage} />} />
                     <Route path={"*"} element={<Navigate to={"/"} />}/>
                 </Routes>
-                <Footer/>
+                {!isUserSettingsPage && <Footer />}
             </BrowserRouter>
         </>
   )
