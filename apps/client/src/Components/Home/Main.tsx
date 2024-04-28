@@ -1,6 +1,6 @@
 import { useEffect, useState, JSX } from 'react';
 import {Alert, Pagination, Skeleton} from "@mui/material";
-import { Col, Container, Row } from "react-bootstrap";
+import {Carousel, Col, Container, Row} from "react-bootstrap";
 import { ExtendedProduct } from "../../interfaces.ts";
 import { useNavigate } from "react-router-dom";
 import CardComponent from '../Hooks/CardComponent.tsx';
@@ -63,36 +63,29 @@ function Main(): JSX.Element {
                 <Row>
                     {currentPage === 1 && (
                         <Col xl={12} lg={12} md={12} sm={12} xs={12}>
-                            <div id="carouselExampleInterval " className="carousel slide"
-                                 data-bs-ride="carousel">
-                                <div className="carousel-inner">
-                                    <div className="carousel-item active" data-bs-interval="1000">
-                                        <img
-                                            src="https://p1.akcdn.net/full/740645046.microsoft-surface-laptop-go-thj-00046.jpg"
-                                            className="c-img" alt="..." />
-                                    </div>
-                                    <div className="carousel-item" data-bs-interval="2000">
-                                        <img
-                                            src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3FzMHVjNXEwMjI0cWNma3NicHF4a3JsZDVzM2c0NXlyaHZveXk0aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dmvodzjX8wU7icE3TL/giphy.gif"
-                                            className="d-block w-100 c-img" alt="..." />
-                                    </div>
-                                    <div className="carousel-item">
-                                        <img
-                                            src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3FzMHVjNXEwMjI0cWNma3NicHF4a3JsZDVzM2c0NXlyaHZveXk0aiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/dmvodzjX8wU7icE3TL/giphy.gif"
-                                            className="d-block w-100 c-img" alt="..." />
-                                    </div>
-                                </div>
-                                <button className="carousel-control-prev" type="button"
-                                        data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
-                                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span className="visually-hidden">Previous</span>
-                                </button>
-                                <button className="carousel-control-next" type="button"
-                                        data-bs-target="#carouselExampleInterval" data-bs-slide="next">
-                                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span className="visually-hidden">Next</span>
-                                </button>
-                            </div>
+                            <Carousel data-bs-theme="dark" className={"carousel"}>
+                                <Carousel.Item className={"carousel-item"}>
+                                    <img
+                                        className="c-img w-100"
+                                        src="https://images.euronics.hu/product_images/800x600/resize/9395084754974_j2ze08xr.jpg?v=2"
+                                        alt="First slide"
+                                    />
+                                </Carousel.Item>
+                                <Carousel.Item className={"carousel-item"}>
+                                    <img
+                                        className="c-img w-100"
+                                        src="https://images.euronics.hu/product_images/800x600/resize/s1_i1rikh5k.jpg?v=1"
+                                        alt="Second slide"
+                                    />
+                                </Carousel.Item>
+                                <Carousel.Item className={"carousel-item"}>
+                                    <img
+                                        className="c-img w-100"
+                                        src="https://images.euronics.hu/product_images/800x600/resize/s1_8w1xpjwb.jpg?v=2"
+                                        alt="Third slide"
+                                    />
+                                </Carousel.Item>
+                            </Carousel>
                         </Col>
                     )}
                     {loading ? (
@@ -110,11 +103,11 @@ function Main(): JSX.Element {
                         ))
                     ) : (
                         products && products.map((product) => (
-                            <CardComponent key={product.product_id} product={product} />
+                            <CardComponent key={product.product_id} product={product}/>
                         ))
                     )}
                 </Row>
-                <div className={'pag'} style={{marginBottom:'50px'}}>
+                <div className={'pag'} style={{marginBottom: '50px'}}>
                     <Pagination
                         count={totalPages}
                         variant="outlined"

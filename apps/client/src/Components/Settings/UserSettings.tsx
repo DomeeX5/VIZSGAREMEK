@@ -1,7 +1,7 @@
 import {Button, Col, Container, Row} from "react-bootstrap";
 import Settings from "./Settings.tsx";
 import {TextField, Typography} from "@mui/material";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {fetchApiEndpoints} from "../Hooks/getFetchApi";
 import {useAuth} from "../Login/AuthContextProvider";
 import './Style/usersettings.css'
@@ -9,7 +9,13 @@ import './Style/usersettings.css'
 /**
  * Represents the user settings page component.
  */
-function UserSettings() {
+
+interface UserSettingsProps {
+    setIsUserSettingsPage: (value: boolean) => void;
+}
+
+
+function UserSettings({ setIsUserSettingsPage }: UserSettingsProps) {
     /**
      * State variable for the old email.
      */
@@ -68,6 +74,11 @@ function UserSettings() {
         });
     }
 
+    useEffect(() => {
+        setIsUserSettingsPage(true);
+        return () => setIsUserSettingsPage(false);
+    }, [setIsUserSettingsPage]);
+
     /**
      * Function to send a request to update the email.
      */
@@ -93,12 +104,12 @@ function UserSettings() {
 
     return (
         <>
-            <Container fluid className={'main-container'}>
+            <Container fluid>
                 <Row>
                     <Col>
-                        <Settings/>
+                        <Settings />
                     </Col>
-                    <Col sm={9} className={'main-content'}>
+                    <Col sm={8} className={'main-content'}>
                         <Container>
                             <div className={"div-email"}>
                                 <Row>
@@ -112,7 +123,7 @@ function UserSettings() {
                                             required
                                             onChange={(e) => setOldEmail(e.target.value)}
                                             variant="outlined"
-                                            style={{width: 500}}
+                                            style={{ width: 500 }}
                                             margin="normal"
                                         /><br/>
                                         <TextField
@@ -123,7 +134,7 @@ function UserSettings() {
                                             value={newEmail}
                                             onChange={(e) => setNewEmail(e.target.value)}
                                             variant="outlined"
-                                            style={{width: 500}}
+                                            style={{ width: 500 }}
                                             margin="normal"
                                         /><br/>
                                         <Button variant={"outline-info"} style={{display: 'flex', float: 'right'}} disabled={!(oldEmail && newEmail && emailRegex.test(newEmail))} onClick={()=>postNewEmail()}>Módosítás</Button>
@@ -142,7 +153,7 @@ function UserSettings() {
                                             value={oldPassword}
                                             onChange={(e) => setOldPassword(e.target.value)}
                                             variant="outlined"
-                                            style={{width: 500}}
+                                            style={{ width: 500 }}
                                             margin="normal"
                                         /><br/>
                                         <TextField
@@ -154,7 +165,7 @@ function UserSettings() {
                                             value={newPassword}
                                             onChange={(e) => setNewPassword(e.target.value)}
                                             variant="outlined"
-                                            style={{width: 500}}
+                                            style={{ width: 500 }}
                                             margin="normal"
                                         /><br/>
                                         <Button variant={"outline-info"} style={{display: 'flex', float: 'right'}} disabled={!(oldPassword && newPassword && passwordRegex.test(newPassword))} onClick={() => postNewPassword()}>Módosítás</Button>
