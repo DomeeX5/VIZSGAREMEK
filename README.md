@@ -24,5 +24,8 @@ nest start
 
 ### Database
 
+### Scheme
+<img src="public/database.png">
+
 For the database, you have to install [XAMPP](https://www.apachefriends.org/download.html), and configure it. <br/>
 The database should run on port 3306.
